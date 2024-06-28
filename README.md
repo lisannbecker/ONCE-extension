@@ -17,6 +17,13 @@ conda activate once
 
 pip install -r requirements_once.txt
 ```
+Or for the GENRE implementation:
+```bash
+conda create --name once python=3.8 
+conda activate genre
+
+pip install -r requirements_genre.txt
+```
 
 ### Model and Data Download
 Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move to TODO XXX
