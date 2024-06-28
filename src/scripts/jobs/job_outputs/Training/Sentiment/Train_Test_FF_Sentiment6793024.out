@@ -1,0 +1,311 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+[00:00:00] |Worker| START TIME: 2024-06-28 19:15:55.674932
+[00:00:00] |Worker| python  worker.py --data config/data/eb-nerd-sentiment.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-fastformer-sentiment.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4
+[00:00:00] |Worker| {
+    "data": {
+        "name": "EB-NeRD",
+        "base_dir": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment",
+        "item": {
+            "filter_cache": true,
+            "depot": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news-fusion",
+            "order": [
+                "title-llama",
+                "category-llama"
+            ],
+            "append": [
+                "nid"
+            ],
+            "lm_col": "title-llama"
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/train"
+                },
+                "dev": {
+                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid"
+                },
+                "test": {
+                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid"
+                }
+            },
+            "union": [
+                "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/user",
+                "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/neg"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "neg_col": "neg",
+            "group_col": "imp",
+            "user_col": "uid",
+            "sentiment_col": "sentiment_label",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "/scratch-shared/scur1569/llama-7b/llama-token.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-Fastformer.D64.L31.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Fastformer",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": true,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": 4,
+            "item_config": {
+                "llm_dir": "/scratch-shared/scur1569/llama-7b-sentiment",
+                "layer_split": 31,
+                "lora": 1,
+                "weights_dir": "/scratch-shared/scur1569/llama-7b-sentiment"
+            },
+            "user_config": {
+                "num_attention_heads": 16,
+                "num_hidden_layers": 1,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/EB-NeRD/LLAMA-Fastformer.D64.L31.Lora1/llama-token-train_test",
+        "log": "saving/EB-NeRD/LLAMA-Fastformer.D64.L31.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 31,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+[00:00:00] |Controller| dataset type:  book
+[00:00:00] |Controller| build column map ...
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+[00:00:05] |CachingDep| load 0 filter caches on 
+        UniDep (2.0): /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+[00:00:09] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:09] |Controller| Selected User Encoder: FastformerOperator
+[00:00:09] |Controller| Selected Predictor: DotPredictor
+[00:00:09] |Controller| Use Negative Sampling: True
+[00:00:09] |Controller| Use Item Content: True
+[00:00:10] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+[00:00:10] |EmbeddingHub| skip col history
+[00:00:10] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:10] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+[00:00:10] |EmbeddingHub| build mapping title-llama -> llama
+[00:00:10] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:10] |EmbeddingHub| keep transform size 4096
+[00:00:10] |EmbeddingHub| build mapping category-llama -> llama
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:22<01:51, 22.25s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:41<01:21, 20.48s/it]Loading checkpoint shards:  50%|█████     | 3/6 [01:00<00:59, 19.85s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [01:20<00:39, 19.80s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [01:41<00:20, 20.22s/it]Loading checkpoint shards: 100%|██████████| 6/6 [01:51<00:00, 16.70s/it]Loading checkpoint shards: 100%|██████████| 6/6 [01:51<00:00, 18.53s/it]
+Some weights of the model checkpoint at /scratch-shared/scur1569/llama-7b-sentiment were not used when initializing LlamaModel: ['lm_head.weight']
+- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of LlamaModel were not initialized from the model checkpoint at /scratch-shared/scur1569/llama-7b-sentiment and are newly initialized: ['model.layers.5.self_attn.rotary_emb.inv_freq', 'model.layers.2.self_attn.rotary_emb.inv_freq', 'model.layers.11.self_attn.rotary_emb.inv_freq', 'model.layers.22.self_attn.rotary_emb.inv_freq', 'model.layers.14.self_attn.rotary_emb.inv_freq', 'model.layers.15.self_attn.rotary_emb.inv_freq', 'model.layers.18.self_attn.rotary_emb.inv_freq', 'model.layers.23.self_attn.rotary_emb.inv_freq', 'model.layers.27.self_attn.rotary_emb.inv_freq', 'model.layers.9.self_attn.rotary_emb.inv_freq', 'model.layers.24.self_attn.rotary_emb.inv_freq', 'model.layers.31.self_attn.rotary_emb.inv_freq', 'model.layers.7.self_attn.rotary_emb.inv_freq', 'model.layers.6.self_attn.rotary_emb.inv_freq', 'model.layers.1.self_attn.rotary_emb.inv_freq', 'model.layers.10.self_attn.rotary_emb.inv_freq', 'model.layers.26.self_attn.rotary_emb.inv_freq', 'model.layers.28.self_attn.rotary_emb.inv_freq', 'model.layers.17.self_attn.rotary_emb.inv_freq', 'model.layers.30.self_attn.rotary_emb.inv_freq', 'model.layers.19.self_attn.rotary_emb.inv_freq', 'model.layers.29.self_attn.rotary_emb.inv_freq', 'model.layers.25.self_attn.rotary_emb.inv_freq', 'model.layers.20.self_attn.rotary_emb.inv_freq', 'model.layers.0.self_attn.rotary_emb.inv_freq', 'model.layers.4.self_attn.rotary_emb.inv_freq', 'model.layers.16.self_attn.rotary_emb.inv_freq', 'model.layers.13.self_attn.rotary_emb.inv_freq', 'model.layers.8.self_attn.rotary_emb.inv_freq', 'model.layers.21.self_attn.rotary_emb.inv_freq', 'model.layers.3.self_attn.rotary_emb.inv_freq', 'model.layers.12.self_attn.rotary_emb.inv_freq']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[00:02:51] |BaseLLMOperator| hidden_weights.shape: torch.Size([20738, 33, 4096])
+[00:02:51] |BaseLLMOperator| attention_mask.shape: torch.Size([20738, 33])
+[00:02:51] |Legommender| LLM SKIP
+  0%|          | 0/20738 [00:00<?, ?it/s]  4%|▍         | 916/20738 [00:00<00:02, 9157.43it/s] 10%|█         | 2150/20738 [00:00<00:01, 11027.81it/s] 16%|█▋        | 3391/20738 [00:00<00:01, 11658.42it/s] 22%|██▏       | 4617/20738 [00:00<00:01, 11894.99it/s] 28%|██▊       | 5859/20738 [00:00<00:01, 12082.89it/s] 34%|███▍      | 7093/20738 [00:00<00:01, 12166.97it/s] 40%|████      | 8327/20738 [00:00<00:01, 12221.28it/s] 46%|████▌     | 9550/20738 [00:00<00:00, 12217.26it/s] 52%|█████▏    | 10772/20738 [00:00<00:00, 12102.82it/s] 58%|█████▊    | 11993/20738 [00:01<00:00, 12134.87it/s] 64%|██████▎   | 13207/20738 [00:01<00:00, 12131.56it/s] 70%|██████▉   | 14425/20738 [00:01<00:00, 12144.95it/s] 75%|███████▌  | 15640/20738 [00:01<00:00, 12143.33it/s] 81%|████████▏ | 16855/20738 [00:01<00:00, 12081.15it/s] 87%|████████▋ | 18081/20738 [00:01<00:00, 12134.20it/s] 93%|█████████▎| 19295/20738 [00:01<00:00, 12114.64it/s] 99%|█████████▉| 20512/20738 [00:01<00:00, 12128.64it/s]100%|██████████| 20738/20738 [00:01<00:00, 12022.50it/s]
+[00:02:53] |Depots| Filter click with x==1 in train phase, sample num: 2585747 -> 233763
+[00:02:53] |Worker| {'index': 3, 'imp': 0, 'uid': 8890, 'nid': 18913, 'click': 1, 'history': [15607, 15948, 15928, 15902, 16253, 16268, 16273, 16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286, 17808, 17798, 17792], 'neg': [18299, 14531, 18245, 18236, 18242, 18239, 18140, 18295, 18091, 18303, 11924, 18237, 18095, 18228]}
+[00:02:53] |Worker| {
+    "history": "tensor([50], dtype=torch.int64)",
+    "nid": "tensor([5], dtype=torch.int64)",
+    "click": "int",
+    "imp": "int",
+    "uid": "int",
+    "__clicks_mask__": "tensor([50], dtype=torch.int64)"
+}
+[00:02:53] |Worker| split item pretrained encoder parameters
+[00:02:53] |Worker| pretrained lr: 1e-05
+[00:02:53] |Worker| other lr: 0.0001
+[00:02:53] |Legommender| [P] item_encoder.transformer.norm.weight torch.Size([4096])
+[00:02:53] |Legommender| [N] embedding_table.__cat_inputer_special_ids.weight torch.Size([3, 4096])
+[00:02:53] |Legommender| [N] embedding_table.__flatten_seq_special_ids.weight torch.Size([4, 4096])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.query.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.query.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.query_att.weight torch.Size([16, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.query_att.bias torch.Size([16])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.key.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.key.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.key_att.weight torch.Size([16, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.key_att.bias torch.Size([16])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.transform.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.self.transform.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.output.dense.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.output.dense.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.output.LayerNorm.weight torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.attention.output.LayerNorm.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.intermediate.dense.weight torch.Size([256, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.intermediate.dense.bias torch.Size([256])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.output.dense.weight torch.Size([64, 256])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.output.dense.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.output.LayerNorm.weight torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.encoders.0.output.LayerNorm.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.position_embeddings.weight torch.Size([1024, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.LayerNorm.weight torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.LayerNorm.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.poolers.0.att_fc1.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.poolers.0.att_fc1.bias torch.Size([64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.poolers.0.att_fc2.weight torch.Size([1, 64])
+[00:02:53] |Legommender| [N] user_encoder.fastformer.poolers.0.att_fc2.bias torch.Size([1])
+[00:02:53] |Legommender| [N] user_encoder.linear.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] user_encoder.linear.bias torch.Size([64])
+[00:02:53] |Legommender| [N] item_encoder.linear.weight torch.Size([64, 4096])
+[00:02:53] |Legommender| [N] item_encoder.linear.bias torch.Size([64])
+[00:02:53] |Legommender| [N] item_encoder.additive_attention.encoder.0.weight torch.Size([64, 64])
+[00:02:53] |Legommender| [N] item_encoder.additive_attention.encoder.0.bias torch.Size([64])
+[00:02:53] |Legommender| [N] item_encoder.additive_attention.encoder.2.weight torch.Size([1, 64])
+  0%|          | 0/7306 [00:00<?, ?it/s]  0%|          | 1/7306 [00:01<3:23:13,  1.67s/it]  0%|          | 4/7306 [00:01<42:31,  2.86it/s]    0%|          | 7/7306 [00:01<22:16,  5.46it/s]  0%|          | 10/7306 [00:02<14:39,  8.29it/s]  0%|          | 13/7306 [00:02<10:54, 11.14it/s]  0%|          | 16/7306 [00:02<08:48, 13.80it/s]  0%|          | 19/7306 [00:02<07:29, 16.22it/s]  0%|          | 22/7306 [00:02<06:39, 18.23it/s]  0%|          | 25/7306 [00:02<06:05, 19.91it/s]  0%|          | 28/7306 [00:02<05:43, 21.17it/s]  0%|          | 31/7306 [00:02<05:27, 22.18it/s]  0%|          | 34/7306 [00:03<05:18, 22.86it/s]  1%|          | 37/7306 [00:03<05:10, 23.42it/s]  1%|          | 40/7306 [00:03<05:05, 23.79it/s]  1%|          | 43/7306 [00:03<05:01, 24.11it/s]  1%|          | 46/7306 [00:03<04:59, 24.27it/s]  1%|          | 49/7306 [00:03<04:56, 24.44it/s]  1%|          | 52/7306 [00:03<04:56, 24.44it/s]  1%|          | 55/7306 [00:03<05:06, 23.69it/s]  1%|          | 58/7306 [00:03<05:03, 23.90it/s]  1%|          | 61/7306 [00:04<04:59, 24.16it/s]  1%|          | 64/7306 [00:04<04:58, 24.29it/s]  1%|          | 67/7306 [00:04<04:56, 24.45it/s]  1%|          | 70/7306 [00:04<04:55, 24.46it/s]  1%|          | 73/7306 [00:04<04:54, 24.59it/s]  1%|          | 76/7306 [00:04<04:53, 24.60it/s]  1%|          | 79/7306 [00:04<04:52, 24.69it/s]  1%|          | 82/7306 [00:04<04:52, 24.66it/s]  1%|          | 85/7306 [00:05<04:52, 24.71it/s]  1%|          | 88/7306 [00:05<04:52, 24.68it/s]  1%|          | 91/7306 [00:05<04:51, 24.73it/s]  1%|▏         | 94/7306 [00:05<04:52, 24.69it/s]  1%|▏         | 97/7306 [00:05<04:51, 24.74it/s]  1%|▏         | 100/7306 [00:05<04:51, 24.68it/s]  1%|▏         | 103/7306 [00:05<04:51, 24.73it/s]  1%|▏         | 106/7306 [00:05<04:51, 24.69it/s]  1%|▏         | 109/7306 [00:06<04:50, 24.76it/s]  2%|▏         | 112/7306 [00:06<04:51, 24.70it/s]  2%|▏         | 115/7306 [00:06<04:50, 24.74it/s]  2%|▏         | 118/7306 [00:06<04:50, 24.72it/s]  2%|▏         | 121/7306 [00:06<04:50, 24.74it/s]  2%|▏         | 124/7306 [00:06<04:50, 24.70it/s]  2%|▏         | 127/7306 [00:06<04:50, 24.73it/s]  2%|▏         | 130/7306 [00:06<04:50, 24.72it/s]  2%|▏         | 133/7306 [00:07<04:50, 24.73it/s]  2%|▏         | 136/7306 [00:07<04:50, 24.69it/s]  2%|▏         | 139/7306 [00:07<04:49, 24.75it/s]  2%|▏         | 142/7306 [00:07<04:49, 24.73it/s]  2%|▏         | 145/7306 [00:07<04:49, 24.75it/s]  2%|▏         | 148/7306 [00:07<04:49, 24.72it/s]  2%|▏         | 151/7306 [00:07<04:48, 24.77it/s]  2%|▏         | 154/7306 [00:07<04:49, 24.74it/s]  2%|▏         | 157/7306 [00:07<04:48, 24.78it/s]  2%|▏         | 160/7306 [00:08<04:48, 24.73it/s]  2%|▏         | 163/7306 [00:08<04:48, 24.78it/s]  2%|▏         | 166/7306 [00:08<04:48, 24.71it/s]  2%|▏         | 169/7306 [00:08<04:48, 24.74it/s]  2%|▏         | 172/7306 [00:08<04:48, 24.71it/s]  2%|▏         | 175/7306 [00:08<04:48, 24.76it/s]  2%|▏         | 178/7306 [00:08<04:48, 24.72it/s]  2%|▏         | 181/7306 [00:08<04:47, 24.74it/s]  3%|▎         | 184/7306 [00:09<04:48, 24.71it/s]  3%|▎         | 187/7306 [00:09<04:47, 24.75it/s]  3%|▎         | 190/7306 [00:09<04:47, 24.71it/s]  3%|▎         | 193/7306 [00:09<04:47, 24.75it/s]  3%|▎         | 196/7306 [00:09<04:47, 24.71it/s]  3%|▎         | 199/7306 [00:09<04:47, 24.74it/s]  3%|▎         | 202/7306 [00:09<04:47, 24.70it/s]  3%|▎         | 205/7306 [00:09<04:47, 24.74it/s]  3%|▎         | 208/7306 [00:10<04:47, 24.70it/s]  3%|▎         | 211/7306 [00:10<04:47, 24.70it/s]  3%|▎         | 214/7306 [00:10<04:51, 24.35it/s]  3%|▎         | 217/7306 [00:10<04:49, 24.49it/s]  3%|▎         | 220/7306 [00:10<04:48, 24.54it/s]  3%|▎         | 223/7306 [00:10<04:47, 24.64it/s]  3%|▎         | 226/7306 [00:10<04:47, 24.63it/s]  3%|▎         | 229/7306 [00:10<04:46, 24.69it/s]  3%|▎         | 232/7306 [00:11<04:46, 24.68it/s]  3%|▎         | 235/7306 [00:11<04:45, 24.74it/s]  3%|▎         | 238/7306 [00:11<04:46, 24.71it/s]  3%|▎         | 241/7306 [00:11<04:45, 24.75it/s]  3%|▎         | 244/7306 [00:11<04:45, 24.71it/s]  3%|▎         | 247/7306 [00:11<04:45, 24.75it/s]  3%|▎         | 250/7306 [00:11<04:46, 24.65it/s]  3%|▎         | 253/7306 [00:11<04:45, 24.71it/s]  4%|▎         | 256/7306 [00:12<04:45, 24.69it/s]  4%|▎         | 259/7306 [00:12<04:44, 24.75it/s]  4%|▎         | 262/7306 [00:12<04:45, 24.72it/s]  4%|▎         | 265/7306 [00:12<04:44, 24.76it/s]  4%|▎         | 268/7306 [00:12<04:46, 24.56it/s]  4%|▎         | 271/7306 [00:12<04:45, 24.61it/s]  4%|▍         | 274/7306 [00:12<04:45, 24.61it/s]  4%|▍         | 277/7306 [00:12<04:44, 24.69it/s]  4%|▍         | 280/7306 [00:12<04:44, 24.68it/s]  4%|▍         | 283/7306 [00:13<04:44, 24.73it/s]  4%|▍         | 286/7306 [00:13<04:44, 24.70it/s]  4%|▍         | 289/7306 [00:13<04:43, 24.72it/s]  4%|▍         | 292/7306 [00:13<04:44, 24.68it/s]  4%|▍         | 295/7306 [00:13<04:43, 24.72it/s]  4%|▍         | 298/7306 [00:13<04:43, 24.69it/s]  4%|▍         | 301/7306 [00:13<04:43, 24.73it/s]  4%|▍         | 304/7306 [00:13<04:43, 24.69it/s]  4%|▍         | 307/7306 [00:14<04:43, 24.72it/s]  4%|▍         | 310/7306 [00:14<04:43, 24.68it/s]  4%|▍         | 313/7306 [00:14<04:42, 24.74it/s]  4%|▍         | 316/7306 [00:14<04:43, 24.69it/s]  4%|▍         | 319/7306 [00:14<04:42, 24.75it/s]  4%|▍         | 322/7306 [00:14<04:42, 24.70it/s]  4%|▍         | 325/7306 [00:14<04:42, 24.75it/s]  4%|▍         | 328/7306 [00:14<04:42, 24.71it/s]  5%|▍         | 331/7306 [00:15<04:42, 24.73it/s]  5%|▍         | 334/7306 [00:15<04:42, 24.70it/s]  5%|▍         | 337/7306 [00:15<04:42, 24.68it/s]  5%|▍         | 340/7306 [00:15<04:42, 24.67it/s]  5%|▍         | 343/7306 [00:15<04:41, 24.74it/s]  5%|▍         | 346/7306 [00:15<04:41, 24.70it/s]  5%|▍         | 349/7306 [00:15<04:41, 24.76it/s]  5%|▍         | 352/7306 [00:15<04:41, 24.74it/s]  5%|▍         | 355/7306 [00:16<04:40, 24.78it/s]  5%|▍         | 358/7306 [00:16<04:41, 24.72it/s]  5%|▍         | 361/7306 [00:16<04:41, 24.70it/s]  5%|▍         | 364/7306 [00:16<04:41, 24.68it/s]  5%|▌         | 367/7306 [00:16<04:40, 24.74it/s]  5%|▌         | 370/7306 [00:16<04:40, 24.70it/s]  5%|▌         | 373/7306 [00:16<04:40, 24.74it/s]  5%|▌         | 376/7306 [00:16<04:40, 24.71it/s]  5%|▌         | 379/7306 [00:16<04:39, 24.76it/s]  5%|▌         | 382/7306 [00:17<04:40, 24.66it/s]  5%|▌         | 385/7306 [00:17<04:40, 24.71it/s]  5%|▌         | 388/7306 [00:17<04:40, 24.70it/s]  5%|▌         | 391/7306 [00:17<04:39, 24.74it/s]  5%|▌         | 394/7306 [00:17<04:39, 24.72it/s]  5%|▌         | 397/7306 [00:17<04:39, 24.76it/s]  5%|▌         | 400/7306 [00:17<04:39, 24.70it/s]  6%|▌         | 403/7306 [00:17<04:39, 24.74it/s]  6%|▌         | 406/7306 [00:18<04:39, 24.70it/s]  6%|▌         | 409/7306 [00:18<04:38, 24.73it/s]  6%|▌         | 412/7306 [00:18<04:39, 24.70it/s]  6%|▌         | 415/7306 [00:18<04:38, 24.75it/s]  6%|▌         | 418/7306 [00:18<04:38, 24.71it/s]  6%|▌         | 421/7306 [00:18<04:38, 24.75it/s]  6%|▌         | 424/7306 [00:18<04:38, 24.70it/s]  6%|▌         | 427/7306 [00:18<04:37, 24.75it/s]  6%|▌         | 430/7306 [00:19<04:38, 24.72it/s]  6%|▌         | 433/7306 [00:19<04:37, 24.76it/s]  6%|▌         | 436/7306 [00:19<04:38, 24.70it/s]  6%|▌         | 439/7306 [00:19<04:37, 24.75it/s]  6%|▌         | 442/7306 [00:19<04:37, 24.71it/s]  6%|▌         | 445/7306 [00:19<04:37, 24.76it/s]  6%|▌         | 448/7306 [00:19<04:37, 24.72it/s]  6%|▌         | 451/7306 [00:19<04:36, 24.75it/s]  6%|▌         | 454/7306 [00:20<04:37, 24.72it/s]  6%|▋         | 457/7306 [00:20<04:36, 24.76it/s]  6%|▋         | 460/7306 [00:20<04:36, 24.73it/s]  6%|▋         | 463/7306 [00:20<04:36, 24.77it/s]  6%|▋         | 466/7306 [00:20<04:36, 24.70it/s]  6%|▋         | 469/7306 [00:20<04:36, 24.74it/s]  6%|▋         | 472/7306 [00:20<04:36, 24.72it/s]  7%|▋         | 475/7306 [00:20<04:36, 24.75it/s]  7%|▋         | 478/7306 [00:20<04:36, 24.71it/s]  7%|▋         | 481/7306 [00:21<04:35, 24.74it/s]  7%|▋         | 484/7306 [00:21<04:36, 24.71it/s]  7%|▋         | 487/7306 [00:21<04:35, 24.75it/s]  7%|▋         | 490/7306 [00:21<04:35, 24.71it/s]  7%|▋         | 493/7306 [00:21<04:35, 24.76it/s]  7%|▋         | 496/7306 [00:21<04:35, 24.68it/s]  7%|▋         | 499/7306 [00:21<04:35, 24.75it/s]  7%|▋         | 502/7306 [00:21<04:35, 24.71it/s]  7%|▋         | 505/7306 [00:22<04:34, 24.76it/s]  7%|▋         | 508/7306 [00:22<04:34, 24.72it/s]  7%|▋         | 511/7306 [00:22<04:34, 24.75it/s]  7%|▋         | 514/7306 [00:22<04:34, 24.72it/s]  7%|▋         | 517/7306 [00:22<04:34, 24.76it/s]  7%|▋         | 520/7306 [00:22<04:34, 24.73it/s]  7%|▋         | 523/7306 [00:22<04:33, 24.76it/s]  7%|▋         | 526/7306 [00:22<04:34, 24.71it/s]  7%|▋         | 529/7306 [00:23<04:33, 24.75it/s]  7%|▋         | 532/7306 [00:23<04:34, 24.71it/s]  7%|▋         | 535/7306 [00:23<04:33, 24.76it/s]  7%|▋         | 538/7306 [00:23<04:33, 24.72it/s]  7%|▋         | 541/7306 [00:23<04:33, 24.69it/s]  7%|▋         | 544/7306 [00:23<04:34, 24.66it/s]  7%|▋         | 547/7306 [00:23<04:33, 24.72it/s]  8%|▊         | 550/7306 [00:23<04:33, 24.68it/s]  8%|▊         | 553/7306 [00:24<04:32, 24.74it/s]  8%|▊         | 556/7306 [00:24<04:33, 24.71it/s]  8%|▊         | 559/7306 [00:24<04:32, 24.79it/s]  8%|▊         | 562/7306 [00:24<04:33, 24.63it/s]  8%|▊         | 565/7306 [00:24<04:33, 24.66it/s]  8%|▊         | 568/7306 [00:24<04:33, 24.66it/s]  8%|▊         | 571/7306 [00:24<04:32, 24.71it/s]  8%|▊         | 574/7306 [00:24<04:32, 24.69it/s]  8%|▊         | 577/7306 [00:24<04:32, 24.73it/s]  8%|▊         | 580/7306 [00:25<04:32, 24.70it/s]  8%|▊         | 583/7306 [00:25<04:31, 24.74it/s]  8%|▊         | 586/7306 [00:25<04:32, 24.70it/s]  8%|▊         | 589/7306 [00:25<04:31, 24.71it/s]  8%|▊         | 592/7306 [00:25<04:31, 24.69it/s]  8%|▊         | 595/7306 [00:25<04:31, 24.75it/s]  8%|▊         | 598/7306 [00:25<04:31, 24.73it/s]  8%|▊         | 601/7306 [00:25<04:30, 24.78it/s]  8%|▊         | 604/7306 [00:26<04:31, 24.73it/s]  8%|▊         | 607/7306 [00:26<04:30, 24.77it/s]  8%|▊         | 610/7306 [00:26<04:30, 24.73it/s]  8%|▊         | 613/7306 [00:26<04:30, 24.76it/s]  8%|▊         | 616/7306 [00:26<04:30, 24.70it/s]  8%|▊         | 619/7306 [00:26<04:30, 24.76it/s]  9%|▊         | 622/7306 [00:26<04:30, 24.71it/s]  9%|▊         | 625/7306 [00:26<04:29, 24.75it/s]  9%|▊         | 628/7306 [00:27<04:30, 24.72it/s]  9%|▊         | 631/7306 [00:27<04:29, 24.77it/s]  9%|▊         | 634/7306 [00:27<04:29, 24.72it/s]  9%|▊         | 637/7306 [00:27<04:29, 24.75it/s]  9%|▉         | 640/7306 [00:27<04:29, 24.71it/s]  9%|▉         | 643/7306 [00:27<04:29, 24.74it/s]  9%|▉         | 646/7306 [00:27<04:29, 24.71it/s]  9%|▉         | 649/7306 [00:27<04:28, 24.76it/s]  9%|▉         | 652/7306 [00:28<04:29, 24.69it/s]  9%|▉         | 655/7306 [00:28<04:28, 24.74it/s]  9%|▉         | 658/7306 [00:28<04:29, 24.70it/s]  9%|▉         | 661/7306 [00:28<04:28, 24.76it/s]  9%|▉         | 664/7306 [00:28<04:28, 24.70it/s]  9%|▉         | 667/7306 [00:28<04:28, 24.76it/s]  9%|▉         | 670/7306 [00:28<04:29, 24.65it/s]  9%|▉         | 673/7306 [00:28<04:28, 24.73it/s]  9%|▉         | 676/7306 [00:28<04:28, 24.69it/s]  9%|▉         | 679/7306 [00:29<04:27, 24.75it/s]  9%|▉         | 682/7306 [00:29<04:28, 24.71it/s]  9%|▉         | 685/7306 [00:29<04:27, 24.77it/s]  9%|▉         | 688/7306 [00:29<04:27, 24.71it/s]  9%|▉         | 691/7306 [00:29<04:27, 24.72it/s]  9%|▉         | 694/7306 [00:29<04:27, 24.68it/s] 10%|▉         | 697/7306 [00:29<04:27, 24.72it/s] 10%|▉         | 700/7306 [00:29<04:27, 24.70it/s] 10%|▉         | 703/7306 [00:30<04:27, 24.73it/s] 10%|▉         | 706/7306 [00:30<04:27, 24.67it/s] 10%|▉         | 709/7306 [00:30<04:26, 24.73it/s] 10%|▉         | 712/7306 [00:30<04:42, 23.37it/s] 10%|▉         | 715/7306 [00:30<04:53, 22.47it/s] 10%|▉         | 718/7306 [00:30<04:46, 23.01it/s] 10%|▉         | 721/7306 [00:30<04:40, 23.50it/s] 10%|▉         | 724/7306 [00:30<04:36, 23.80it/s] 10%|▉         | 727/7306 [00:31<04:33, 24.09it/s] 10%|▉         | 730/7306 [00:31<04:34, 24.00it/s] 10%|█         | 733/7306 [00:31<04:31, 24.24it/s] 10%|█         | 736/7306 [00:31<04:29, 24.34it/s] 10%|█         | 739/7306 [00:31<04:27, 24.50it/s] 10%|█         | 742/7306 [00:31<04:27, 24.54it/s] 10%|█         | 745/7306 [00:31<04:26, 24.61it/s] 10%|█         | 748/7306 [00:31<04:26, 24.59it/s] 10%|█         | 751/7306 [00:32<04:25, 24.65it/s] 10%|█         | 754/7306 [00:32<04:25, 24.65it/s] 10%|█         | 757/7306 [00:32<04:25, 24.71it/s] 10%|█         | 760/7306 [00:32<04:25, 24.66it/s] 10%|█         | 763/7306 [00:32<04:24, 24.70it/s] 10%|█         | 766/7306 [00:32<04:25, 24.65it/s] 11%|█         | 769/7306 [00:32<04:24, 24.71it/s] 11%|█         | 772/7306 [00:32<04:24, 24.68it/s] 11%|█         | 775/7306 [00:33<04:24, 24.71it/s] 11%|█         | 778/7306 [00:33<04:24, 24.69it/s] 11%|█         | 781/7306 [00:33<04:23, 24.73it/s] 11%|█         | 784/7306 [00:33<04:23, 24.71it/s] 11%|█         | 787/7306 [00:33<04:23, 24.77it/s] 11%|█         | 790/7306 [00:33<04:23, 24.71it/s] 11%|█         | 793/7306 [00:33<04:28, 24.24it/s] 11%|█         | 796/7306 [00:33<04:29, 24.19it/s] 11%|█         | 799/7306 [00:34<04:27, 24.36it/s] 11%|█         | 802/7306 [00:34<04:26, 24.41it/s] 11%|█         | 805/7306 [00:34<04:25, 24.46it/s] 11%|█         | 808/7306 [00:34<04:25, 24.47it/s] 11%|█         | 811/7306 [00:34<04:24, 24.55it/s] 11%|█         | 814/7306 [00:34<04:24, 24.55it/s] 11%|█         | 817/7306 [00:34<04:23, 24.61it/s] 11%|█         | 820/7306 [00:34<04:23, 24.60it/s] 11%|█▏        | 823/7306 [00:35<04:23, 24.65it/s] 11%|█▏        | 826/7306 [00:35<04:23, 24.63it/s] 11%|█▏        | 829/7306 [00:35<04:22, 24.67it/s] 11%|█▏        | 832/7306 [00:35<04:23, 24.61it/s] 11%|█▏        | 835/7306 [00:35<04:22, 24.66it/s] 11%|█▏        | 838/7306 [00:35<04:22, 24.63it/s] 12%|█▏        | 841/7306 [00:35<04:21, 24.69it/s] 12%|█▏        | 844/7306 [00:35<04:21, 24.67it/s] 12%|█▏        | 847/7306 [00:35<04:21, 24.74it/s] 12%|█▏        | 850/7306 [00:36<04:21, 24.73it/s] 12%|█▏        | 853/7306 [00:36<04:20, 24.75it/s] 12%|█▏        | 856/7306 [00:36<04:21, 24.71it/s] 12%|█▏        | 859/7306 [00:36<04:20, 24.77it/s] 12%|█▏        | 862/7306 [00:36<04:20, 24.72it/s] 12%|█▏        | 865/7306 [00:36<04:20, 24.77it/s] 12%|█▏        | 868/7306 [00:36<04:20, 24.73it/s] 12%|█▏        | 871/7306 [00:36<04:20, 24.75it/s] 12%|█▏        | 874/7306 [00:37<04:20, 24.68it/s] 12%|█▏        | 877/7306 [00:37<04:20, 24.72it/s] 12%|█▏        | 880/7306 [00:37<04:20, 24.71it/s] 12%|█▏        | 883/7306 [00:37<04:19, 24.75it/s] 12%|█▏        | 886/7306 [00:37<04:21, 24.54it/s] 12%|█▏        | 889/7306 [00:37<04:20, 24.62it/s] 12%|█▏        | 892/7306 [00:37<04:20, 24.62it/s] 12%|█▏        | 895/7306 [00:37<04:19, 24.66it/s] 12%|█▏        | 898/7306 [00:38<04:20, 24.64it/s] 12%|█▏        | 901/7306 [00:38<04:19, 24.67it/s] 12%|█▏        | 904/7306 [00:38<04:20, 24.62it/s] 12%|█▏        | 907/7306 [00:38<04:19, 24.66it/s] 12%|█▏        | 910/7306 [00:38<04:19, 24.64it/s] 12%|█▏        | 913/7306 [00:38<04:19, 24.68it/s] 13%|█▎        | 916/7306 [00:38<04:19, 24.60it/s] 13%|█▎        | 919/7306 [00:38<04:18, 24.68it/s] 13%|█▎        | 922/7306 [00:39<04:18, 24.67it/s] 13%|█▎        | 925/7306 [00:39<04:18, 24.72it/s] 13%|█▎        | 928/7306 [00:39<04:18, 24.67it/s] 13%|█▎        | 931/7306 [00:39<04:18, 24.70it/s] 13%|█▎        | 934/7306 [00:39<04:18, 24.65it/s] 13%|█▎        | 937/7306 [00:39<04:17, 24.70it/s] 13%|█▎        | 940/7306 [00:39<04:18, 24.66it/s] 13%|█▎        | 943/7306 [00:39<04:17, 24.70it/s] 13%|█▎        | 946/7306 [00:39<04:17, 24.68it/s] 13%|█▎        | 949/7306 [00:40<04:17, 24.72it/s] 13%|█▎        | 952/7306 [00:40<04:18, 24.62it/s] 13%|█▎        | 955/7306 [00:40<04:17, 24.70it/s] 13%|█▎        | 958/7306 [00:40<04:17, 24.66it/s] 13%|█▎        | 961/7306 [00:40<04:16, 24.72it/s] 13%|█▎        | 964/7306 [00:40<04:16, 24.68it/s] 13%|█▎        | 967/7306 [00:40<04:16, 24.73it/s] 13%|█▎        | 970/7306 [00:40<04:16, 24.68it/s] 13%|█▎        | 973/7306 [00:41<04:16, 24.72it/s] 13%|█▎        | 976/7306 [00:41<04:16, 24.68it/s] 13%|█▎        | 979/7306 [00:41<04:15, 24.75it/s] 13%|█▎        | 982/7306 [00:41<04:15, 24.71it/s] 13%|█▎        | 985/7306 [00:41<04:16, 24.68it/s] 14%|█▎        | 988/7306 [00:41<04:16, 24.67it/s] 14%|█▎        | 991/7306 [00:41<04:15, 24.70it/s] 14%|█▎        | 994/7306 [00:41<04:15, 24.68it/s] 14%|█▎        | 997/7306 [00:42<04:15, 24.73it/s] 14%|█▎        | 1000/7306 [00:42<04:15, 24.73it/s] 14%|█▎        | 1003/7306 [00:42<04:14, 24.76it/s] 14%|█▍        | 1006/7306 [00:42<04:14, 24.71it/s] 14%|█▍        | 1009/7306 [00:42<04:14, 24.76it/s] 14%|█▍        | 1012/7306 [00:42<04:14, 24.73it/s] 14%|█▍        | 1015/7306 [00:42<04:13, 24.77it/s] 14%|█▍        | 1018/7306 [00:42<04:14, 24.66it/s] 14%|█▍        | 1021/7306 [00:43<04:14, 24.69it/s] 14%|█▍        | 1024/7306 [00:43<04:14, 24.64it/s] 14%|█▍        | 1027/7306 [00:43<04:14, 24.68it/s] 14%|█▍        | 1030/7306 [00:43<04:14, 24.65it/s] 14%|█▍        | 1033/7306 [00:43<04:13, 24.71it/s] 14%|█▍        | 1036/7306 [00:43<04:14, 24.65it/s] 14%|█▍        | 1039/7306 [00:43<04:13, 24.72it/s] 14%|█▍        | 1042/7306 [00:43<04:13, 24.68it/s] 14%|█▍        | 1045/7306 [00:43<04:13, 24.68it/s] 14%|█▍        | 1048/7306 [00:44<04:13, 24.64it/s] 14%|█▍        | 1051/7306 [00:44<04:13, 24.68it/s] 14%|█▍        | 1054/7306 [00:44<04:13, 24.68it/s] 14%|█▍        | 1057/7306 [00:44<04:12, 24.71it/s] 15%|█▍        | 1060/7306 [00:44<04:13, 24.66it/s] 15%|█▍        | 1063/7306 [00:44<04:12, 24.70it/s] 15%|█▍        | 1066/7306 [00:44<04:13, 24.59it/s] 15%|█▍        | 1069/7306 [00:44<04:14, 24.50it/s] 15%|█▍        | 1072/7306 [00:45<04:14, 24.48it/s] 15%|█▍        | 1075/7306 [00:45<04:13, 24.58it/s] 15%|█▍        | 1078/7306 [00:45<04:13, 24.58it/s] 15%|█▍        | 1081/7306 [00:45<04:12, 24.63it/s] 15%|█▍        | 1084/7306 [00:45<04:12, 24.60it/s] 15%|█▍        | 1087/7306 [00:45<04:12, 24.65it/s] 15%|█▍        | 1090/7306 [00:45<04:12, 24.62it/s] 15%|█▍        | 1093/7306 [00:45<04:11, 24.68it/s] 15%|█▌        | 1096/7306 [00:46<04:12, 24.63it/s] 15%|█▌        | 1099/7306 [00:46<04:12, 24.63it/s] 15%|█▌        | 1102/7306 [00:46<04:12, 24.60it/s] 15%|█▌        | 1105/7306 [00:46<04:11, 24.66it/s] 15%|█▌        | 1108/7306 [00:46<04:11, 24.65it/s] 15%|█▌        | 1111/7306 [00:46<04:10, 24.71it/s] 15%|█▌        | 1114/7306 [00:46<04:10, 24.69it/s] 15%|█▌        | 1117/7306 [00:46<04:10, 24.74it/s] 15%|█▌        | 1120/7306 [00:47<04:10, 24.68it/s] 15%|█▌        | 1123/7306 [00:47<04:10, 24.68it/s] 15%|█▌        | 1126/7306 [00:47<04:10, 24.64it/s] 15%|█▌        | 1129/7306 [00:47<04:10, 24.69it/s] 15%|█▌        | 1132/7306 [00:47<04:10, 24.65it/s] 16%|█▌        | 1135/7306 [00:47<04:10, 24.67it/s] 16%|█▌        | 1138/7306 [00:47<04:10, 24.62it/s] 16%|█▌        | 1141/7306 [00:47<04:09, 24.66it/s] 16%|█▌        | 1144/7306 [00:48<04:10, 24.62it/s] 16%|█▌        | 1147/7306 [00:48<04:09, 24.64it/s] 16%|█▌        | 1150/7306 [00:48<04:10, 24.59it/s] 16%|█▌        | 1153/7306 [00:48<04:09, 24.65it/s] 16%|█▌        | 1156/7306 [00:48<04:09, 24.61it/s] 16%|█▌        | 1159/7306 [00:48<04:09, 24.67it/s] 16%|█▌        | 1162/7306 [00:48<04:09, 24.58it/s] 16%|█▌        | 1165/7306 [00:48<04:09, 24.63it/s] 16%|█▌        | 1168/7306 [00:48<04:09, 24.60it/s] 16%|█▌        | 1171/7306 [00:49<04:08, 24.65it/s] 16%|█▌        | 1174/7306 [00:49<04:09, 24.62it/s] 16%|█▌        | 1177/7306 [00:49<04:08, 24.67it/s] 16%|█▌        | 1180/7306 [00:49<04:08, 24.63it/s] 16%|█▌        | 1183/7306 [00:49<04:08, 24.68it/s] 16%|█▌        | 1186/7306 [00:49<04:08, 24.63it/s] 16%|█▋        | 1189/7306 [00:49<04:08, 24.66it/s] 16%|█▋        | 1192/7306 [00:49<04:08, 24.63it/s] 16%|█▋        | 1195/7306 [00:50<04:07, 24.67it/s] 16%|█▋        | 1198/7306 [00:50<04:08, 24.63it/s] 16%|█▋        | 1201/7306 [00:50<04:07, 24.66it/s] 16%|█▋        | 1204/7306 [00:50<04:07, 24.61it/s] 17%|█▋        | 1207/7306 [00:50<04:07, 24.62it/s] 17%|█▋        | 1210/7306 [00:50<04:07, 24.58it/s] 17%|█▋        | 1213/7306 [00:50<04:07, 24.60it/s] 17%|█▋        | 1216/7306 [00:50<04:07, 24.59it/s] 17%|█▋        | 1219/7306 [00:51<04:06, 24.66it/s] 17%|█▋        | 1222/7306 [00:51<04:06, 24.64it/s] 17%|█▋        | 1225/7306 [00:51<04:06, 24.70it/s] 17%|█▋        | 1228/7306 [00:51<04:06, 24.67it/s] 17%|█▋        | 1231/7306 [00:51<04:05, 24.71it/s] 17%|█▋        | 1234/7306 [00:51<04:09, 24.31it/s] 17%|█▋        | 1237/7306 [00:51<04:08, 24.45it/s] 17%|█▋        | 1240/7306 [00:51<04:07, 24.50it/s] 17%|█▋        | 1243/7306 [00:52<04:06, 24.60it/s] 17%|█▋        | 1246/7306 [00:52<04:06, 24.61it/s] 17%|█▋        | 1249/7306 [00:52<04:05, 24.66it/s] 17%|█▋        | 1252/7306 [00:52<04:05, 24.64it/s] 17%|█▋        | 1255/7306 [00:52<04:05, 24.69it/s] 17%|█▋        | 1258/7306 [00:52<04:05, 24.65it/s] 17%|█▋        | 1261/7306 [00:52<04:04, 24.68it/s] 17%|█▋        | 1264/7306 [00:52<04:05, 24.65it/s] 17%|█▋        | 1267/7306 [00:53<04:04, 24.69it/s] 17%|█▋        | 1270/7306 [00:53<04:04, 24.66it/s] 17%|█▋        | 1273/7306 [00:53<04:04, 24.70it/s] 17%|█▋        | 1276/7306 [00:53<04:04, 24.64it/s] 18%|█▊        | 1279/7306 [00:53<04:04, 24.69it/s] 18%|█▊        | 1282/7306 [00:53<04:04, 24.63it/s] 18%|█▊        | 1285/7306 [00:53<04:04, 24.66it/s] 18%|█▊        | 1288/7306 [00:53<04:04, 24.64it/s] 18%|█▊        | 1291/7306 [00:53<04:03, 24.71it/s] 18%|█▊        | 1294/7306 [00:54<04:03, 24.65it/s] 18%|█▊        | 1297/7306 [00:54<04:03, 24.69it/s] 18%|█▊        | 1300/7306 [00:54<04:03, 24.67it/s] 18%|█▊        | 1303/7306 [00:54<04:03, 24.70it/s] 18%|█▊        | 1306/7306 [00:54<04:03, 24.67it/s] 18%|█▊        | 1309/7306 [00:54<04:02, 24.74it/s] 18%|█▊        | 1312/7306 [00:54<04:02, 24.71it/s] 18%|█▊        | 1315/7306 [00:54<04:02, 24.76it/s] 18%|█▊        | 1318/7306 [00:55<04:02, 24.71it/s] 18%|█▊        | 1321/7306 [00:55<04:01, 24.76it/s] 18%|█▊        | 1324/7306 [00:55<04:02, 24.72it/s] 18%|█▊        | 1327/7306 [00:55<04:01, 24.75it/s] 18%|█▊        | 1330/7306 [00:55<04:02, 24.69it/s] 18%|█▊        | 1333/7306 [00:55<04:01, 24.73it/s] 18%|█▊        | 1336/7306 [00:55<04:02, 24.67it/s] 18%|█▊        | 1339/7306 [00:55<04:01, 24.70it/s] 18%|█▊        | 1342/7306 [00:56<04:03, 24.46it/s] 18%|█▊        | 1345/7306 [00:56<04:02, 24.55it/s] 18%|█▊        | 1348/7306 [00:56<04:02, 24.57it/s] 18%|█▊        | 1351/7306 [00:56<04:01, 24.67it/s] 19%|█▊        | 1354/7306 [00:56<04:01, 24.65it/s] 19%|█▊        | 1357/7306 [00:56<04:00, 24.69it/s] 19%|█▊        | 1360/7306 [00:56<04:01, 24.65it/s] 19%|█▊        | 1363/7306 [00:56<04:00, 24.68it/s] 19%|█▊        | 1366/7306 [00:57<04:01, 24.62it/s] 19%|█▊        | 1369/7306 [00:57<04:00, 24.67it/s] 19%|█▉        | 1372/7306 [00:57<04:01, 24.61it/s] 19%|█▉        | 1375/7306 [00:57<04:00, 24.67it/s] 19%|█▉        | 1378/7306 [00:57<04:00, 24.63it/s] 19%|█▉        | 1381/7306 [00:57<04:00, 24.68it/s] 19%|█▉        | 1384/7306 [00:57<04:00, 24.64it/s] 19%|█▉        | 1387/7306 [00:57<03:59, 24.68it/s] 19%|█▉        | 1390/7306 [00:57<04:00, 24.63it/s] 19%|█▉        | 1393/7306 [00:58<04:02, 24.35it/s] 19%|█▉        | 1396/7306 [00:58<04:01, 24.42it/s] 19%|█▉        | 1399/7306 [00:58<04:00, 24.55it/s] 19%|█▉        | 1402/7306 [00:58<04:00, 24.56it/s] 19%|█▉        | 1405/7306 [00:58<03:59, 24.66it/s] 19%|█▉        | 1408/7306 [00:58<03:59, 24.66it/s] 19%|█▉        | 1411/7306 [00:58<03:58, 24.71it/s] 19%|█▉        | 1414/7306 [00:58<03:58, 24.69it/s] 19%|█▉        | 1417/7306 [00:59<03:58, 24.74it/s] 19%|█▉        | 1420/7306 [00:59<03:59, 24.61it/s] 19%|█▉        | 1423/7306 [00:59<03:58, 24.65it/s] 20%|█▉        | 1426/7306 [00:59<03:58, 24.61it/s] 20%|█▉        | 1429/7306 [00:59<03:58, 24.67it/s] 20%|█▉        | 1432/7306 [00:59<03:58, 24.64it/s] 20%|█▉        | 1435/7306 [00:59<03:57, 24.70it/s] 20%|█▉        | 1438/7306 [00:59<03:57, 24.69it/s] 20%|█▉        | 1441/7306 [01:00<03:57, 24.74it/s] 20%|█▉        | 1444/7306 [01:00<03:57, 24.68it/s] 20%|█▉        | 1447/7306 [01:00<03:57, 24.71it/s] 20%|█▉        | 1450/7306 [01:00<04:18, 22.64it/s] 20%|█▉        | 1453/7306 [01:00<04:22, 22.28it/s] 20%|█▉        | 1456/7306 [01:00<04:15, 22.86it/s] 20%|█▉        | 1459/7306 [01:00<04:10, 23.36it/s] 20%|██        | 1462/7306 [01:00<04:06, 23.71it/s] 20%|██        | 1465/7306 [01:01<04:02, 24.05it/s] 20%|██        | 1468/7306 [01:01<04:00, 24.24it/s] 20%|██        | 1471/7306 [01:01<03:58, 24.42it/s] 20%|██        | 1474/7306 [01:01<03:58, 24.48it/s] 20%|██        | 1477/7306 [01:01<03:57, 24.59it/s] 20%|██        | 1480/7306 [01:01<03:56, 24.62it/s] 20%|██        | 1483/7306 [01:01<03:55, 24.68it/s] 20%|██        | 1486/7306 [01:01<03:56, 24.66it/s] 20%|██        | 1489/7306 [01:02<03:55, 24.71it/s] 20%|██        | 1492/7306 [01:02<03:55, 24.69it/s] 20%|██        | 1495/7306 [01:02<03:54, 24.75it/s] 21%|██        | 1498/7306 [01:02<03:55, 24.67it/s] 21%|██        | 1501/7306 [01:02<03:54, 24.73it/s] 21%|██        | 1504/7306 [01:02<03:55, 24.67it/s] 21%|██        | 1507/7306 [01:02<03:54, 24.72it/s] 21%|██        | 1510/7306 [01:02<03:54, 24.69it/s] 21%|██        | 1513/7306 [01:03<03:54, 24.75it/s] 21%|██        | 1516/7306 [01:03<03:54, 24.68it/s] 21%|██        | 1519/7306 [01:03<03:53, 24.74it/s] 21%|██        | 1522/7306 [01:03<03:54, 24.69it/s] 21%|██        | 1525/7306 [01:03<03:53, 24.71it/s] 21%|██        | 1528/7306 [01:03<03:54, 24.66it/s] 21%|██        | 1531/7306 [01:03<03:55, 24.53it/s] 21%|██        | 1534/7306 [01:03<03:57, 24.35it/s] 21%|██        | 1537/7306 [01:04<03:55, 24.47it/s] 21%|██        | 1540/7306 [01:04<03:54, 24.54it/s] 21%|██        | 1543/7306 [01:04<03:54, 24.62it/s] 21%|██        | 1546/7306 [01:04<03:53, 24.62it/s] 21%|██        | 1549/7306 [01:04<03:53, 24.69it/s] 21%|██        | 1552/7306 [01:04<03:53, 24.66it/s] 21%|██▏       | 1555/7306 [01:04<03:52, 24.72it/s] 21%|██▏       | 1558/7306 [01:04<03:52, 24.68it/s] 21%|██▏       | 1561/7306 [01:04<03:52, 24.72it/s] 21%|██▏       | 1564/7306 [01:05<03:52, 24.67it/s] 21%|██▏       | 1567/7306 [01:05<03:52, 24.71it/s] 21%|██▏       | 1570/7306 [01:05<03:52, 24.68it/s] 22%|██▏       | 1573/7306 [01:05<03:51, 24.72it/s] 22%|██▏       | 1576/7306 [01:05<03:52, 24.68it/s] 22%|██▏       | 1579/7306 [01:05<03:51, 24.74it/s] 22%|██▏       | 1582/7306 [01:05<03:51, 24.70it/s] 22%|██▏       | 1585/7306 [01:05<03:51, 24.76it/s] 22%|██▏       | 1588/7306 [01:06<03:51, 24.71it/s] 22%|██▏       | 1591/7306 [01:06<03:50, 24.74it/s] 22%|██▏       | 1594/7306 [01:06<03:51, 24.70it/s] 22%|██▏       | 1597/7306 [01:06<03:50, 24.75it/s] 22%|██▏       | 1600/7306 [01:06<03:50, 24.73it/s] 22%|██▏       | 1603/7306 [01:06<03:50, 24.76it/s] 22%|██▏       | 1606/7306 [01:06<03:50, 24.74it/s] 22%|██▏       | 1609/7306 [01:06<03:49, 24.78it/s] 22%|██▏       | 1612/7306 [01:07<03:50, 24.72it/s] 22%|██▏       | 1615/7306 [01:07<03:50, 24.74it/s] 22%|██▏       | 1618/7306 [01:07<03:50, 24.71it/s] 22%|██▏       | 1621/7306 [01:07<03:49, 24.74it/s] 22%|██▏       | 1624/7306 [01:07<03:50, 24.68it/s] 22%|██▏       | 1627/7306 [01:07<03:49, 24.72it/s] 22%|██▏       | 1630/7306 [01:07<03:49, 24.69it/s] 22%|██▏       | 1633/7306 [01:07<03:49, 24.74it/s] 22%|██▏       | 1636/7306 [01:08<03:49, 24.69it/s] 22%|██▏       | 1639/7306 [01:08<03:49, 24.73it/s] 22%|██▏       | 1642/7306 [01:08<03:49, 24.65it/s] 23%|██▎       | 1645/7306 [01:08<03:49, 24.69it/s] 23%|██▎       | 1648/7306 [01:08<03:49, 24.66it/s] 23%|██▎       | 1651/7306 [01:08<03:48, 24.71it/s] 23%|██▎       | 1654/7306 [01:08<03:48, 24.71it/s] 23%|██▎       | 1657/7306 [01:08<03:48, 24.76it/s] 23%|██▎       | 1660/7306 [01:08<03:48, 24.73it/s] 23%|██▎       | 1663/7306 [01:09<03:47, 24.75it/s] 23%|██▎       | 1666/7306 [01:09<03:48, 24.71it/s] 23%|██▎       | 1669/7306 [01:09<03:47, 24.74it/s] 23%|██▎       | 1672/7306 [01:09<03:48, 24.71it/s] 23%|██▎       | 1675/7306 [01:09<03:47, 24.75it/s] 23%|██▎       | 1678/7306 [01:09<03:47, 24.71it/s] 23%|██▎       | 1681/7306 [01:09<03:47, 24.77it/s] 23%|██▎       | 1684/7306 [01:09<03:47, 24.73it/s] 23%|██▎       | 1687/7306 [01:10<03:46, 24.78it/s] 23%|██▎       | 1690/7306 [01:10<03:46, 24.76it/s] 23%|██▎       | 1693/7306 [01:10<03:46, 24.81it/s] 23%|██▎       | 1696/7306 [01:10<03:46, 24.76it/s] 23%|██▎       | 1699/7306 [01:10<03:46, 24.80it/s] 23%|██▎       | 1702/7306 [01:10<03:46, 24.76it/s] 23%|██▎       | 1705/7306 [01:10<03:46, 24.77it/s] 23%|██▎       | 1708/7306 [01:10<03:46, 24.74it/s] 23%|██▎       | 1711/7306 [01:11<03:45, 24.77it/s] 23%|██▎       | 1714/7306 [01:11<03:46, 24.73it/s] 24%|██▎       | 1717/7306 [01:11<03:45, 24.76it/s] 24%|██▎       | 1720/7306 [01:11<03:45, 24.74it/s] 24%|██▎       | 1723/7306 [01:11<03:45, 24.80it/s] 24%|██▎       | 1726/7306 [01:11<03:45, 24.77it/s] 24%|██▎       | 1729/7306 [01:11<03:44, 24.82it/s] 24%|██▎       | 1732/7306 [01:11<03:44, 24.78it/s] 24%|██▎       | 1735/7306 [01:12<03:44, 24.83it/s] 24%|██▍       | 1738/7306 [01:12<03:44, 24.75it/s] 24%|██▍       | 1741/7306 [01:12<03:44, 24.79it/s] 24%|██▍       | 1744/7306 [01:12<03:44, 24.73it/s] 24%|██▍       | 1747/7306 [01:12<03:44, 24.77it/s] 24%|██▍       | 1750/7306 [01:12<03:44, 24.73it/s] 24%|██▍       | 1753/7306 [01:12<03:44, 24.77it/s] 24%|██▍       | 1756/7306 [01:12<03:44, 24.72it/s] 24%|██▍       | 1759/7306 [01:12<03:43, 24.78it/s] 24%|██▍       | 1762/7306 [01:13<03:44, 24.73it/s] 24%|██▍       | 1765/7306 [01:13<03:43, 24.78it/s] 24%|██▍       | 1768/7306 [01:13<03:43, 24.74it/s] 24%|██▍       | 1771/7306 [01:13<03:43, 24.80it/s] 24%|██▍       | 1774/7306 [01:13<03:43, 24.77it/s] 24%|██▍       | 1777/7306 [01:13<03:42, 24.82it/s] 24%|██▍       | 1780/7306 [01:13<03:42, 24.78it/s] 24%|██▍       | 1783/7306 [01:13<03:42, 24.81it/s] 24%|██▍       | 1786/7306 [01:14<03:42, 24.77it/s] 24%|██▍       | 1789/7306 [01:14<03:42, 24.82it/s] 25%|██▍       | 1792/7306 [01:14<03:42, 24.78it/s] 25%|██▍       | 1795/7306 [01:14<03:42, 24.82it/s] 25%|██▍       | 1798/7306 [01:14<03:42, 24.77it/s] 25%|██▍       | 1801/7306 [01:14<03:42, 24.80it/s] 25%|██▍       | 1804/7306 [01:14<03:42, 24.75it/s] 25%|██▍       | 1807/7306 [01:14<03:41, 24.78it/s] 25%|██▍       | 1810/7306 [01:15<03:41, 24.78it/s] 25%|██▍       | 1813/7306 [01:15<03:41, 24.81it/s] 25%|██▍       | 1816/7306 [01:15<03:41, 24.77it/s] 25%|██▍       | 1819/7306 [01:15<03:41, 24.82it/s] 25%|██▍       | 1822/7306 [01:15<03:41, 24.78it/s] 25%|██▍       | 1825/7306 [01:15<03:40, 24.81it/s] 25%|██▌       | 1827/7306 [01:15<03:47, 24.08it/s]
+  0%|          | 0/20738 [00:00<?, ?it/s] 31%|███       | 6392/20738 [00:00<00:00, 63915.95it/s] 62%|██████▏   | 12800/20738 [00:00<00:00, 63642.26it/s] 94%|█████████▍| 19456/20738 [00:00<00:00, 64319.48it/s]100%|██████████| 20738/20738 [00:00<00:00, 64756.71it/s]
+  0%|          | 0/30485 [00:00<?, ?it/s]  5%|▌         | 1536/30485 [00:00<00:02, 12772.91it/s] 10%|█         | 3072/30485 [00:00<00:02, 12818.13it/s] 15%|█▌        | 4608/30485 [00:00<00:02, 12924.18it/s] 20%|██        | 6144/30485 [00:00<00:01, 12989.97it/s] 25%|██▌       | 7680/30485 [00:00<00:01, 13055.58it/s] 30%|███       | 9216/30485 [00:00<00:01, 13112.30it/s] 35%|███▌      | 10752/30485 [00:00<00:01, 13169.84it/s] 40%|████      | 12288/30485 [00:00<00:01, 13221.24it/s] 45%|████▌     | 13824/30485 [00:01<00:01, 13278.17it/s] 50%|█████     | 15360/30485 [00:01<00:01, 13307.71it/s] 55%|█████▌    | 16896/30485 [00:01<00:01, 13201.22it/s] 60%|██████    | 18432/30485 [00:01<00:00, 13146.62it/s] 66%|██████▌   | 19968/30485 [00:01<00:00, 13107.56it/s] 71%|███████   | 21504/30485 [00:01<00:00, 13100.71it/s] 76%|███████▌  | 23040/30485 [00:01<00:00, 13111.05it/s] 81%|████████  | 24576/30485 [00:01<00:00, 13144.67it/s] 86%|████████▌ | 26112/30485 [00:01<00:00, 13174.32it/s] 91%|█████████ | 27648/30485 [00:02<00:00, 13230.92it/s] 96%|█████████▌| 29184/30485 [00:02<00:00, 13291.50it/s]100%|██████████| 30485/30485 [00:02<00:00, 13240.60it/s]
+  0%|          | 0/91530 [00:00<?, ?it/s]  0%|          | 0/91530 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 513, in <module>
+    worker.run()
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 461, in run
+    epoch = self.train_runner()
+            ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 404, in train_runner
+    return self.train()
+           ^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 197, in train
+    dev_results, monitor_metric = dev_func()
+                                  ^^^^^^^^^^
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 222, in dev
+    results = self.evaluate(loader, metrics=[self.exp.store.metric])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 337, in evaluate
+    score_series, col_series = self.base_evaluate(loader, cols=[label_col, group_col, 'impression_id', 'article_id'])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/ONCE-extension/src/lib/Legommenders/worker.py", line 323, in base_evaluate
+    if batch[col].dim() == 2:
+       ~~~~~^^^^^
+KeyError: 'impression_id'
+srun: error: gcn40: task 0: Exited with exit code 1
+srun: Terminating StepId=6793024.0
+
+JOB STATISTICS
+==============
+Job ID: 6793024
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:06:42
+CPU Efficiency: 8.09% of 01:22:48 core-walltime
+Job Wall-clock time: 00:04:36
+Memory Utilized: 30.66 GB
+Memory Efficiency: 25.55% of 120.00 GB

@@ -64,7 +64,7 @@ from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM,LlamaMod
 import numpy as np
 from transformers import LlamaModel
 
-pretrained_dir = 'llama-7b/' #dont know if this is a valid pretrained dir
+pretrained_dir = '/scratch-shared/scur1569/llama-7b/' 
 # device = 'cuda:1'
 
 # Load pre-trained model (weights)
@@ -75,4 +75,8 @@ print(len(model.layers))
 model.eval()
 
 embeds = model.embed_tokens.weight.cpu().detach().numpy()
+
+#uncomment as needed
 np.save('/scratch-shared/scur1569/llama-7b/llama-token.npy', embeds)
+np.save('/scratch-shared/scur1569/llama-7b-sentiment/llama-token.npy', embeds)
+np.save('/scratch-shared/scur1569/llama-7b-once/llama-token.npy', embeds)

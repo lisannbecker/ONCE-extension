@@ -1,9 +1,10 @@
 from UniTok import UniDep
 
-
-news = UniDep('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news')
-news_llama = UniDep('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news-llama')
-
+#Update as needed
+news = UniDep('/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news')
+news_llama = UniDep('/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news-llama')
+# news = UniDep('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news')
+# news_llama = UniDep('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news-llama')
 
 news.rename_col('title', 'title-bert')
 news.rename_col('subtitle', 'subtitle-bert')
@@ -19,4 +20,6 @@ news_llama.rename_col('sentiment_label', 'sentiment_label-llama')
 
 news.inject(news_llama, ['title-llama', 'subtitle-llama', 'body-llama', 'category-llama', 'sentiment_label-llama'])
 
-news.export('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news-fusion')
+#Update as needed
+news.export('/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news-fusion')
+# news.export('/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment/news-fusion')

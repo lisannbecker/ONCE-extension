@@ -12,9 +12,9 @@ module purge
 module load 2022
 module load Anaconda3/2022.05
 
-cd $HOME/Legommenders/
+cd $HOME/ONCE-extension/src/lib/Legommenders/
 
-source activate dire_tokenize
+source activate once
 
 # pip install easydict gdown spacy
 # pip install accelerate

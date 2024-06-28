@@ -16,7 +16,7 @@ class Processor:
         self.data_dir = data_dir
         self.store_dir = store_dir
 
-        self.news_path = os.path.join(self.data_dir, 'articles_aug.parquet')
+        self.news_path = os.path.join(self.data_dir, 'articles.parquet')
 
         self.nid = Vocab(name='nid')
         self.uid = Vocab(name='uid')
@@ -43,16 +43,14 @@ class Processor:
 
     def read_news(self):
         df = pd.read_parquet(self.news_path)
-        df = df[['article_id', 'title', 'subtitle', 'body', 'category_str']]
-        df.columns = ['nid', 'title', 'subtitle', 'body', 'category']
+        df = df[['article_id', 'title', 'subtitle', 'body', 'category_str', 'sentiment_label']]
+        df.columns = ['nid', 'title', 'subtitle', 'body', 'category', 'sentiment_label']
         return df
 
     def read_user(self, mode='train'):
-        df = pd.read_parquet(os.path.join(self.data_dir, mode, 'history_aug.parquet'))
-        #df = df[['user_id', 'article_id_fixed']]
-        #df.columns = ['uid', 'history']
-        df = df[['user_id', 'article_id_fixed', 'topics', 'region']]
-        df.columns = ['uid', 'history', 'topics', 'region']
+        df = pd.read_parquet(os.path.join(self.data_dir, mode, 'history.parquet'))
+        df = df[['user_id', 'article_id_fixed']]
+        df.columns = ['uid', 'history']
         # uid 123 -> train_123
         df['uid'] = df['uid'].apply(lambda x: f'{mode}_{x}')
         # filter out items in the history that are not in the news
@@ -106,7 +104,6 @@ class Processor:
         text_tok = BertTok(name='bert', vocab_dir='google-bert/bert-base-multilingual-cased')
         cat_tok = EntTok(name='category')
         cat_tok.pre_handler = self.category_handler
-
         return UniTok().add_col(Column(
             tok=IdTok(vocab=self.nid),
         )).add_col(Column(
@@ -124,9 +121,12 @@ class Processor:
         )).add_col(Column(
             name='category',
             tok=cat_tok,
+        )).add_col(Column(
+            name='sentiment_label',
+            tok=cat_tok
         ))
 
-    def get_user_tok(self, max_history: int = 0, max_topics = 0):
+    def get_user_tok(self, max_history: int = 0):
         return UniTok().add_col(Column(
             tok=IdTok(vocab=self.uid),
         )).add_col(Column(
@@ -134,13 +134,6 @@ class Processor:
             tok=SeqTok(vocab=self.nid),
             max_length=max_history,
             slice_post=True,
-        )).add_col(Column(
-            name='topics',
-            tok=SeqTok(vocab=Vocab(name='topics')),  # GENRE
-            max_length=max_topics, 
-        )).add_col(Column(
-            name='region',
-            tok=EntTok(name='region'),  # GENRE
         ))
 
     def get_inter_tok(self):
@@ -174,11 +167,8 @@ class Processor:
             print('loaded news from depot')
         else:
             news_df = self.read_news()
-
-
             news_tok = self.get_news_tok(
-                #max_title_len=20,
-                max_title_len=40, #doubled, as average title length is twice as long for the augmented dataset (81.89 vs 42.00)
+                max_title_len=20,
                 max_subtitle_len=60,
                 max_body_len=100,
             )
@@ -193,10 +183,11 @@ class Processor:
         else:   #Removing anywhere where it tries accessing 'test' folder
             train_user_df = self.read_user(mode='train')
             valid_user_df = self.read_user(mode='validation')
+            # test_user_df = self.read_user(mode='test')
 
-
+            # user_df = pd.concat([train_user_df, valid_user_df, test_user_df])
             user_df = pd.concat([train_user_df, valid_user_df])
-            user_tok = self.get_user_tok(max_history=50, max_topics = 5)
+            user_tok = self.get_user_tok(max_history=50)
             user_tok.read(user_df).tokenize().store(os.path.join(self.store_dir, 'user'))
             print('user processed')
         self.uid.deny_edit()
@@ -214,14 +205,16 @@ class Processor:
         neg_tok.read(neg_df).tokenize().store(os.path.join(self.store_dir, 'neg'))
 
 
-
-
 if __name__ == '__main__':
     processor = Processor(
-        data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
-        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"
+        
+        #Update as needed
+        data_dir="/scratch-shared/scur1569/ebnerd_small",
+        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment"
+        #data_dir="/scratch-shared/scur1569/ebnerd_large",
+        #store_dir="/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment"
     )
     processor.tokenize(load_news=False, load_user=False) #set both to False to (re)download test/validation/news tokenized folders
     # title: 25
     # subtitle: 60
-    # body: 1000
+    # body: 1000 /home/scur1569

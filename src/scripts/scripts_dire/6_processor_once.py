@@ -16,7 +16,7 @@ class Processor:
         self.data_dir = data_dir
         self.store_dir = store_dir
 
-        self.news_path = os.path.join(self.data_dir, 'articles.parquet')
+        self.news_path = os.path.join(self.data_dir, 'articles_aug.parquet')
 
         self.nid = Vocab(name='nid')
         self.uid = Vocab(name='uid')
@@ -48,9 +48,11 @@ class Processor:
         return df
 
     def read_user(self, mode='train'):
-        df = pd.read_parquet(os.path.join(self.data_dir, mode, 'history.parquet'))
-        df = df[['user_id', 'article_id_fixed']]
-        df.columns = ['uid', 'history']
+        df = pd.read_parquet(os.path.join(self.data_dir, mode, 'history_aug.parquet'))
+        #df = df[['user_id', 'article_id_fixed']]
+        #df.columns = ['uid', 'history']
+        df = df[['user_id', 'article_id_fixed', 'topics', 'region']]
+        df.columns = ['uid', 'history', 'topics', 'region']
         # uid 123 -> train_123
         df['uid'] = df['uid'].apply(lambda x: f'{mode}_{x}')
         # filter out items in the history that are not in the news
@@ -104,6 +106,7 @@ class Processor:
         text_tok = BertTok(name='bert', vocab_dir='google-bert/bert-base-multilingual-cased')
         cat_tok = EntTok(name='category')
         cat_tok.pre_handler = self.category_handler
+
         return UniTok().add_col(Column(
             tok=IdTok(vocab=self.nid),
         )).add_col(Column(
@@ -123,7 +126,7 @@ class Processor:
             tok=cat_tok,
         ))
 
-    def get_user_tok(self, max_history: int = 0):
+    def get_user_tok(self, max_history: int = 0, max_topics = 0):
         return UniTok().add_col(Column(
             tok=IdTok(vocab=self.uid),
         )).add_col(Column(
@@ -131,6 +134,13 @@ class Processor:
             tok=SeqTok(vocab=self.nid),
             max_length=max_history,
             slice_post=True,
+        )).add_col(Column(
+            name='topics',
+            tok=SeqTok(vocab=Vocab(name='topics')),  # GENRE
+            max_length=max_topics, 
+        )).add_col(Column(
+            name='region',
+            tok=EntTok(name='region'),  # GENRE
         ))
 
     def get_inter_tok(self):
@@ -164,8 +174,11 @@ class Processor:
             print('loaded news from depot')
         else:
             news_df = self.read_news()
+
+
             news_tok = self.get_news_tok(
-                max_title_len=20,
+                #max_title_len=20,
+                max_title_len=40, #doubled, as average title length is twice as long for the augmented dataset (81.89 vs 42.00)
                 max_subtitle_len=60,
                 max_body_len=100,
             )
@@ -180,11 +193,10 @@ class Processor:
         else:   #Removing anywhere where it tries accessing 'test' folder
             train_user_df = self.read_user(mode='train')
             valid_user_df = self.read_user(mode='validation')
-            # test_user_df = self.read_user(mode='test')
 
-            # user_df = pd.concat([train_user_df, valid_user_df, test_user_df])
+
             user_df = pd.concat([train_user_df, valid_user_df])
-            user_tok = self.get_user_tok(max_history=50)
+            user_tok = self.get_user_tok(max_history=50, max_topics = 5)
             user_tok.read(user_df).tokenize().store(os.path.join(self.store_dir, 'user'))
             print('user processed')
         self.uid.deny_edit()
@@ -197,24 +209,18 @@ class Processor:
         inter_tok = self.get_inter_tok()
         inter_tok.read(valid_inter_df).tokenize().store(os.path.join(self.store_dir, 'valid'))
 
-        # test_inter_df, test_neg_df = self.read_inters(mode='test')
-        # inter_tok = self.get_inter_tok()
-        # inter_tok.read(test_inter_df).tokenize().store(os.path.join(self.store_dir, 'test'))
-
-        # neg_df = pd.concat([train_neg_df, valid_neg_df, test_neg_df])
         neg_df = pd.concat([train_neg_df, valid_neg_df])
         neg_tok = self.get_neg_tok(max_neg=250)
         neg_tok.read(neg_df).tokenize().store(os.path.join(self.store_dir, 'neg'))
 
-        # for mode, inter in zip(['train', 'validation', 'test'], [train_inter_df, valid_inter_df, test_inter_df]):
-        #     inter_tok = self.get_inter_tok()
-        #     inter_tok.read(inter).tokenize().store(os.path.join(self.store_dir, mode))
+
 
 
 if __name__ == '__main__':
     processor = Processor(
-        data_dir="/home/scur1569/ebnerd_data/ebnerd_small",
-        store_dir="/home/scur1569/ebnerd_data/ebnerd_small_tokenized_2"
+    #Update as needed
+        data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
+        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"
     )
     processor.tokenize(load_news=False, load_user=False) #set both to False to (re)download test/validation/news tokenized folders
     # title: 25

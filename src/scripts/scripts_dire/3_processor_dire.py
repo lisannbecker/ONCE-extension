@@ -43,8 +43,8 @@ class Processor:
 
     def read_news(self):
         df = pd.read_parquet(self.news_path)
-        df = df[['article_id', 'title', 'subtitle', 'body', 'category_str', 'sentiment_label']]
-        df.columns = ['nid', 'title', 'subtitle', 'body', 'category', 'sentiment_label']
+        df = df[['article_id', 'title', 'subtitle', 'body', 'category_str']]
+        df.columns = ['nid', 'title', 'subtitle', 'body', 'category']
         return df
 
     def read_user(self, mode='train'):
@@ -121,9 +121,6 @@ class Processor:
         )).add_col(Column(
             name='category',
             tok=cat_tok,
-        )).add_col(Column(
-            name='sentiment_label',
-            tok=cat_tok
         ))
 
     def get_user_tok(self, max_history: int = 0):
@@ -200,19 +197,26 @@ class Processor:
         inter_tok = self.get_inter_tok()
         inter_tok.read(valid_inter_df).tokenize().store(os.path.join(self.store_dir, 'valid'))
 
+        # test_inter_df, test_neg_df = self.read_inters(mode='test')
+        # inter_tok = self.get_inter_tok()
+        # inter_tok.read(test_inter_df).tokenize().store(os.path.join(self.store_dir, 'test'))
+
+        # neg_df = pd.concat([train_neg_df, valid_neg_df, test_neg_df])
         neg_df = pd.concat([train_neg_df, valid_neg_df])
         neg_tok = self.get_neg_tok(max_neg=250)
         neg_tok.read(neg_df).tokenize().store(os.path.join(self.store_dir, 'neg'))
 
+        # for mode, inter in zip(['train', 'validation', 'test'], [train_inter_df, valid_inter_df, test_inter_df]):
+        #     inter_tok = self.get_inter_tok()
+        #     inter_tok.read(inter).tokenize().store(os.path.join(self.store_dir, mode))
+
 
 if __name__ == '__main__':
     processor = Processor(
-        #data_dir="ebnerd_small",
-        #store_dir="ebnerd_small_tokenized-sentiment"
-        data_dir="/scratch-shared/scur1569/ebnerd_large",
-        store_dir="/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment"
+        data_dir="/scratch-shared/scur1569/ebnerd_small",
+        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized"
     )
     processor.tokenize(load_news=False, load_user=False) #set both to False to (re)download test/validation/news tokenized folders
     # title: 25
     # subtitle: 60
-    # body: 1000 /home/scur1569
+    # body: 1000

@@ -86,10 +86,12 @@ class Processor:
 
 if __name__ == '__main__':
     processor = Processor(
-        #data_dir="ebnerd_small",
-        #store_dir="ebnerd_small_tokenized-sentiment"
-        data_dir="/scratch-shared/scur1569/ebnerd_large",
-        store_dir="/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment"
+
+        #Update as needed
+        data_dir="/scratch-shared/scur1569/ebnerd_small",
+        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment"
+        #data_dir="/scratch-shared/scur1569/ebnerd_large",
+        #store_dir="/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment"
     )
     processor.tokenize()
     # title: 25

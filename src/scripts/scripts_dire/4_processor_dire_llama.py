@@ -35,7 +35,7 @@ class Processor:
         self.data_dir = data_dir
         self.store_dir = store_dir
 
-        self.news_path = os.path.join(self.data_dir, 'articles_aug.parquet')
+        self.news_path = os.path.join(self.data_dir, 'articles.parquet')
 
         self.nid = Vocab(name='nid')
         self.uid = Vocab(name='uid')
@@ -72,8 +72,7 @@ class Processor:
     def tokenize(self):
         news_df = self.read_news()
         news_tok = self.get_news_tok(
-            #max_title_len=20,
-            max_title_len=40, #doubled, as average title length is twice as long for the augmented dataset (81.89 vs 42.00)
+            max_title_len=20,
             max_subtitle_len=60,
             max_body_len=100,
             max_cat_len=5,
@@ -84,8 +83,9 @@ class Processor:
 
 if __name__ == '__main__':
     processor = Processor(
-        data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
-        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"
+        data_dir="/scratch-shared/scur1569/ebnerd_small",
+        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized"
+
     )
     processor.tokenize()
     # title: 25

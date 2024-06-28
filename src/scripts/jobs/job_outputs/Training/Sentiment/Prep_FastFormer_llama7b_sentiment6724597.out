@@ -1,240 +1,0 @@
-============================================================================================== 
-Warning! Mixing Conda and module environments may lead to corruption of the
-user environment. 
-We do not recommend users mixing those two environments unless absolutely
-necessary. Note that 
-SURF does not provide any support for Conda environment.
-For more information, please refer to our software policy page:
-https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
-
-Remember that many packages have already been installed on the system and can
-be loaded using 
-the 'module load <package__name>' command. If you are uncertain if a package is
-already available 
-on the system, please use 'module avail' or 'module spider' to search for it.
-============================================================================================== 
-2024-06-24 09:12:43.900453: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2024-06-24 09:12:44.155443: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
-2024-06-24 09:12:44.155530: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
-2024-06-24 09:12:44.180906: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
-2024-06-24 09:12:44.237992: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2024-06-24 09:12:47.623863: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-[00:00:00] |Worker| START TIME: 2024-06-24 09:12:54.503412
-[00:00:00] |Worker| python  worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-fastformer-sentiment.yaml --exp config/exp/llama-split-sentiment.yaml --data config/data/eb-nerd-sentiment.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8
-[00:00:00] |Worker| {
-    "embed": {
-        "name": "llama-token",
-        "embeddings": [
-            {
-                "vocab_name": "llama",
-                "vocab_type": "numpy",
-                "path": "/scratch-shared/scur1569/llama-7b/llama-token.npy",
-                "frozen": true
-            }
-        ]
-    },
-    "model": {
-        "name": "LLAMA-Fastformer.D64.L0.Lora0",
-        "meta": {
-            "item": "Llama",
-            "user": "Fastformer",
-            "predictor": "Dot"
-        },
-        "config": {
-            "use_neg_sampling": true,
-            "use_item_content": true,
-            "max_item_content_batch_size": 0,
-            "same_dim_transform": false,
-            "embed_hidden_size": 4096,
-            "hidden_size": 64,
-            "neg_count": 4,
-            "item_config": {
-                "llm_dir": "/scratch-shared/scur1569/llama-7b-sentiment",
-                "layer_split": 0,
-                "lora": 0,
-                "weights_dir": "/scratch-shared/scur1569/llama-7b-sentiment"
-            },
-            "user_config": {
-                "num_attention_heads": 16,
-                "num_hidden_layers": 1,
-                "inputer_config": {
-                    "use_cls_token": false,
-                    "use_sep_token": false
-                }
-            }
-        }
-    },
-    "exp": {
-        "name": "test_llm_layer_split",
-        "dir": "saving/EB-NeRD/LLAMA-Fastformer.D64.L0.Lora0/llama-token-test_llm_layer_split",
-        "log": "saving/EB-NeRD/LLAMA-Fastformer.D64.L0.Lora0/llama-token-test_llm_layer_split/exp.log",
-        "mode": "test_llm_layer_split",
-        "store": {
-            "layers": [
-                31,
-                30,
-                29,
-                27
-            ],
-            "dir": "/scratch-shared/scur1569/llama-7b-sentiment"
-        },
-        "load": {
-            "save_dir": null,
-            "model_only": true,
-            "strict": true,
-            "wait": false
-        },
-        "policy": {
-            "device": "gpu",
-            "batch_size": 64
-        }
-    },
-    "data": {
-        "name": "EB-NeRD",
-        "base_dir": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment",
-        "item": {
-            "filter_cache": true,
-            "depot": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news-fusion",
-            "order": [
-                "title-llama",
-                "category-llama"
-            ],
-            "append": [
-                "nid"
-            ],
-            "lm_col": "title-llama"
-        },
-        "user": {
-            "filter_cache": true,
-            "depots": {
-                "train": {
-                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/train"
-                },
-                "dev": {
-                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid"
-                },
-                "test": {
-                    "path": "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid"
-                }
-            },
-            "union": [
-                "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/user",
-                "/scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/neg"
-            ],
-            "candidate_col": "nid",
-            "clicks_col": "history",
-            "label_col": "click",
-            "neg_col": "neg",
-            "group_col": "imp",
-            "user_col": "uid",
-            "sentiment_col": "sentiment_label",
-            "index_col": "index"
-        }
-    },
-    "version": "small",
-    "llm_ver": "7b",
-    "hidden_size": 64,
-    "layer": 0,
-    "lora": 0,
-    "fast_eval": 0,
-    "embed_hidden_size": 4096,
-    "page_size": 8,
-    "warmup": 0,
-    "simple_dev": false,
-    "batch_size": 64,
-    "acc_batch": 1,
-    "lora_r": 32,
-    "lr": 0.0001,
-    "item_lr": 1e-05,
-    "mind_large_submission": false,
-    "epoch_batch": 0,
-    "max_item_batch_size": 0,
-    "patience": 2,
-    "epoch_start": 0,
-    "frozen": true,
-    "load_path": null,
-    "rand": {},
-    "time": {},
-    "seed": 2023
-}
-[00:00:00] |GPU| choose 0 GPU with 28020 / 40960 MB
-[00:00:00] |Controller| dataset type:  book
-[00:00:00] |Controller| build column map ...
-loaded 2928942 samples from /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid
-[00:00:03] |CachingDep| load 0 filter caches on 
-        UniDep (2.0): /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid
-
-        Sample Size: 2928942
-        Id Column: index
-        Columns:
-        	index, vocab index (size 2928942)
-        	imp, vocab imp (size 244647)
-        	uid, vocab uid (size 30485)
-        	nid, vocab nid (size 20738)
-        	click, vocab click (size 2)
-
-loaded 2928942 samples from /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/valid
-modify sample_size to 30485
-loaded 30485 samples from /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/user
-loaded 30485 samples from /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/neg
-loaded 20738 samples from /scratch-shared/scur1569/ebnerd_small_tokenized-sentiment/news-fusion
-[00:00:07] |Controller| Selected Item Encoder: LlamaOperator
-[00:00:07] |Controller| Selected User Encoder: FastformerOperator
-[00:00:07] |Controller| Selected Predictor: DotPredictor
-[00:00:07] |Controller| Use Negative Sampling: True
-[00:00:07] |Controller| Use Item Content: True
-[00:00:08] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
-[00:00:08] |EmbeddingHub| skip col history
-[00:00:08] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
-[00:00:08] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
-[00:00:08] |EmbeddingHub| build mapping title-llama -> llama
-[00:00:08] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
-[00:00:08] |EmbeddingHub| keep transform size 4096
-[00:00:08] |EmbeddingHub| build mapping category-llama -> llama
-prompt_map {'newtitle': [529, 3257, 29958], 'subtitle': [529, 1491, 3257, 29958], 'title': [529, 3257, 29958], 'abs': [529, 16595, 29958], 'cat': [529, 7320, 29958], 'category': [529, 7320, 29958], 'subCat': [529, 1491, 7320, 29958], 'desc': [529, 16595, 29958], 'body': [529, 2587, 29958], 'sentiment_label': [1, 529, 18616, 2073, 29918, 1643, 29958]}
-Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:08<00:42,  8.49s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:17<00:34,  8.73s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:26<00:26,  8.68s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:34<00:17,  8.60s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:42<00:08,  8.49s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:46<00:00,  6.87s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:46<00:00,  7.75s/it]
-Some weights of the model checkpoint at /scratch-shared/scur1569/llama-7b-sentiment were not used when initializing LlamaModel: ['lm_head.weight']
-- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Some weights of LlamaModel were not initialized from the model checkpoint at /scratch-shared/scur1569/llama-7b-sentiment and are newly initialized: ['model.layers.24.self_attn.rotary_emb.inv_freq', 'model.layers.15.self_attn.rotary_emb.inv_freq', 'model.layers.21.self_attn.rotary_emb.inv_freq', 'model.layers.23.self_attn.rotary_emb.inv_freq', 'model.layers.26.self_attn.rotary_emb.inv_freq', 'model.layers.10.self_attn.rotary_emb.inv_freq', 'model.layers.31.self_attn.rotary_emb.inv_freq', 'model.layers.5.self_attn.rotary_emb.inv_freq', 'model.layers.0.self_attn.rotary_emb.inv_freq', 'model.layers.16.self_attn.rotary_emb.inv_freq', 'model.layers.22.self_attn.rotary_emb.inv_freq', 'model.layers.29.self_attn.rotary_emb.inv_freq', 'model.layers.1.self_attn.rotary_emb.inv_freq', 'model.layers.12.self_attn.rotary_emb.inv_freq', 'model.layers.9.self_attn.rotary_emb.inv_freq', 'model.layers.4.self_attn.rotary_emb.inv_freq', 'model.layers.18.self_attn.rotary_emb.inv_freq', 'model.layers.13.self_attn.rotary_emb.inv_freq', 'model.layers.6.self_attn.rotary_emb.inv_freq', 'model.layers.3.self_attn.rotary_emb.inv_freq', 'model.layers.27.self_attn.rotary_emb.inv_freq', 'model.layers.28.self_attn.rotary_emb.inv_freq', 'model.layers.14.self_attn.rotary_emb.inv_freq', 'model.layers.8.self_attn.rotary_emb.inv_freq', 'model.layers.11.self_attn.rotary_emb.inv_freq', 'model.layers.7.self_attn.rotary_emb.inv_freq', 'model.layers.30.self_attn.rotary_emb.inv_freq', 'model.layers.25.self_attn.rotary_emb.inv_freq', 'model.layers.2.self_attn.rotary_emb.inv_freq', 'model.layers.19.self_attn.rotary_emb.inv_freq', 'model.layers.20.self_attn.rotary_emb.inv_freq', 'model.layers.17.self_attn.rotary_emb.inv_freq']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-  0%|          | 0/20738 [00:00<?, ?it/s]  6%|▌         | 1149/20738 [00:00<00:01, 11480.29it/s] 11%|█▏        | 2353/20738 [00:00<00:01, 11807.75it/s] 17%|█▋        | 3544/20738 [00:00<00:01, 11853.65it/s] 23%|██▎       | 4730/20738 [00:00<00:01, 11811.27it/s] 29%|██▊       | 5926/20738 [00:00<00:01, 11863.84it/s] 34%|███▍      | 7113/20738 [00:00<00:01, 11840.23it/s] 40%|████      | 8314/20738 [00:00<00:01, 11893.94it/s] 46%|████▌     | 9504/20738 [00:00<00:00, 11893.56it/s] 52%|█████▏    | 10694/20738 [00:00<00:00, 11869.98it/s] 57%|█████▋    | 11888/20738 [00:01<00:00, 11890.07it/s] 63%|██████▎   | 13078/20738 [00:01<00:00, 11007.86it/s] 69%|██████▉   | 14274/20738 [00:01<00:00, 11280.12it/s] 75%|███████▍  | 15459/20738 [00:01<00:00, 11443.44it/s] 80%|████████  | 16662/20738 [00:01<00:00, 11613.19it/s] 86%|████████▌ | 17844/20738 [00:01<00:00, 11673.14it/s] 92%|█████████▏| 19031/20738 [00:01<00:00, 11731.02it/s] 98%|█████████▊| 20229/20738 [00:01<00:00, 11804.41it/s]100%|██████████| 20738/20738 [00:01<00:00, 11704.36it/s]
-Traceback (most recent call last):
-  File "/gpfs/home3/scur1569/sentiment-Legommenders/worker.py", line 488, in <module>
-    worker = Worker(config=configuration)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/gpfs/home3/scur1569/sentiment-Legommenders/worker.py", line 65, in __init__
-    self.legommender = self.controller.legommender.to(Meta.device)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1145, in to
-    return self._apply(convert)
-           ^^^^^^^^^^^^^^^^^^^^
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
-    module._apply(fn)
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
-    module._apply(fn)
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
-    module._apply(fn)
-  [Previous line repeated 3 more times]
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 820, in _apply
-    param_applied = fn(param)
-                    ^^^^^^^^^
-  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1143, in convert
-    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 172.00 MiB (GPU 0; 19.50 GiB total capacity; 19.05 GiB already allocated; 143.88 MiB free; 19.05 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
-
-JOB STATISTICS
-==============
-Job ID: 6724597
-Cluster: snellius
-User/Group: scur1569/scur1569
-State: FAILED (exit code 1)
-Nodes: 1
-Cores per node: 9
-CPU Utilized: 00:02:03
-CPU Efficiency: 9.43% of 00:21:45 core-walltime
-Job Wall-clock time: 00:02:25
-Memory Utilized: 27.99 GB
-Memory Efficiency: 46.65% of 60.00 GB

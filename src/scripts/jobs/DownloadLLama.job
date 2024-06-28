@@ -12,14 +12,14 @@ module purge
 module load 2022
 module load Anaconda3/2022.05
 
-cd $HOME/ebnerd_data/
+cd $HOME/ONCE-extension/src/scripts/scripts_dire/
 
-source activate dire_tokenize
+source activate once
 
 # pip install easydict gdown spacy
 # pip install accelerate
 # pip install -i https://pypi.org/simple/ bitsandbytes
 # srun python -m spacy download en_core_web_sm
 
-# srun python 4_missing_file.py
-srun python 2_download_llama_vocab_model.py
+srun python 1_download_llama_vocab_model.py
+srun python 2_download_llama_embeddings.py
