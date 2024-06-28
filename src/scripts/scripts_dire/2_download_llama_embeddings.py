@@ -64,7 +64,11 @@ from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM,LlamaMod
 import numpy as np
 from transformers import LlamaModel
 
-pretrained_dir = '/scratch-shared/scur1569/llama-7b/' 
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.abspath(os.path.join(current_script_dir, '../../data'))
+pretrained_dir = os.path.join(data_dir, 'llama-7b')
+#pretrained_dir = '/scratch-shared/scur1569/llama-7b/' 
+
 # device = 'cuda:1'
 
 # Load pre-trained model (weights)
@@ -76,7 +80,12 @@ model.eval()
 
 embeds = model.embed_tokens.weight.cpu().detach().numpy()
 
-#uncomment as needed
-np.save('/scratch-shared/scur1569/llama-7b/llama-token.npy', embeds)
-np.save('/scratch-shared/scur1569/llama-7b-sentiment/llama-token.npy', embeds)
-np.save('/scratch-shared/scur1569/llama-7b-once/llama-token.npy', embeds)
+save_dirs = ['llama-7b', 'llama-7b-sentiment', 'llama-7b-once']
+for save_dir in save_dirs:
+    output_file_path = os.path.join(data_dir, save_dir, 'llama-token.npy')
+    np.save(output_file_path, embeds)
+
+
+# np.save('/scratch-shared/scur1569/llama-7b/llama-token.npy', embeds)
+# np.save('/scratch-shared/scur1569/llama-7b-sentiment/llama-token.npy', embeds)
+# np.save('/scratch-shared/scur1569/llama-7b-once/llama-token.npy', embeds)

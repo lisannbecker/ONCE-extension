@@ -3,7 +3,7 @@ Eb-nerd processor provided by author on 16-06-204. Creates news-llama
 """
 
 
-import os.path
+import os
 
 import pandas as pd
 from UniTok import UniTok, Column, Vocab, UniDep
@@ -83,10 +83,20 @@ class Processor:
 
 
 if __name__ == '__main__':
+    script_dir = os.path.dirname(__file__)
+
+    data_dir = os.path.join(script_dir, '..', '..', 'data', 'ebnerd_augmented') #Update as needed
+    store_dir = os.path.join(script_dir, '..', '..', 'data', 'ebnerd_small_tokenized-genre') #Update as needed
+
+    data_dir = os.path.normpath(data_dir)
+    store_dir = os.path.normpath(store_dir)
+
     processor = Processor(
-    #Update as needed
-        data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
-        store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"
+        data_dir="data_dir",
+        store_dir="store_dir"
+
+        #data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
+        #store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"
     )
     processor.tokenize()
     # title: 25
