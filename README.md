@@ -30,7 +30,27 @@ python src/scripts/scripts_dire/2_download_llama_embeddings.py
 
 ## Reproduction
 ### GENRE Implementation
+```bash
+conda activate genre
+```
 
+Move to the Once repository
+
+```bash
+cd src/lib/ONCE/
+```
+
+### Overview
+We call GPT-3.5-turbo API provided by OpenAI as closed-source LLM. All the request codes are uploaded in this repository.
+
+### Codes and corresponding generated data
+
+|  Dataset  |            Schemes             |           Request Code           |                            Generated Data                            |
+|:---------:|:------------------------------:|:--------------------------------:|:--------------------------------------------------------------------:|
+|   EB-NeRD |       Content Summarizer       |       `news_summarizer.py`       |           `data/eb-nerd/eb-nerd-outputs/news_summarizer.log`         |
+|   EB-NeRD |       User Profiler Train      |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler.log`           |
+|   EB-NeRD |       User Profiler Val        |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler_val.log`       |
+|   EB-NeRD | Personalized Content Generator | `personalized_news_generator.py` |           `data/eb-nerd/eb-nerd-outputs/generator_v3.log`            |
 
 ### DIRE Implementation
 ```bash
