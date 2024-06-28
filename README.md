@@ -51,7 +51,7 @@ Move to the GENRE repository:
 cd src/lib/GENRE/
 ```
 
-The EB-NeRD data is located in [`src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small`](src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small). To convert the EB-NeRD articles to match the ONCE datatype, run:
+Move or duplicate the EB-NeRD data to this folder for GENRE implementation [`src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small`](src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small). To convert the EB-NeRD articles to match the ONCE datatype, run:
 
 ```bash
 python src/lib/GENRE/scripts_genre/articles_process.py
