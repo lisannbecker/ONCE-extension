@@ -11,6 +11,7 @@
 - Linux or Windows with Python = 3.11
 
 ### Environment Setup
+For DIRE and ONCE:
 ```bash
 conda create --name once python=3.11 
 conda activate once
