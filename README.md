@@ -50,7 +50,7 @@ We call GPT-3.5-turbo API provided by OpenAI as closed-source LLM. All the reque
 |   EB-NeRD |       Content Summarizer       |       `news_summarizer.py`       |           `data/eb-nerd/eb-nerd-outputs/news_summarizer.log`         |
 |   EB-NeRD |       User Profiler Train      |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler.log`           |
 |   EB-NeRD |       User Profiler Val        |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler_val.log`       |
-|   EB-NeRD | Personalized Content Generator | `personalized_news_generator.py` |           `data/eb-nerd/eb-nerd-outputs/generator_v3.log`            |
+<!-- |   EB-NeRD | Personalized Content Generator | `personalized_news_generator.py` |           `data/eb-nerd/eb-nerd-outputs/generator_v3.log`            | -->
 
 ### DIRE Implementation
 ```bash
