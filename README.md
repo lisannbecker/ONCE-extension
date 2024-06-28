@@ -18,9 +18,14 @@ conda activate once
 pip install -r requirements_once.txt
 ```
 
-Run the following script to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) (to [`src/lib/XXX/`](src/lib/XXX/)):
+### Model and Data Download
+Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move to TODO XXX
+
+Run the following scripts to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) and its embeddings:
 ```bash
-bash XXX/download_coco.sh
+python src/scripts/scripts_dire/1_download_llama_vocab_model.py
+
+src/scripts/scripts_dire/2_download_llama_embeddings.py
 ```
 
 ### GENRE Implementation
