@@ -94,7 +94,7 @@ python src/scripts/scripts_dire/4_processor_dire_llama.py
 python src/scripts/scripts_dire/5_ebnerd_fusion_dire.py
 ```
 
-Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms'. You will need to update the config files to point to [`src/data/`](src/data/):
 ```bash
 cd src/lib/Legommenders/
 
