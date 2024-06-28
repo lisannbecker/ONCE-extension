@@ -41,7 +41,7 @@ python src/scripts/scripts_dire/2_download_llama_embeddings.py
 ```
 
 ## Reproduction
-### GENRE Implementation
+### GENRE Implementation: Prompting Closed-source LLMs for Content-based Recommendation
 ```bash
 conda activate genre
 ```
@@ -82,7 +82,7 @@ To obtain statistics of the augmented data, run the following script:
 python src/lib/GENRE/scripts_genre/statistics_eb_nerd.py
 ```
 
-### DIRE Implementation
+### DIRE Implementation: Finetuning Open-source LLMs for Content-based Recommendation
 ```bash
 conda activate once
 ```
