@@ -3,9 +3,9 @@ import os
 import numpy as np
 
 import pandas as pd
-#from UniTok import UniDep
+from UniTok import UniDep
 from tqdm import tqdm
-
+## We had to modify these classes to be compatible for the EB-NeRD dataset, though they are still called the same for the sake of simplicity
 
 class MindPrompter:
     def __init__(self, data_path):
