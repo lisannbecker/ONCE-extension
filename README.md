@@ -6,6 +6,9 @@
 
 ---
 
+This project aims to reproduce and add an extension to the paper of ["ONCE: Boosting Content-based Recommendation with Both Open- and Closed-source Large Language Models"]([https://dl.acm.org/doi/pdf/10.1145/3616855.3635845?casa_token=OO-BH8lyeAwAAAAA:rtMOl0GST3o9NKwshn3hIYh2eBk_HCkbiIMPeO3gEBP3VQP8vpxT6pXpkutaOyNWseCGVy23iCED9g]) by Liu et al. (2024). Please request our report for detailed information on the implementation of our reproduction and extension of the [ONCE architecture]([https://github.com/frank-xwang/InstanceDiffusion](https://github.com/Jyonn/ONCE]).  
+
+
 ## Installations
 ### Requirements
 - Linux or Windows with Python = 3.11
