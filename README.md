@@ -124,7 +124,7 @@ python src/scripts/scripts_dire/7_processor_llama_once.py
 python src/scripts/scripts_dire/8_ebnerd_fusion_once.py
 ```
 
-Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms'. You will need to update the config files to point to [`src/data/`](src/data/):
 ```bash
 cd src/lib/Legommenders/
 
@@ -151,7 +151,7 @@ python src/scripts/scripts_dire/11_ebnerd_fusion-sentiment.py
 
 Prepare script: open [`src/lib/Legommenders/model/inputer/llm_concat_inputer.py`](src/lib/Legommenders/model/inputer/llm_concat_inputer.py) and uncomment line 38. If you are curious what is behind the list check [`/src/scripts/scripts_dire/0_get_col_prompts_additions.py`](/src/scripts/scripts_dire/0_get_col_prompts_additions.py).
 
-Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms'. You will need to update the config files to point to [`src/data/`](src/data/):
 ```bash
 cd src/lib/Legommenders/
 
