@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import os
 
 def load_log_file(file_path):
     with open(file_path, 'r') as file:
@@ -69,15 +70,18 @@ def process_files(log_file_path, behavior_file_path, output_file_path):
     print(merged_df)
     merged_df.to_parquet(output_file_path)
 
+# Define base path
+base_path = os.path.expanduser('~')
+
 # Paths for training files
-train_log_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/user_profiler.log'
-train_behavior_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet'
-train_output_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/train/history_aug.parquet'
+train_log_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-outputs/user_profiler.log'
+train_behavior_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet'
+train_output_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/train/history_aug.parquet'
 
 # Paths for validation files
-val_log_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/user_profiler_val.log'
-val_behavior_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/validation/history.parquet'
-val_output_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/validation/history_aug.parquet'
+val_log_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-outputs/user_profiler_val.log'
+val_behavior_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/validation/history.parquet'
+val_output_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/validation/history_aug.parquet'
 
 # Process training files
 process_files(train_log_file_path, train_behavior_file_path, train_output_file_path)

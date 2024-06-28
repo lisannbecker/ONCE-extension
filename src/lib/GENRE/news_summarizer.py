@@ -1,4 +1,5 @@
 import time
+import os
 
 from tqdm import tqdm
 
@@ -9,7 +10,11 @@ MIN_INTERVAL = 1.5
 
 # concise
 
-news_list = MindPrompter('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/articles_data/news_ebnerd.tsv').stringify()
+base_path = os.path.expanduser('~')
+news_data_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/news_ebnerd.tsv')
+
+
+news_list = MindPrompter(news_data_path).stringify()
 system = """You are asked to act as a news title enhancer. I will provide you a piece of news, with its original title, category, subcategory, and abstract (if exists). The news format is as below:
 
 [title] {title}
@@ -24,7 +29,7 @@ where {title}, {abstract}, {category}, and {subcategory} will be filled with con
 where {newtitle} should be filled with the enhanced title. Now, your role of news title enhancer formally begins. Any other information should not disturb your role."""
 
 
-save_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/news_summarizer.log'
+save_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-outputs/news_summarizer.log')
 
 exist_set = set()
 with open(save_path, 'r') as f:

@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def load_log_file(file_path):
     with open(file_path, 'r') as file:
@@ -36,10 +37,13 @@ def process_files(log_file_path, articles_file_path, output_file_path):
 
     merged_df.to_parquet(output_file_path)
 
+# Define base path
+base_path = os.path.expanduser('~')
+
 # Paths for training files
-train_log_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/news_summarizer.log'
-train_articles_file_path = '/home/scur1569/ebnerd_data/ebnerd_small/articles.parquet'
-train_output_file_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/articles_aug.parquet'
+train_log_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-outputs/news_summarizer.log'
+train_articles_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/articles.parquet'
+train_output_file_path = f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/articles_aug.parquet'
 
 # Process training files
 process_files(train_log_file_path, train_articles_file_path, train_output_file_path)

@@ -1,5 +1,6 @@
 import json
 import time
+import os
 
 
 from tqdm import tqdm
@@ -11,8 +12,12 @@ MIN_INTERVAL = 0
 
 # concise
 
-mind_prompter = MindPrompter('/home/scur1569/ebnerd_data/genre_data/news_ebnerd.tsv')
-user_list = MindColdUser('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet', mind_prompter).stringify()
+base_path = os.path.expanduser('~')
+mind_prompter_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/news_ebnerd.tsv')
+user_list_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet')
+
+mind_prompter = MindPrompter(mind_prompter_path)
+user_list = MindColdUser(user_list_path, mind_prompter).stringify()
 
 system = """You are asked to capture user's interest based on his/her browsing history, and generate a piece of news that he/she may be interested. The format of history is as below:
 
@@ -47,7 +52,7 @@ where <news category> is limited to the following options:
 
 "title", "abstract", and "category" should be the only keys in the json dict. The news should be diverse, that is not too similar with the original provided news list. You are not allowed to response any other words for any explanation or note. JUST GIVE ME JSON-FORMAT NEWS. Now, the task formally begins. Any other information should not disturb you."""
 
-save_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/generator_v4_10.log'
+save_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-outputs/generator_v3.log')
 
 exist_set = set()
 with open(save_path, 'r') as f:

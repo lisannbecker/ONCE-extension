@@ -1,19 +1,21 @@
 import pandas as pd
 import numpy as np
+import os
+
+# Define base path
+base_path = os.path.expanduser('~')
 
 # Load the data
-history_data = pd.read_parquet('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet')
-history_data_val = pd.read_parquet('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/validation/history.parquet')
+history_data = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet')
+history_data_val = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/validation/history.parquet')
 history_data = pd.concat([history_data, history_data_val], ignore_index=True)
-articles_df = pd.read_parquet('/home/scur1569/ebnerd_data/ebnerd_small/articles.parquet')
+articles_df = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/articles.parquet')
 
 # Load in augmented data
-history_data_aug = pd.read_parquet('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/train/history_aug.parquet')
-history_data_aug_val = pd.read_parquet('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/validation/history_aug.parquet')
+history_data_aug = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/train/history_aug.parquet')
+history_data_aug_val = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/validation/history_aug.parquet')
 history_data_aug = pd.concat([history_data_aug, history_data_aug_val], ignore_index=True)
-articles_aug_df = pd.read_parquet('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/articles_aug.parquet')
-
-
+articles_aug_df = pd.read_parquet(f'{base_path}/GENRE/data/eb-nerd/eb-nerd-data/eb-nerd_augmented_data/articles_aug.parquet')
 
 # Calculate statistics
 num_content = articles_df.shape[0]

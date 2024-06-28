@@ -3,7 +3,7 @@ import itertools
 import os
 
 # Ensure the directory exists
-output_dir = 'ONCE/data/eb-nerd/eb-nerd-data/articles_data'
+output_dir = 'GENRE/data/eb-nerd/eb-nerd-data/articles_data'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -27,4 +27,4 @@ selected_columns.columns = ['nid', 'cat', 'subcat', 'title', 'abs']
 # print(selected_columns.head())
 
 # Saving the selected columns to a TSV file
-selected_columns.to_csv('ONCE/data/eb-nerd/eb-nerd-data/articles_data/news_ebnerd.tsv', sep='\t', index=False)
+selected_columns.to_csv('GENRE/data/eb-nerd/eb-nerd-data/articles_data/news_ebnerd.tsv', sep='\t', index=False)

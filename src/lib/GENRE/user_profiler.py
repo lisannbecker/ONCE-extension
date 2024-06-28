@@ -1,5 +1,6 @@
 import json
 import time
+import os
 
 from tqdm import tqdm
 
@@ -10,8 +11,12 @@ MIN_INTERVAL = 0
 
 # concise
 
-mind_prompter = MindPrompter('/home/scur1569/ebnerd_data/genre_data/news_ebnerd.tsv')
-user_list = MindUser('/home/scur1569/ONCE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet', mind_prompter).stringify()
+base_path = os.path.expanduser('~')
+mind_prompter_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/news_ebnerd.tsv')
+user_list_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet')
+
+mind_prompter = MindPrompter(mind_prompter_path)
+user_list = MindUser(user_list_path, mind_prompter).stringify()
 
 system = """You are asked to describe user interest based on his/her browsed news list, the format of which is as below:
 
@@ -56,7 +61,7 @@ and the region should be limited to each state of the US.
 
 Only [topics] and [region] can be appeared in your response. If you think region are hard to predict, leave it blank. Your response topic/region list should be ordered, that the first several options should be most related to the user's interest. You are not allowed to response any other words for any explanation or note. Now, the task formally begins. Any other information should not disturb you."""
 
-save_path = '/home/scur1569/ONCE/data/eb-nerd/eb-nerd-outputs/user_profiler.log'
+save_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-outputs/user_profiler.log')
 
 exist_set = set()
 with open(save_path, 'r') as f:
