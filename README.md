@@ -27,9 +27,9 @@ pip install -r requirements_genre.txt
 ```
 
 ### Model and Data Download
-Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move the data to your data to /src/data/.
+Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move the data to your data to [`src/data/`](src/data/).
 
-Run the following scripts to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) and its embeddings to /src/data/:
+Run the following scripts to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) and its embeddings to [`src/data/`](src/data/):
 ```bash
 python src/scripts/scripts_dire/1_download_llama_vocab_model.py
 
@@ -83,7 +83,7 @@ python src/lib/GENRE/scripts_genre/statistics_eb_nerd.py
 conda activate once
 ```
 
-Tokenize the EB-NeRD data located in /src/data/ with the basic tokenizer:
+Tokenize the EB-NeRD data located in [`src/data/`](src/data/) with the basic tokenizer:
 ```bash
 python src/scripts/scripts_dire/3_processor_dire.py
 python src/scripts/scripts_dire/4_processor_dire_llama.py
@@ -109,7 +109,7 @@ python worker.py  --data config/data/eb-nerd.yaml --embed config/embed/llama-tok
 conda activate once
 ```
 
-Tokenize the EB-NeRD data located in /src/data/ with the tokenizer for the basic data and topics and region:
+Tokenize the EB-NeRD data located in [`src/data/`](src/data/) with the tokenizer for the basic data and topics and region:
 ```bash
 python src/scripts/scripts_dire/6_processor_once.py
 python src/scripts/scripts_dire/7_processor_llama_once.py
@@ -134,14 +134,14 @@ python worker.py  --data config/data/eb-nerd-once.yaml --embed config/embed/llam
 conda activate once
 ```
 
-Tokenize the EB-NeRD data located in /src/data/ with the tokenizer for the basic data and sentiment:
+Tokenize the EB-NeRD data located in [`src/data/`](src/data/) with the tokenizer for the basic data and sentiment:
 ```bash
 python src/scripts/scripts_dire/9_processor_sentiment.py
 python src/scripts/scripts_dire/10_processor_llama_sentiment.py
 python src/scripts/scripts_dire/11_ebnerd_fusion-sentiment.py
 ```
 
-Prepare script: open /src/lib/Legommenders/model/inputer/llm_concat_inputer.py and uncomment line 38. If you are curious what is behind the list check /src/scripts/scripts_dire/0_get_col_prompts_additions.py.
+Prepare script: open [`src/lib/Legommenders/model/inputer/llm_concat_inputer.py`](src/lib/Legommenders/model/inputer/llm_concat_inputer.py) and uncomment line 38. If you are curious what is behind the list check [`/src/scripts/scripts_dire/0_get_col_prompts_additions.py`](/src/scripts/scripts_dire/0_get_col_prompts_additions.py).
 
 Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
 ```bash
