@@ -26,9 +26,9 @@ pip install -r requirements_genre.txt
 ```
 
 ### Model and Data Download
-Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move to TODO XXX
+Navigate to the [Ekstra Bladet](https://recsys.eb.dk) website to download the small and/or large EB-NeRD dataset. Move the data to your data to /src/data/.
 
-Run the following scripts to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) and its embeddings:
+Run the following scripts to download the [LLaMA 7b model](https://huggingface.co/huggyllama/llama-7b?library=transformers) and its embeddings to /src/data/:
 ```bash
 python src/scripts/scripts_dire/1_download_llama_vocab_model.py
 
@@ -42,7 +42,6 @@ conda activate genre
 ```
 
 Move to the GENRE repository:
-
 ```bash
 cd src/lib/GENRE/
 ```
@@ -83,11 +82,18 @@ python src/lib/GENRE/scripts_genre/statistics_eb_nerd.py
 conda activate once
 ```
 
-Move to the Legommenders repository and pre-train:
+Tokenize the EB-NeRD data located in /src/data/ with the basic tokenizer:
+```bash
+python src/scripts/scripts_dire/3_processor_dire.py
+python src/scripts/scripts_dire/4_processor_dire_llama.py
+python src/scripts/scripts_dire/5_ebnerd_fusion_dire.py
+```
+
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
 ```bash
 cd src/lib/Legommenders/
 
-TODO
+python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-{yourModel}.yaml --exp config/exp/llama-split.yaml --data config/data/eb-nerd.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8 --cuda -1
 ```
 
 Training and testing with default parameters:
@@ -100,16 +106,23 @@ TODO
 conda activate once
 ```
 
-Move to the Legommenders repository and pre-train:
+Tokenize the EB-NeRD data located in /src/data/ with the tokenizer for the basic data and topics and region:
+```bash
+python src/scripts/scripts_dire/6_processor_once.py
+python src/scripts/scripts_dire/7_processor_llama_once.py
+python src/scripts/scripts_dire/8_ebnerd_fusion_once.py
+```
+
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
 ```bash
 cd src/lib/Legommenders/
 
-python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-fastformer-once.yaml --exp config/exp/llama-split-once.yaml --data config/data/eb-nerd-once.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8
+python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-{yourModel}-once.yaml --exp config/exp/llama-split-once.yaml --data config/data/eb-nerd-once.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8
 ```
 
 Training and testing with default parameters:
 ```bash
-python worker.py  --data config/data/eb-nerd-once.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-fastformer-once.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4  
+python worker.py  --data config/data/eb-nerd-once.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-{yourModel}-once.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4  
 ```
 
 ## Extension
@@ -118,14 +131,23 @@ python worker.py  --data config/data/eb-nerd-once.yaml --embed config/embed/llam
 conda activate once
 ```
 
-Move to the Legommenders repository and pre-train:
+Tokenize the EB-NeRD data located in /src/data/ with the tokenizer for the basic data and sentiment:
+```bash
+python src/scripts/scripts_dire/9_processor_sentiment.py
+python src/scripts/scripts_dire/10_processor_llama_sentiment.py
+python src/scripts/scripts_dire/11_ebnerd_fusion-sentiment.py
+```
+
+Prepare script: open /src/lib/Legommenders/model/inputer/llm_concat_inputer.py and uncomment line 38. If you are curious what is behind the list check /src/scripts/scripts_dire/0_get_col_prompts_additions.py.
+
+Move to the Legommenders repository and pre-train. Replace {yourModel} with the recommender model you would like to use out of 'fastformer', 'naml', or 'nrms':
 ```bash
 cd src/lib/Legommenders/
 
-python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-fastformer-sentiment.yaml --exp config/exp/llama-split-sentiment.yaml --data config/data/eb-nerd-sentiment.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8 --cuda -1
+python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-{yourModel}-sentiment.yaml --exp config/exp/llama-split-sentiment.yaml --data config/data/eb-nerd-sentiment.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8 --cuda -1
 ```
 
 Training and testing with default parameters:
 ```bash
-python worker.py  --data config/data/eb-nerd-sentiment.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-fastformer-sentiment.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4 
+python worker.py  --data config/data/eb-nerd-sentiment.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-{yourModel}-sentiment.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4 
 ```
