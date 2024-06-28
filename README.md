@@ -6,7 +6,7 @@
 
 ---
 
-## Installation
+## Installations
 ### Requirements
 - Linux or Windows with Python = 3.11
 
@@ -28,6 +28,7 @@ python src/scripts/scripts_dire/1_download_llama_vocab_model.py
 src/scripts/scripts_dire/2_download_llama_embeddings.py
 ```
 
+## Reproduction
 ### GENRE Implementation
 
 
@@ -65,8 +66,8 @@ Training and testing with default parameters:
 python worker.py  --data config/data/eb-nerd-once.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-fastformer-once.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4  
 ```
 
-
-### Extension/ DIRE with Sentiment
+## Extension
+### DIRE with Sentiment
 ```bash
 conda activate once
 ```
