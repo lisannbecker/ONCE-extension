@@ -13,7 +13,7 @@ MIN_INTERVAL = 0
 # concise
 
 base_path = os.path.expanduser('~')
-mind_prompter_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/news_ebnerd.tsv')
+mind_prompter_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/news_ebnerd.tsv')
 user_list_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/train/history.parquet')
 
 mind_prompter = MindPrompter(mind_prompter_path)

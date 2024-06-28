@@ -11,7 +11,7 @@ MIN_INTERVAL = 1.5
 # concise
 
 base_path = os.path.expanduser('~')
-news_data_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small/news_ebnerd.tsv')
+news_data_path = os.path.join(base_path, 'ONCE-extension/src/lib/GENRE/data/eb-nerd/eb-nerd-data/news_ebnerd.tsv')
 
 
 news_list = MindPrompter(news_data_path).stringify()
