@@ -47,7 +47,11 @@ class Processor:
         return df
 
     def get_news_tok(self, max_title_len=0, max_subtitle_len=0, max_body_len=0, max_cat_len=0):
-        text_tok = LlamaTok(name='llama', vocab_dir='llama_tokenizer')
+        current_script_dir = os.path.dirname(os.path.abspath(__file__))
+        vocab_dir = os.path.abspath(os.path.join(current_script_dir, '..', 'llama_tokenizer'))
+
+        text_tok = LlamaTok(name='llama', vocab_dir=vocab_dir)
+        #text_tok = LlamaTok(name='llama', vocab_dir='llama_tokenizer')
 
         return UniTok().add_col(Column(
             tok=IdTok(vocab=self.nid),
@@ -92,8 +96,8 @@ if __name__ == '__main__':
     store_dir = os.path.normpath(store_dir)
 
     processor = Processor(
-        data_dir="data_dir",
-        store_dir="store_dir"
+        data_dir=data_dir,
+        store_dir=store_dir
 
         #data_dir="/home/scur1569/ebnerd_data/ebnerd_augmented",
         #store_dir="/scratch-shared/scur1569/ebnerd_small_tokenized-genre"

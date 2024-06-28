@@ -215,8 +215,8 @@ if __name__ == '__main__':
     store_dir = os.path.normpath(store_dir)
 
     processor = Processor(
-        data_dir="data_dir",
-        store_dir="store_dir"
+        data_dir=data_dir,
+        store_dir=store_dir
         #data_dir="/scratch-shared/scur1569/ebnerd_large",
         #store_dir="/scratch-shared/scur1569/ebnerd_large_tokenized-sentiment"
     )
