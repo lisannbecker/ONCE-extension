@@ -25,7 +25,7 @@ Run the following scripts to download the [LLaMA 7b model](https://huggingface.c
 ```bash
 python src/scripts/scripts_dire/1_download_llama_vocab_model.py
 
-src/scripts/scripts_dire/2_download_llama_embeddings.py
+python src/scripts/scripts_dire/2_download_llama_embeddings.py
 ```
 
 ## Reproduction
