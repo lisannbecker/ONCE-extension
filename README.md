@@ -34,6 +34,13 @@ conda activate once
 Move to the Legommenders repository and pre-train:
 ```bash
 cd src/lib/Legommenders/
+
+TODO
+```
+
+Training and testing with default parameters:
+```bash
+TODO
 ```
 
 ### ONCE
