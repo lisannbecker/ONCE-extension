@@ -8,9 +8,9 @@
 
 ## Installation
 ### Requirements
-- Linux or macOS with Python = 3.11
+- Linux or Windows with Python = 3.11
 
-- ### Environment Setup
+### Environment Setup
 ```bash
 conda create --name once python=3.11 
 conda activate once
