@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=PrepONCE
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --time=03:10:00
+#SBATCH --output=job_outputs/Training/ONCE/FastFormer_llama7b_once%A.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+cd $HOME/sentiment-Legommenders/
+
+source activate dire_tokenize
+
+srun python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-fastformer-once.yaml --exp config/exp/llama-split-once.yaml --data config/data/eb-nerd-once.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 8 --cuda -1

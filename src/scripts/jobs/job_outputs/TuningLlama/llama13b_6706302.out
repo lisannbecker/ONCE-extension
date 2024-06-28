@@ -1,0 +1,241 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+2024-06-20 16:13:49.652758: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-20 16:13:49.900704: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-20 16:13:49.900768: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-20 16:13:49.922474: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-20 16:13:49.970582: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-20 16:13:51.952225: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[00:00:00] |Worker| START TIME: 2024-06-20 16:13:55.963378
+[00:00:00] |Worker| python  worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/llama-split.yaml --data config/data/eb-nerd.yaml --version small --llm_ver 13b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 5120 --page_size 4
+[00:00:00] |Worker| {
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized_2/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L0.Lora0",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": true,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 5120,
+            "hidden_size": 64,
+            "neg_count": 4,
+            "item_config": {
+                "llm_dir": "/scratch-shared/scur1569/llama-13b",
+                "layer_split": 0,
+                "lora": 0,
+                "weights_dir": "/scratch-shared/scur1569/llama-13b/"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "test_llm_layer_split",
+        "dir": "saving/EB-NeRD/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split",
+        "log": "saving/EB-NeRD/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split/exp.log",
+        "mode": "test_llm_layer_split",
+        "store": {
+            "layers": [
+                39,
+                38,
+                37,
+                35
+            ],
+            "dir": "/scratch-shared/scur1569/llama-13b"
+        },
+        "load": {
+            "save_dir": null,
+            "model_only": true,
+            "strict": true,
+            "wait": false
+        },
+        "policy": {
+            "device": "gpu",
+            "batch_size": 64
+        }
+    },
+    "data": {
+        "name": "EB-NeRD",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion",
+            "order": [
+                "title-llama",
+                "category-llama",
+                "subtitle-llama",
+                "body-llama"
+            ],
+            "append": [
+                "nid"
+            ],
+            "lm_col": "title-llama"
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                },
+                "test": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                }
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/user",
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "neg_col": "neg",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "version": "small",
+    "llm_ver": "13b",
+    "hidden_size": 64,
+    "layer": 0,
+    "lora": 0,
+    "fast_eval": 0,
+    "embed_hidden_size": 5120,
+    "page_size": 4,
+    "warmup": 0,
+    "simple_dev": false,
+    "batch_size": 64,
+    "acc_batch": 1,
+    "lora_r": 32,
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "mind_large_submission": false,
+    "epoch_batch": 0,
+    "max_item_batch_size": 0,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+[00:00:00] |Controller| dataset type:  book
+[00:00:00] |Controller| build column map ...
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+[00:00:02] |CachingDep| load 0 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+modify sample_size to 30485
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion
+[00:00:06] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:06] |Controller| Selected User Encoder: AdaOperator
+[00:00:06] |Controller| Selected Predictor: DotPredictor
+[00:00:06] |Controller| Use Negative Sampling: True
+[00:00:06] |Controller| Use Item Content: True
+[00:00:06] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+[00:00:06] |EmbeddingHub| skip col history
+[00:00:06] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 5120)
+[00:00:06] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 5120)
+[00:00:06] |EmbeddingHub| build mapping title-llama -> llama
+[00:00:06] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:06] |EmbeddingHub| transform hidden size from 4096 to 5120
+[00:00:06] |EmbeddingHub| build mapping category-llama -> llama
+[00:00:06] |EmbeddingHub| build mapping subtitle-llama -> llama
+[00:00:06] |EmbeddingHub| build mapping body-llama -> llama
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:08<00:41,  8.25s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:15<00:30,  7.69s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:24<00:24,  8.08s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:34<00:17,  8.96s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:43<00:08,  8.96s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:45<00:00,  6.68s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:45<00:00,  7.60s/it]
+Some weights of the model checkpoint at /scratch-shared/scur1569/llama-13b were not used when initializing LlamaModel: ['lm_head.weight']
+- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+  0%|          | 0/20738 [00:00<?, ?it/s]  3%|▎         | 662/20738 [00:00<00:03, 6619.74it/s]  7%|▋         | 1371/20738 [00:00<00:02, 6892.84it/s] 10%|▉         | 2073/20738 [00:00<00:02, 6926.26it/s] 13%|█▎        | 2779/20738 [00:00<00:02, 6978.28it/s] 17%|█▋        | 3477/20738 [00:00<00:02, 6974.86it/s] 20%|██        | 4175/20738 [00:00<00:02, 6955.73it/s] 24%|██▎       | 4883/20738 [00:00<00:02, 6994.26it/s] 27%|██▋       | 5583/20738 [00:00<00:02, 6996.01it/s] 30%|███       | 6283/20738 [00:00<00:02, 6966.35it/s] 34%|███▎      | 6980/20738 [00:01<00:01, 6957.66it/s] 37%|███▋      | 7676/20738 [00:01<00:01, 6946.47it/s] 40%|████      | 8371/20738 [00:01<00:01, 6945.10it/s] 44%|████▎     | 9066/20738 [00:01<00:01, 6917.88it/s] 47%|████▋     | 9759/20738 [00:01<00:01, 6920.21it/s] 50%|█████     | 10453/20738 [00:01<00:01, 6925.28it/s] 54%|█████▎    | 11146/20738 [00:01<00:01, 6903.05it/s] 57%|█████▋    | 11837/20738 [00:01<00:01, 6903.48it/s] 60%|██████    | 12528/20738 [00:01<00:01, 6902.47it/s] 64%|██████▎   | 13219/20738 [00:01<00:01, 6885.98it/s] 67%|██████▋   | 13909/20738 [00:02<00:00, 6889.69it/s] 70%|███████   | 14600/20738 [00:02<00:00, 6893.78it/s] 74%|███████▎  | 15290/20738 [00:02<00:00, 6862.62it/s] 77%|███████▋  | 15978/20738 [00:02<00:00, 6867.67it/s] 80%|████████  | 16667/20738 [00:02<00:00, 6871.49it/s] 84%|████████▎ | 17355/20738 [00:02<00:00, 6852.44it/s] 87%|████████▋ | 18043/20738 [00:02<00:00, 6859.65it/s] 90%|█████████ | 18731/20738 [00:02<00:00, 6864.55it/s] 94%|█████████▎| 19418/20738 [00:02<00:00, 6842.17it/s] 97%|█████████▋| 20105/20738 [00:02<00:00, 6850.35it/s]100%|██████████| 20738/20738 [00:03<00:00, 6901.38it/s]
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 488, in <module>
+    worker = Worker(config=configuration)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 65, in __init__
+    self.legommender = self.controller.legommender.to(Meta.device)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1145, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 797, in _apply
+    module._apply(fn)
+  [Previous line repeated 3 more times]
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 820, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1143, in convert
+    return t.to(device, dtype if t.is_floating_point() or t.is_complex() else None, non_blocking)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 100.00 MiB (GPU 0; 39.39 GiB total capacity; 38.74 GiB already allocated; 85.56 MiB free; 38.76 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+srun: error: gcn26: task 0: Exited with exit code 1
+srun: Terminating StepId=6706302.0
+
+JOB STATISTICS
+==============
+Job ID: 6706302
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:02:22
+CPU Efficiency: 4.56% of 00:51:54 core-walltime
+Job Wall-clock time: 00:02:53
+Memory Utilized: 60.63 GB
+Memory Efficiency: 50.52% of 120.00 GB

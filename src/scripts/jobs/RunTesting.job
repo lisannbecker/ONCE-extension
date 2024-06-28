@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=LlamaTs
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=01:40:00
+#SBATCH --output=job_outputs/Testing/NAML/ts_llama7b_%A.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+cd $HOME/Legommenders/
+
+source activate dire_tokenize
+
+
+srun python  worker.py --data config/data/eb-nerd.yaml --embed config/embed/llama-token.yaml \
+     --model config/model/llm/llama-naml.yaml --exp config/exp/test.yaml --embed_hidden_size 4096 \
+     --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4  #--cuda -1
+
+# NOTE: When wanting to test with diff News rec models change the following:
+# 1. ouput job file directory path:
+     #SBATCH --output=job_outputs/Training/{NEWS REC MODEL NAME}/
+# 2. '--model' argument , directory path 
+     # --model config/model/llm/llama-{NEWS REC MODEL NAME}.yaml

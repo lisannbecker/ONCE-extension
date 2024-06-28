@@ -1,0 +1,194 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+[00:00:00] |Worker| START TIME: 2024-06-13 17:33:09.930039
+[00:00:00] |Worker| python  worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/llama-split.yaml --data config/data/mind-llama.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096
+[00:00:00] |Worker| {
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized/llama-token.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L0.Lora0",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": true,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": 4,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-{llm_ver}",
+                "layer_split": 0,
+                "lora": 0,
+                "weights_dir": "data/ebnerd_small_tokenized-Llama/llama-7b-split"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "test_llm_layer_split",
+        "dir": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split",
+        "log": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split/exp.log",
+        "mode": "test_llm_layer_split",
+        "store": {
+            "layers": [
+                31,
+                30,
+                29,
+                27
+            ],
+            "dir": "data/ebnerd_small_tokenized-Llama/llama-7b-split"
+        },
+        "load": {
+            "save_dir": null,
+            "model_only": true,
+            "strict": true,
+            "wait": false
+        },
+        "policy": {
+            "device": "gpu",
+            "batch_size": 64
+        }
+    },
+    "data": {
+        "name": "ebnerd_small_tokenized-Llama",
+        "base_dir": "ebnerd_small_tokenized",
+        "item": {
+            "filter_cache": true,
+            "depot": "ebnerd_small_tokenized/news-llama",
+            "order": [
+                "title",
+                "cat"
+            ],
+            "append": [
+                "nid"
+            ]
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "ebnerd_small_tokenized/train"
+                },
+                "dev": {
+                    "path": "ebnerd_small_tokenized/validation"
+                }
+            },
+            "filters": {
+                "history": [
+                    "x"
+                ]
+            },
+            "union": [
+                "ebnerd_small_tokenized/user"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "neg_col": "neg",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "version": "small",
+    "llm_ver": "7b",
+    "hidden_size": 64,
+    "layer": 0,
+    "lora": 0,
+    "fast_eval": 0,
+    "embed_hidden_size": 4096,
+    "warmup": 0,
+    "simple_dev": false,
+    "batch_size": 64,
+    "acc_batch": 1,
+    "lora_r": 32,
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "mind_large_submission": false,
+    "epoch_batch": 0,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 488, in <module>
+    worker = Worker(config=configuration)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 58, in __init__
+    self.controller = Controller(
+                      ^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/controller.py", line 89, in __init__
+    self.embedding_hub.register_depot(self.hubs.a_hub(), skip_cols=skip_cols)
+  File "/gpfs/home3/scur1569/Legommenders/loader/embedding/embedding_hub.py", line 130, in register_depot
+    depot, order = nrd.depot, nrd.order
+                   ^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'depot'
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+loaded 2928942 samples from ebnerd_small_tokenized/validation
+modify sample_size to 18827
+loaded 18827 samples from ebnerd_small_tokenized/user
+loaded 20738 samples from ebnerd_small_tokenized/news-llama
+[00:00:02] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:02] |Controller| Selected User Encoder: AdaOperator
+[00:00:02] |Controller| Selected Predictor: DotPredictor
+[00:00:02] |Controller| Use Negative Sampling: True
+[00:00:02] |Controller| Use Item Content: True
+[00:00:03] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+srun: error: gcn22: task 0: Exited with exit code 1
+srun: Terminating StepId=6633669.0
+
+JOB STATISTICS
+==============
+Job ID: 6633669
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:06:54 core-walltime
+Job Wall-clock time: 00:00:23
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

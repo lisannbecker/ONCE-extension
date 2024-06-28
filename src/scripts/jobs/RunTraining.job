@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --gpus=1
+#SBATCH --job-name=FF
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=0:50:00
+#SBATCH --output=job_outputs/Training/FastFormer/llama7b_%A.out
+
+module purge
+module load 2022
+module load Anaconda3/2022.05
+
+cd $HOME/Legommenders/
+
+source activate dire_tokenize
+
+
+srun python  worker.py --data config/data/eb-nerd.yaml --embed config/embed/llama-token.yaml \
+     --model config/model/llm/llama-fastformer.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 \
+     --llm_ver 7b --layer 31 --version small --lr 0.0001   --item_lr 0.00001 --batch_size 64 --acc_batch 1 --epoch_batch -4  #--page_size 1 
+
+# NOTE: When wanting to train with diff News rec models change the following:
+# 1. ouput job file directory path:
+     #SBATCH --output=job_outputs/Training/{NEWS REC MODEL NAME}/
+# 2. '--model' argument , directory path 
+     # --model config/model/llm/llama-{NEWS REC MODEL NAME}.yaml
+
+#--------------(Hyper-parameter Tuning Variations)------------------------
+# Learning Rate:
+# --lr 0.0001 
+# --lr 0.001 *
+# --lr 0.00005 
+# --lr 0.0002 *
+# --lr 0.0005 *
+
+
+# Batch Size:
+# --batch_size 8  --acc_batch 4    => 32 BackProp *
+# --batch_size 32 --acc_batch 2    => 64 BackProp *
+# --batch_size 16 --acc_batch 4    => 64 BackProp *
+# --batch_size 16 --acc_batch 2    => 32 BackProp
+# --batch_size 64 --acc_batch 1    => 64 BackProp *
+
+# Layer: Currently No other layer works except layer nr.31 
+# --layer 30
+# --layer 29 
+# --layer 27 
+
+
+# Hidden Size: not sure if these nr are accurate
+# --embed_hidden_size 2048 
+# --embed_hidden_size 5120
+# --embed_hidden_size 8192
+
+#--cuda -1 (if you want to disable GPU)

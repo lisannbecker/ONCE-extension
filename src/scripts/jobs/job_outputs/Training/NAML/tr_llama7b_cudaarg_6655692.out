@@ -1,0 +1,444 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+2024-06-17 08:20:32.160527: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 08:20:32.213672: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 08:20:32.213735: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 08:20:32.215289: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 08:20:32.224419: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 08:20:33.928742: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[00:00:00] |Worker| START TIME: 2024-06-17 08:20:37.071205
+[00:00:00] |Worker| python  worker.py --data config/data/eb-nerd.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4
+[00:00:00] |Worker| {
+    "data": {
+        "name": "EB-NeRD",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion",
+            "order": [
+                "title-llama",
+                "category-llama"
+            ],
+            "append": [
+                "nid"
+            ],
+            "lm_col": "title-llama"
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                },
+                "test": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                }
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/user",
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "neg_col": "neg",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized_2/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L31.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": false,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 31,
+                "lora": 1,
+                "weights_dir": "llama-7b/"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/EB-NeRD/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test",
+        "log": "saving/EB-NeRD/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 31,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+MODES
+{'dev', 'train', 'test'}
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+path /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+Phases.train is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train, filter_cache: True
+loaded 2585747 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+[00:00:02] |CachingDep| load 0 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+Initialized train_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+Phases.dev is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid, filter_cache: True
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+[00:00:05] |CachingDep| load 0 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+Initialized dev_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid, filter_cache: True
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+modify sample_size to 30485
+Initialized fast_eval_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 30485
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user, filter_cache: False
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+
+        Sample Size: 30485
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 30485)
+        	history, vocab nid (size 20738), max length 50
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg, filter_cache: False
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+
+        Sample Size: 30485
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 30485)
+        	neg, vocab nid (size 20738), max length 250
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+Initialized train_hub: <loader.data_hub.DataHub object at 0x1526303f8e50>
+Initialized dev_hub: <loader.data_hub.DataHub object at 0x15264c0c97d0>
+Initialized test_hub: <loader.data_hub.DataHub object at 0x152630448e90>
+Initialized fast_eval_hub: <loader.data_hub.DataHub object at 0x1525ac9957d0>
+Initialized hubs: {'train': <loader.data_hub.DataHub object at 0x1526303f8e50>, 'dev': <loader.data_hub.DataHub object at 0x15264c0c97d0>, 'test': <loader.data_hub.DataHub object at 0x152630448e90>, 'fast_eval': <loader.data_hub.DataHub object at 0x1525ac9957d0>}
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion, filter_cache: False
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion
+
+        Sample Size: 20738
+        Id Column: nid
+        Columns:
+        	nid, vocab nid (size 20738)
+        	title-bert, vocab bert (size 119547), max length 20
+        	subtitle-bert, vocab bert (size 119547), max length 60
+        	body-bert, vocab bert (size 119547), max length 100
+        	category-token, vocab category (size 22)
+        	title-llama, vocab llama (size 32000), max length 20
+        	subtitle-llama, vocab llama (size 32000), max length 60
+        	body-llama, vocab llama (size 32000), max length 100
+        	category-llama, vocab llama (size 32000), max length 5
+
+[00:00:08] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:08] |Controller| Selected User Encoder: AdaOperator
+[00:00:08] |Controller| Selected Predictor: DotPredictor
+[00:00:08] |Controller| Use Negative Sampling: False
+[00:00:08] |Controller| Use Item Content: True
+[00:00:08] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+Returning a hub: <loader.data_hub.DataHub object at 0x1526303f8e50>
+<loader.data_hub.DataHub object at 0x1526303f8e50>
+[00:00:08] |EmbeddingHub| skip col history
+[00:00:08] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:08] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+<loader.data_hub.DataHub object at 0x1526303f9050>
+[00:00:08] |EmbeddingHub| build mapping title-llama -> llama
+[00:00:08] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:08] |EmbeddingHub| keep transform size 4096
+[00:00:08] |EmbeddingHub| build mapping category-llama -> llama
+Returning a hub: <loader.data_hub.DataHub object at 0x1526303f8e50>
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:00<00:04,  1.06it/s]Loading checkpoint shards:  33%|███▎      | 2/6 [00:02<00:06,  1.59s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:03<00:03,  1.24s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:04<00:02,  1.06s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:05<00:00,  1.04it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.24it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:05<00:00,  1.02it/s]
+Some weights of the model checkpoint at /home/scur1569/Legommenders/llama-7b were not used when initializing LlamaModel: ['lm_head.weight']
+- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of LlamaModel were not initialized from the model checkpoint at /home/scur1569/Legommenders/llama-7b and are newly initialized: ['model.layers.16.self_attn.rotary_emb.inv_freq', 'model.layers.18.self_attn.rotary_emb.inv_freq', 'model.layers.29.self_attn.rotary_emb.inv_freq', 'model.layers.6.self_attn.rotary_emb.inv_freq', 'model.layers.23.self_attn.rotary_emb.inv_freq', 'model.layers.0.self_attn.rotary_emb.inv_freq', 'model.layers.17.self_attn.rotary_emb.inv_freq', 'model.layers.3.self_attn.rotary_emb.inv_freq', 'model.layers.13.self_attn.rotary_emb.inv_freq', 'model.layers.24.self_attn.rotary_emb.inv_freq', 'model.layers.1.self_attn.rotary_emb.inv_freq', 'model.layers.11.self_attn.rotary_emb.inv_freq', 'model.layers.14.self_attn.rotary_emb.inv_freq', 'model.layers.22.self_attn.rotary_emb.inv_freq', 'model.layers.4.self_attn.rotary_emb.inv_freq', 'model.layers.31.self_attn.rotary_emb.inv_freq', 'model.layers.27.self_attn.rotary_emb.inv_freq', 'model.layers.25.self_attn.rotary_emb.inv_freq', 'model.layers.20.self_attn.rotary_emb.inv_freq', 'model.layers.28.self_attn.rotary_emb.inv_freq', 'model.layers.30.self_attn.rotary_emb.inv_freq', 'model.layers.7.self_attn.rotary_emb.inv_freq', 'model.layers.5.self_attn.rotary_emb.inv_freq', 'model.layers.12.self_attn.rotary_emb.inv_freq', 'model.layers.21.self_attn.rotary_emb.inv_freq', 'model.layers.10.self_attn.rotary_emb.inv_freq', 'model.layers.2.self_attn.rotary_emb.inv_freq', 'model.layers.19.self_attn.rotary_emb.inv_freq', 'model.layers.8.self_attn.rotary_emb.inv_freq', 'model.layers.26.self_attn.rotary_emb.inv_freq', 'model.layers.15.self_attn.rotary_emb.inv_freq', 'model.layers.9.self_attn.rotary_emb.inv_freq']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[00:01:04] |BaseLLMOperator| hidden_weights.shape: torch.Size([20738, 37, 4096])
+[00:01:04] |BaseLLMOperator| attention_mask.shape: torch.Size([20738, 37])
+[00:01:04] |Legommender| LLM SKIP
+  0%|          | 0/20738 [00:00<?, ?it/s]  4%|▍         | 911/20738 [00:00<00:02, 9106.47it/s] 10%|█         | 2123/20738 [00:00<00:01, 10875.52it/s] 16%|█▌        | 3340/20738 [00:00<00:01, 11465.92it/s] 22%|██▏       | 4519/20738 [00:00<00:01, 11590.38it/s] 28%|██▊       | 5715/20738 [00:00<00:01, 11722.20it/s] 33%|███▎      | 6903/20738 [00:00<00:01, 11774.70it/s] 39%|███▉      | 8098/20738 [00:00<00:01, 11829.76it/s] 45%|████▍     | 9281/20738 [00:00<00:00, 11827.56it/s] 50%|█████     | 10468/20738 [00:00<00:00, 11839.32it/s] 56%|█████▋    | 11670/20738 [00:01<00:00, 11894.50it/s] 62%|██████▏   | 12860/20738 [00:01<00:00, 11883.43it/s] 68%|██████▊   | 14059/20738 [00:01<00:00, 11913.00it/s] 74%|███████▎  | 15251/20738 [00:01<00:00, 11898.16it/s] 79%|███████▉  | 16453/20738 [00:01<00:00, 11934.05it/s] 85%|████████▌ | 17647/20738 [00:01<00:00, 11918.35it/s] 91%|█████████ | 18839/20738 [00:01<00:00, 11917.23it/s] 97%|█████████▋| 20041/20738 [00:01<00:00, 11946.63it/s]100%|██████████| 20738/20738 [00:01<00:00, 11780.97it/s]
+self.use_neg_sampling False
+[00:01:06] |Worker| {'index': 0, 'imp': 0, 'uid': 8890, 'nid': 18909, 'click': 0, 'history': [15607, 15948, 15928, 15902, 16253, 16268, 16273, 16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286, 17808, 17798, 17792], 'neg': [18303, 18091, 18095, 18299, 18245, 18236, 14531, 18140, 18228, 18237, 18239, 18295, 11924, 18242]}
+[00:01:06] |Worker| {
+    "history": "tensor([50], dtype=torch.int64)",
+    "nid": "tensor([1], dtype=torch.int64)",
+    "click": "int",
+    "imp": "int",
+    "uid": "int",
+    "neg": "list([14])",
+    "__clicks_mask__": "tensor([50], dtype=torch.int64)"
+}
+[00:01:06] |Worker| split item pretrained encoder parameters
+[00:01:06] |Worker| pretrained lr: 1e-05
+[00:01:06] |Worker| other lr: 0.0001
+[00:01:06] |Legommender| [P] item_encoder.transformer.norm.weight torch.Size([4096])
+[00:01:06] |Legommender| [N] embedding_table.__cat_inputer_special_ids.weight torch.Size([3, 4096])
+[00:01:06] |Legommender| [N] embedding_table.__flatten_seq_special_ids.weight torch.Size([4, 4096])
+[00:01:06] |Legommender| [N] user_encoder.additive_attention.encoder.0.weight torch.Size([256, 64])
+[00:01:06] |Legommender| [N] user_encoder.additive_attention.encoder.0.bias torch.Size([256])
+[00:01:06] |Legommender| [N] user_encoder.additive_attention.encoder.2.weight torch.Size([1, 256])
+[00:01:06] |Legommender| [N] item_encoder.linear.weight torch.Size([64, 4096])
+[00:01:06] |Legommender| [N] item_encoder.linear.bias torch.Size([64])
+[00:01:06] |Legommender| [N] item_encoder.additive_attention.encoder.0.weight torch.Size([64, 64])
+[00:01:06] |Legommender| [N] item_encoder.additive_attention.encoder.0.bias torch.Size([64])
+[00:01:06] |Legommender| [N] item_encoder.additive_attention.encoder.2.weight torch.Size([1, 64])
+  0%|          | 0/80805 [00:00<?, ?it/s]  0%|          | 0/80805 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 508, in <module>
+    worker.run()
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 460, in run
+    epoch = self.train_runner()
+            ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 403, in train_runner
+    return self.train()
+           ^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 187, in train
+    for step, batch in enumerate(tqdm(loader, disable=self.disable_tqdm)):
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1345, in _next_data
+    return self._process_data(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1371, in _process_data
+    data.reraise()
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/_utils.py", line 644, in reraise
+    raise exception
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 308, in _worker_loop
+    data = fetcher.fetch(index)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    return self.collate_fn(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 273, in default_collate
+    return collate(batch, collate_fn_map=default_collate_fn_map)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 127, in collate
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 127, in <dictcomp>
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 146, in collate
+    raise RuntimeError('each element in list of batch should be of equal size')
+RuntimeError: each element in list of batch should be of equal size
+
+srun: error: gcn17: task 0: Exited with exit code 1
+srun: Terminating StepId=6655692.0
+
+JOB STATISTICS
+==============
+Job ID: 6655692
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:01:43
+CPU Efficiency: 6.29% of 00:27:18 core-walltime
+Job Wall-clock time: 00:01:31
+Memory Utilized: 27.76 GB
+Memory Efficiency: 23.13% of 120.00 GB

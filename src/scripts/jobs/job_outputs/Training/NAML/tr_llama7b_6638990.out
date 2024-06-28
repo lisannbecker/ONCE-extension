@@ -1,0 +1,1199 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+[00:00:00] |Worker| START TIME: 2024-06-14 15:29:42.939529
+[00:00:00] |Worker| python  worker.py --data config/data/mind-llama.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 0 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4
+[00:00:00] |Worker| {
+    "data": {
+        "name": "ebnerd_small_tokenized-Llama",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama",
+            "order": [
+                "title",
+                "cat"
+            ],
+            "append": [
+                "nid"
+            ]
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                }
+            },
+            "filters": {
+                "history": [
+                    "x"
+                ]
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized/user"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L0.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": false,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 0,
+                "lora": 1,
+                "weights_dir": "data/ebnerd_small_tokenized-Llama/llama-7b-split"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora1/llama-token-train_test",
+        "log": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 0,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+MODES
+{'dev', 'train', 'test'}
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+path /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+Phases.train is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/train, filter_cache: True
+loaded 2585747 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized train_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Phases.dev is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev, filter_cache: True
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+[00:00:04] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized dev_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+modify sample_size to 18827
+Initialized fast_eval_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 18827
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+loaded 18827 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+
+        Sample Size: 18827
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 18827)
+        	history, vocab nid (size 20739), max length 30
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+[00:00:06] |Depots| Filter history with x in train phase, sample num: 2585747 -> 2585747
+[00:00:06] |Depots| Filter history with x in dev phase, sample num: 2928942 -> 2928942
+Initialized train_hub: <loader.data_hub.DataHub object at 0x150230dcc610>
+Initialized dev_hub: <loader.data_hub.DataHub object at 0x150230dcd090>
+Initialized fast_eval_hub: <loader.data_hub.DataHub object at 0x150230dcd390>
+Initialized hubs: {'train': <loader.data_hub.DataHub object at 0x150230dcc610>, 'dev': <loader.data_hub.DataHub object at 0x150230dcd090>, 'test': None, 'fast_eval': <loader.data_hub.DataHub object at 0x150230dcd390>}
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama, filter_cache: False
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+
+        Sample Size: 20738
+        Id Column: nid
+        Columns:
+        	nid, vocab nid (size 20738)
+        	cat, vocab llama (size 32000), max length 8
+        	subcat, vocab llama (size 32000), max length 5
+        	title, vocab llama (size 32000), max length 20
+        	abs, vocab llama (size 32000), max length 50
+
+[00:00:07] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:07] |Controller| Selected User Encoder: AdaOperator
+[00:00:07] |Controller| Selected Predictor: DotPredictor
+[00:00:07] |Controller| Use Negative Sampling: False
+[00:00:07] |Controller| Use Item Content: True
+[00:00:07] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+Returning a hub: <loader.data_hub.DataHub object at 0x150230dcc610>
+<loader.data_hub.DataHub object at 0x150230dcc610>
+[00:00:07] |EmbeddingHub| skip col history
+[00:00:07] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:07] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+<loader.data_hub.DataHub object at 0x1502b505e690>
+[00:00:07] |EmbeddingHub| build mapping title -> llama
+[00:00:07] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:07] |EmbeddingHub| keep transform size 4096
+[00:00:07] |EmbeddingHub| build mapping cat -> llama
+Returning a hub: <loader.data_hub.DataHub object at 0x150230dcc610>
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:02<00:10,  2.03s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:03<00:07,  1.99s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:06<00:06,  2.02s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:07<00:03,  1.99s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:09<00:01,  1.99s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.45s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.73s/it]
+trainable params: 16,777,216 || all params: 6,493,048,832 || trainable%: 0.2584
+  0%|          | 0/20738 [00:00<?, ?it/s]  6%|▌         | 1287/20738 [00:00<00:01, 12869.31it/s] 12%|█▏        | 2574/20738 [00:00<00:01, 12801.14it/s] 19%|█▊        | 3855/20738 [00:00<00:01, 12787.68it/s] 25%|██▍       | 5138/20738 [00:00<00:01, 12803.41it/s] 31%|███       | 6419/20738 [00:00<00:01, 12744.14it/s] 37%|███▋      | 7694/20738 [00:00<00:01, 12742.28it/s] 43%|████▎     | 8969/20738 [00:00<00:00, 12693.48it/s] 49%|████▉     | 10239/20738 [00:00<00:00, 12662.86it/s] 56%|█████▌    | 11514/20738 [00:00<00:00, 12687.73it/s] 62%|██████▏   | 12783/20738 [00:01<00:00, 12675.76it/s] 68%|██████▊   | 14051/20738 [00:01<00:00, 12659.51it/s] 74%|███████▍  | 15327/20738 [00:01<00:00, 12687.44it/s] 80%|████████  | 16597/20738 [00:01<00:00, 12689.12it/s] 86%|████████▌ | 17878/20738 [00:01<00:00, 12722.95it/s] 92%|█████████▏| 19151/20738 [00:01<00:00, 12714.49it/s] 98%|█████████▊| 20423/20738 [00:01<00:00, 12708.27it/s]100%|██████████| 20738/20738 [00:01<00:00, 12714.81it/s]
+Item cache built with 20738 items.
+self.use_neg_sampling False
+[00:00:23] |Worker| {'index': 0, 'imp': 0, 'uid': 11894, 'nid': 18909, 'click': 0, 'history': array([20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738,
+       20738, 20738, 15607, 15948, 15928, 15902, 16253, 16268, 16273,
+       16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286,
+       17808, 17798, 17792], dtype=object)}
+self.neg_col neg
+User ID: 11894, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15607, 15948, 15928, 15902, 16253, 16268, 16273, 16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286, 17808, 17798, 17792]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15607, 15948, 15928, 15902, 16253, 16268, 16273, 16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286, 17808, 17798, 17792] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+[00:00:23] |Worker| {
+    "history": {
+        "input_ids": {
+            "natural_cat": "tensor([19, 37], dtype=torch.int64)"
+        },
+        "attention_mask": "tensor([19, 37], dtype=torch.int64)"
+    },
+    "nid": {
+        "input_ids": {
+            "natural_cat": "tensor([1, 37], dtype=torch.int64)"
+        },
+        "attention_mask": "tensor([1, 37], dtype=torch.int64)"
+    },
+    "click": "int",
+    "imp": "int",
+    "uid": "int",
+    "__clicks_mask__": "tensor([30], dtype=torch.int64)"
+}
+[00:00:23] |Worker| split item pretrained encoder parameters
+[00:00:23] |Worker| pretrained lr: 1e-05
+[00:00:23] |Worker| other lr: 0.0001
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.0.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.0.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.0.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.0.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.1.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.1.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.1.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.1.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.2.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.2.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.2.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.2.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.3.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.3.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.3.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.3.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.4.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.4.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.4.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.4.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.5.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.5.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.5.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.5.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.6.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.6.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.6.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.6.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.7.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.7.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.7.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.7.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.8.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.8.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.8.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.8.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.9.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.9.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.9.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.9.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.10.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.10.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.10.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.10.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.11.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.11.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.11.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.11.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.12.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.12.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.12.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.12.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.13.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.13.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.13.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.13.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.14.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.14.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.14.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.14.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.15.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.15.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.15.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.15.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.16.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.16.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.16.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.16.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.17.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.17.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.17.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.17.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.18.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.18.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.18.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.18.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.19.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.19.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.19.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.19.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.20.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.20.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.20.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.20.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.21.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.21.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.21.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.21.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.22.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.22.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.22.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.22.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.23.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.23.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.23.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.23.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.24.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.24.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.24.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.24.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.25.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.25.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.25.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.25.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.26.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.26.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.26.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.26.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.27.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.27.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.27.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.27.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.28.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.28.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.28.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.28.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.29.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.29.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.29.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.29.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.30.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.30.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.30.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.30.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.31.self_attn.q_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.31.self_attn.q_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.31.self_attn.v_proj.lora_A.default.weight torch.Size([32, 4096])
+[00:00:23] |Legommender| [P] item_encoder.transformer.base_model.model.layers.31.self_attn.v_proj.lora_B.default.weight torch.Size([4096, 32])
+[00:00:23] |Legommender| [N] embedding_table.__cat_inputer_special_ids.weight torch.Size([3, 4096])
+[00:00:23] |Legommender| [N] embedding_table.__flatten_seq_special_ids.weight torch.Size([4, 4096])
+[00:00:23] |Legommender| [N] user_encoder.additive_attention.encoder.0.weight torch.Size([256, 64])
+[00:00:23] |Legommender| [N] user_encoder.additive_attention.encoder.0.bias torch.Size([256])
+[00:00:23] |Legommender| [N] user_encoder.additive_attention.encoder.2.weight torch.Size([1, 256])
+[00:00:23] |Legommender| [N] item_encoder.linear.weight torch.Size([64, 4096])
+[00:00:23] |Legommender| [N] item_encoder.linear.bias torch.Size([64])
+[00:00:23] |Legommender| [N] item_encoder.additive_attention.encoder.0.weight torch.Size([64, 64])
+[00:00:23] |Legommender| [N] item_encoder.additive_attention.encoder.0.bias torch.Size([64])
+[00:00:23] |Legommender| [N] item_encoder.additive_attention.encoder.2.weight torch.Size([1, 64])
+self.neg_col neg
+User ID: 3877, Clicks: [13876, 18066, 17982, 18037, 17956, 18086, 17983, 17983, 17983, 18097, 18008, 17999, 18085, 18159, 18134, 18139, 18113, 18192, 18192, 18153, 18182, 18192, 18172, 18211, 18099, 18093, 18201, 18192, 18194, 18001]
+self.neg_col neg
+User ID: 5996, Clicks: [13534, 17980, 18018, 18041, 18056, 18055, 17982, 18021, 18038, 14782, 17974, 17533, 18067, 13876, 17356, 18005, 18059, 18018, 18162, 18151, 18171, 18189, 18170, 18148, 18116, 18180, 18085, 18173, 18158, 18034]
+self.neg_col neg
+User ID: 6074, Clicks: [17934, 17585, 17943, 17943, 17949, 17947, 17946, 17944, 17948, 18080, 18075, 18075, 18159, 18117, 13756, 18093, 18155, 18124, 18087, 18131, 18106, 18213, 18205, 18211, 18099, 18109, 18119, 18200, 18213, 17995]
+self.neg_col neg
+User ID: 5201, Clicks: [17870, 17854, 17868, 17948, 17949, 17930, 17941, 17919, 17909, 17876, 17918, 18001, 18011, 18013, 18004, 18015, 18009, 17998, 17228, 17978, 17989, 17984, 16109, 17510, 17886, 17955, 17933, 17962, 17948, 17951]
+self.neg_col neg
+User ID: 9723, Clicks: [15235, 15677, 8623, 11249, 8623, 16440, 16681, 16668, 9866, 16674, 16681, 16670, 16474, 16659, 14988, 16631, 16631, 16849, 17028, 17061, 17061, 17965, 8347, 17958, 18086, 17999, 18066, 14440, 18221, 18200]
+self.neg_col neg
+User ID: 12088, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 17806, 11347, 12370, 17945, 18049, 18041, 17997, 17878, 18021, 18005, 18064, 18066, 17356, 18059, 17983, 18047, 18063, 18080, 15082, 17956, 18182, 18148, 18180, 18105]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 17806, 11347, 12370, 17945, 18049, 18041, 17997, 17878, 18021, 18005, 18064, 18066, 17356, 18059, 17983, 18047, 18063, 18080, 15082, 17956, 18182, 18148, 18180, 18105] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 3151, Clicks: [17448, 17236, 17851, 17846, 17830, 17865, 17862, 17854, 17111, 17525, 17830, 17856, 17892, 17894, 17784, 17859, 18004, 17973, 17973, 17979, 18028, 18033, 18090, 18097, 18162, 18156, 18159, 18159, 18171, 18182]
+self.neg_col neg
+User ID: 4548, Clicks: [17980, 18018, 18054, 17997, 18041, 17888, 18194, 18105, 18127, 18170, 18192, 18153, 18171, 18171, 18195, 18189, 18182, 18082, 18172, 18156, 18031, 17976, 18204, 18203, 18031, 17976, 18197, 13756, 18180, 17542]
+self.neg_col neg
+User ID: 1901, Clicks: [18139, 18133, 17902, 17871, 18088, 18034, 17543, 18101, 18136, 18101, 3150, 18101, 18105, 18127, 18192, 18087, 18131, 18153, 18131, 18131, 17877, 18131, 18031, 18131, 18194, 18182, 18216, 18182, 6528, 18182]
+self.neg_col neg
+User ID: 8113, Clicks: [17964, 17963, 17933, 17962, 17952, 12148, 17871, 17983, 18046, 18075, 17974, 17999, 18066, 18067, 17935, 17356, 18062, 17985, 17990, 18018, 17980, 17997, 17982, 18041, 18014, 18215, 18087, 18124, 18209, 18127]
+self.neg_col neg
+User ID: 1390, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16090, 16071, 16569, 16445, 16594, 16464, 16591, 16591, 16589, 16593, 16648, 16574, 16573, 16574, 16458, 15913, 16458, 16698, 17848, 17893, 17944, 17255]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16090, 16071, 16569, 16445, 16594, 16464, 16591, 16591, 16589, 16593, 16648, 16574, 16573, 16574, 16458, 15913, 16458, 16698, 17848, 17893, 17944, 17255] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 14194, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14724, 15690, 16282, 16284, 15865, 17254, 17670, 17254, 17230, 17493, 17989, 17951, 17260]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14724, 15690, 16282, 16284, 15865, 17254, 17670, 17254, 17230, 17493, 17989, 17951, 17260] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 4543, Clicks: [17911, 18037, 18021, 18037, 18014, 18043, 18033, 18060, 18018, 18060, 17967, 18067, 17974, 18143, 18146, 18139, 18132, 18097, 18092, 18100, 18083, 17543, 17255, 18047, 18086, 18031, 17542, 18206, 18221, 18200]
+self.neg_col neg
+User ID: 11607, Clicks: [13869, 14608, 14529, 14941, 14862, 16097, 16079, 16110, 16107, 15829, 16071, 16073, 17267, 17081, 17230, 17233, 17065, 17229, 17215, 17205, 17050, 17880, 17881, 17830, 17877, 17865, 15878, 17768, 17992, 18004]
+self.neg_col neg
+User ID: 5059, Clicks: [16105, 17894, 17784, 17892, 17784, 13516, 17784, 17895, 17784, 17881, 17830, 17881, 17954, 17930, 17953, 17933, 17948, 17585, 17919, 17969, 17963, 17969, 17961, 17969, 17973, 17984, 17954, 17972, 17912, 17992]
+self.neg_col neg
+User ID: 4887, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16779, 16776, 16818, 16818, 16609, 16876, 16797, 16927, 17046, 17260, 17949, 446, 14173, 18105, 18130, 18148, 18198, 17976, 18206]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16779, 16776, 16818, 16818, 16609, 16876, 16797, 16927, 17046, 17260, 17949, 446, 14173, 18105, 18130, 18148, 18198, 17976, 18206] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 14343, Clicks: [16136, 16296, 16791, 16907, 15865, 16865, 16904, 16872, 16855, 16105, 17529, 17830, 17841, 17831, 17768, 17768, 17813, 18005, 17974, 18071, 17871, 18122, 18162, 18158, 18159, 18159, 13756, 18159, 18154, 17060]
+self.neg_col neg
+User ID: 10051, Clicks: [17281, 17830, 17529, 17830, 17851, 17848, 17933, 17665, 17962, 17964, 17969, 17963, 17956, 18086, 18072, 18019, 18084, 18097, 18097, 18100, 18088, 18094, 18117, 18141, 18143, 18146, 18143, 18139, 18143, 18145]
+self.neg_col neg
+User ID: 527, Clicks: [17886, 17946, 18006, 17964, 18037, 18044, 18042, 18025, 17860, 17974, 18048, 18149, 18151, 18151, 18147, 18151, 18182, 18130, 18182, 18148, 18182, 18034, 18182, 18034, 18034, 18099, 18031, 17976, 18215, 18216]
+self.neg_col neg
+User ID: 7300, Clicks: [16665, 17510, 16665, 17898, 16665, 13875, 12148, 17510, 18011, 18013, 17912, 17974, 18093, 18155, 18153, 18209, 18198, 18211, 18153, 18198, 18064, 13756, 18064, 18104, 18064, 18189, 18064, 18198, 18198, 18127]
+self.neg_col neg
+User ID: 5189, Clicks: [18026, 18027, 18026, 18043, 18065, 18005, 17974, 18041, 18066, 17956, 18072, 4494, 18063, 18048, 17999, 17983, 18084, 18151, 18151, 18105, 18127, 18179, 18192, 18082, 18174, 18146, 18149, 14782, 18031, 18194]
+self.neg_col neg
+User ID: 1153, Clicks: [18062, 17974, 18067, 18048, 18060, 18069, 17974, 17904, 18018, 18136, 18154, 18156, 18159, 13756, 17060, 18034, 18205, 18099, 18093, 18186, 18201, 17542, 18124, 18124, 18204, 13756, 18068, 18197, 18180, 18213]
+self.neg_col neg
+User ID: 3973, Clicks: [17691, 17282, 17727, 17742, 17529, 17848, 17877, 17784, 17921, 17240, 17909, 17806, 17994, 18005, 17985, 18017, 18055, 14782, 18014, 18044, 18074, 18066, 18136, 18151, 18182, 18105, 18087, 18131, 18106, 18186]
+self.neg_col neg
+User ID: 5334, Clicks: [17859, 16665, 17951, 17949, 17941, 17945, 17228, 17945, 18049, 17974, 18069, 18067, 18048, 18071, 18080, 17983, 17884, 18151, 18182, 18189, 18174, 18182, 18105, 18182, 18198, 18194, 18127, 18192, 18215, 18209]
+self.neg_col neg
+User ID: 4875, Clicks: [20738, 20738, 20738, 14859, 14855, 15175, 15094, 15877, 15587, 15631, 15841, 17007, 17222, 17120, 17234, 17263, 17082, 10894, 17360, 16655, 17659, 17736, 17727, 18004, 18006, 17989, 17879, 18199, 18087, 18213]
+Some nids in [20738, 20738, 20738, 14859, 14855, 15175, 15094, 15877, 15587, 15631, 15841, 17007, 17222, 17120, 17234, 17263, 17082, 10894, 17360, 16655, 17659, 17736, 17727, 18004, 18006, 17989, 17879, 18199, 18087, 18213] are not in item_cache
+Invalid nids: [20738, 20738, 20738]
+self.neg_col neg
+User ID: 9661, Clicks: [20738, 20738, 20738, 20738, 16253, 16267, 11400, 12189, 15883, 16273, 16273, 10605, 16578, 15959, 15959, 16783, 16778, 16861, 16689, 16467, 16843, 16801, 16801, 17230, 17126, 16860, 8323, 17229, 6600, 2618]
+self.neg_col neg
+User ID: 7454, Clicks: [17773, 17776, 17817, 17818, 17225, 17121, 17813, 17815, 17798, 12935, 18037, 17911, 17878, 18024, 18036, 18026, 17922, 18025, 18028, 17979, 18022, 18029, 17957, 18004, 18013, 18011, 18194, 18198, 18104, 18179]
+self.neg_col neg
+User ID: 7999, Clicks: [17960, 17978, 17973, 17893, 17959, 18004, 18006, 18003, 17997, 18056, 17967, 18021, 18065, 18060, 18046, 18075, 17999, 18069, 18059, 18075, 13756, 18084, 18047, 18063, 17956, 18086, 18088, 18094, 18031, 18198]
+self.neg_col neg
+User ID: 7893, Clicks: [12935, 14343, 16047, 13748, 13216, 17817, 17818, 17811, 17916, 17916, 17228, 17917, 17510, 17889, 17932, 17585, 17909, 17983, 17999, 18066, 13756, 18182, 18148, 18105, 18113, 18217, 18219, 18200, 18087, 18213]
+self.neg_col neg
+User ID: 4725, Clicks: [18195, 18082, 18194, 18127, 18170, 18203, 18211, 18205, 18099, 18093, 18186, 18201, 17542, 18207, 18185, 18031, 18087, 18106, 18213, 18217, 18200, 8343, 18216, 18093, 18186, 18155, 18031, 18221, 18219, 15871]
+self.neg_col neg
+User ID: 7556, Clicks: [15899, 18145, 18136, 15899, 18136, 15899, 18136, 18162, 18170, 18153, 18105, 18127, 18198, 18194, 18179, 15899, 18179, 18211, 15899, 18205, 18207, 18217, 18087, 18215, 15899, 18119, 18219, 15899, 18206, 15899]
+self.neg_col neg
+User ID: 4674, Clicks: [18042, 18037, 18033, 18038, 18060, 17980, 18018, 17980, 17967, 17980, 18055, 17980, 18041, 18005, 18064, 18050, 18074, 17983, 18066, 18075, 18066, 18069, 18097, 18072, 18090, 18151, 18182, 18194, 18198, 18216]
+self.neg_col neg
+User ID: 6504, Clicks: [18171, 18148, 18148, 18180, 18189, 18162, 18173, 10586, 10586, 18211, 18205, 18099, 18093, 18201, 18209, 17542, 18155, 18130, 18155, 18127, 18155, 14440, 18199, 18219, 18215, 18221, 18200, 8904, 18213, 18123]
+self.neg_col neg
+User ID: 9082, Clicks: [17965, 17893, 17940, 17893, 17973, 17912, 18009, 13534, 18011, 17983, 17884, 18005, 17922, 18048, 18058, 18063, 18054, 18043, 17956, 18077, 18035, 18122, 18097, 18072, 18069, 17974, 18146, 18152, 18143, 18145]
+self.neg_col neg
+User ID: 10162, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16421, 16282, 16648, 16467, 16465, 17353, 17348, 17274, 17035, 17226, 12068]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16421, 16282, 16648, 16467, 16465, 17353, 17348, 17274, 17035, 17226, 12068] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 4096, Clicks: [17200, 17439, 17291, 17445, 16655, 17445, 17437, 17445, 17376, 17441, 17489, 17481, 17492, 17448, 17492, 17281, 17506, 17370, 17209, 17834, 17795, 17225, 17767, 17830, 17255, 17983, 18162, 18163, 18072, 18072]
+self.neg_col neg
+User ID: 7995, Clicks: [17774, 17757, 17770, 17811, 17808, 17764, 17769, 17804, 17871, 17830, 17892, 17894, 17864, 17852, 13875, 17861, 16601, 18031, 17542, 18124, 18209, 18206, 17976, 18104, 18192, 18203, 18168, 18200, 18087, 18093]
+self.neg_col neg
+User ID: 9565, Clicks: [17895, 17871, 13875, 17923, 17861, 17916, 17952, 17933, 17953, 17886, 18037, 17911, 18036, 17922, 17957, 18064, 13876, 17956, 17255, 18047, 18048, 18192, 18182, 18205, 18099, 18093, 18201, 17542, 18109, 17995]
+self.neg_col neg
+User ID: 6912, Clicks: [17850, 17914, 17898, 17948, 17945, 17585, 17943, 17980, 17980, 18021, 18041, 18041, 18069, 17974, 18064, 18048, 18066, 17356, 14782, 17985, 15867, 18130, 18105, 18162, 18173, 18198, 18198, 18198, 18186, 18127]
+self.neg_col neg
+User ID: 6965, Clicks: [17806, 17510, 11157, 11507, 17874, 17934, 17947, 17930, 17889, 17946, 17944, 15339, 18001, 17891, 18064, 18053, 18066, 17988, 18062, 17356, 18067, 18044, 18100, 18083, 13876, 13042, 13876, 18083, 18189, 18192]
+self.neg_col neg
+User ID: 1538, Clicks: [17542, 17542, 18124, 18206, 18127, 18198, 18153, 17976, 18179, 18170, 18104, 18068, 18099, 18201, 18155, 18031, 18209, 18106, 18087, 18123, 18213, 18205, 18099, 18216, 18219, 18200, 18218, 18215, 18213, 18123]
+self.neg_col neg
+User ID: 8292, Clicks: [17891, 18065, 18059, 17356, 18080, 18047, 18019, 17983, 18075, 18074, 18048, 17974, 6558, 13756, 17533, 18171, 18189, 18171, 18189, 18170, 18148, 17995, 17879, 14440, 18199, 18200, 18213, 18215, 15871, 18106]
+self.neg_col neg
+User ID: 6933, Clicks: [17970, 17969, 18004, 17972, 17986, 17893, 18006, 18003, 18037, 17911, 18037, 18036, 18037, 18027, 18037, 18042, 17356, 17988, 18100, 18097, 18083, 18096, 18092, 18090, 18067, 18146, 17060, 18143, 18133, 18105]
+self.neg_col neg
+User ID: 6103, Clicks: [16142, 16653, 9804, 16921, 16921, 17725, 17718, 17686, 17554, 17322, 17734, 17811, 17815, 17811, 17812, 17811, 17803, 17811, 17811, 17811, 17924, 18043, 18025, 17974, 18066, 15867, 17990, 18051, 17997, 18041]
+self.neg_col neg
+User ID: 766, Clicks: [18168, 18117, 18104, 18127, 18195, 18099, 18093, 18201, 17542, 18155, 18124, 18031, 18200, 17995, 14440, 18087, 18119, 18213, 18219, 18215, 17663, 18123, 18131, 18205, 18216, 18099, 18109, 18185, 18206, 14782]
+self.neg_col neg
+User ID: 931, Clicks: [18087, 18123, 18153, 18186, 18215, 18087, 18131, 17972, 18131, 18106, 18131, 18123, 18131, 18211, 18131, 18153, 18131, 18185, 18131, 18185, 18131, 18209, 18200, 17663, 14440, 18199, 17995, 18221, 18119, 14440]
+self.neg_col neg
+User ID: 1730, Clicks: [18019, 18080, 18075, 17999, 18048, 17983, 18066, 17949, 18064, 17533, 18060, 18005, 14782, 18059, 17356, 18062, 18017, 18130, 15211, 18130, 15211, 18130, 15665, 18130, 18105, 18172, 18173, 18116, 18163, 18158]
+self.neg_col neg
+User ID: 7250, Clicks: [17803, 17808, 17830, 17902, 17871, 17906, 17894, 17921, 17767, 17921, 17943, 17930, 17943, 17943, 17947, 17946, 17949, 18037, 18044, 18043, 18051, 17997, 17356, 18017, 18046, 18048, 18168, 18215, 18093, 18109]
+self.neg_col neg
+User ID: 2305, Clicks: [18100, 18130, 18151, 18182, 18105, 18194, 18198, 18104, 18127, 18192, 18127, 18031, 17542, 18204, 18099, 18093, 18186, 17542, 18207, 18205, 18170, 11718, 18082, 18116, 18087, 18213, 18123, 18218, 18109, 18216]
+self.neg_col neg
+User ID: 1603, Clicks: [17990, 18041, 18042, 18064, 18066, 18050, 18050, 18050, 18019, 18084, 18130, 18171, 18198, 18153, 18198, 18127, 18197, 18110, 18211, 18205, 18093, 17542, 18109, 18221, 18200, 14440, 17663, 18123, 18186, 18031]
+self.neg_col neg
+User ID: 7846, Clicks: [17830, 17830, 13516, 6368, 17937, 17943, 17585, 17889, 13516, 17760, 17948, 17961, 18056, 18062, 18061, 18075, 18067, 18080, 18080, 18132, 18129, 18192, 18215, 18205, 18217, 18200, 18087, 18153, 18087, 18124]
+self.neg_col neg
+User ID: 2074, Clicks: [17935, 17956, 18072, 18019, 18090, 18096, 18122, 18133, 18145, 18129, 18146, 18149, 18154, 18158, 18159, 18105, 18171, 18148, 18127, 18195, 18192, 18204, 18031, 17542, 18205, 18099, 18093, 18087, 18109, 17995]
+self.neg_col neg
+User ID: 5214, Clicks: [16521, 16539, 16429, 16429, 16429, 16429, 17551, 17552, 17546, 17505, 17505, 17686, 17699, 17472, 17718, 17719, 17709, 17714, 17714, 17730, 17724, 17499, 17499, 17356, 18060, 18060, 18198, 18104, 18203, 18179]
+self.neg_col neg
+User ID: 10017, Clicks: [15174, 15222, 15239, 15214, 15214, 15277, 14336, 12298, 15610, 16136, 16472, 16447, 13118, 16919, 15865, 16423, 17074, 16036, 17234, 16641, 17344, 17331, 17286, 17021, 17918, 17890, 17904, 18198, 18104, 18031]
+self.neg_col neg
+User ID: 5444, Clicks: [17881, 17867, 17881, 17919, 17934, 10943, 17923, 10943, 17934, 17920, 17934, 17791, 17510, 17903, 17965, 17975, 17969, 17970, 17969, 17949, 17969, 17943, 18060, 17985, 17956, 17255, 18084, 17255, 17985, 18067]
+self.neg_col neg
+User ID: 11412, Clicks: [17357, 17448, 17484, 17523, 17277, 17467, 17467, 17745, 17742, 17777, 17799, 17956, 18084, 18074, 18087, 18213, 18123, 18093, 18123, 18213, 18087, 18215, 18131, 18216, 18131, 18109, 18131, 18186, 18131, 17879]
+self.neg_col neg
+User ID: 3532, Clicks: [18066, 17983, 17999, 18075, 18080, 18074, 18034, 18084, 18151, 18205, 18099, 18211, 18127, 18093, 18207, 18204, 18109, 18210, 18185, 18185, 18215, 18087, 18087, 18219, 18119, 18109, 18119, 18087, 18087, 17879]
+self.neg_col neg
+self.neg_col neg
+User ID: 2034, Clicks: [17916, 17934, 18027, 17911, 17922, 18015, 17982, 18100, 18074, 18096, 18162, 18151, 18163, 18136, 8547, 18008, 18117, 18143, 13756, 18145, 18139, 18105, 18112, 18104, 18105, 18127, 18192, 18153, 18192, 18192]
+self.neg_col neg
+User ID: 9685, Clicks: [17481, 17497, 17503, 17465, 17648, 17646, 17046, 17005, 17595, 17550, 17741, 17734, 17549, 17743, 17701, 17745, 17724, 17712, 17749, 17753, 17757, 17247, 18122, 18084, 18086, 18198, 17976, 18104, 18173, 18127]
+self.neg_col neg
+User ID: 12464, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15036, 15009, 15081, 15069, 15024, 15397, 15435, 15693, 15407, 15648, 15621, 15745, 15706, 15704, 16097, 16089, 16086, 16300, 9198]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15036, 15009, 15081, 15069, 15024, 15397, 15435, 15693, 15407, 15648, 15621, 15745, 15706, 15704, 16097, 16089, 16086, 16300, 9198] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 1223, Clicks: [17952, 17961, 18037, 18037, 17980, 17982, 18049, 17997, 17997, 18037, 17888, 18036, 14782, 18042, 17811, 17811, 18060, 17356, 18058, 17985, 18018, 18017, 18055, 17983, 18100, 18146, 18146, 18182, 18130, 18218]
+self.neg_col neg
+User ID: 3482, Clicks: [17529, 17841, 17837, 17758, 17851, 17848, 17852, 17830, 16601, 17835, 17974, 18067, 18060, 13876, 17356, 17988, 17904, 18021, 18037, 18037, 18215, 18215, 18087, 18205, 17995, 14440, 18221, 18200, 18200, 18219]
+self.neg_col neg
+User ID: 2427, Clicks: [18151, 18148, 18172, 18168, 18159, 18149, 18171, 18189, 18171, 17542, 18031, 18124, 18209, 18127, 18204, 18127, 18192, 18127, 18197, 18127, 18205, 18211, 18099, 18093, 18201, 17542, 18201, 18155, 18201, 18185]
+self.neg_col neg
+User ID: 3116, Clicks: [17893, 17961, 17954, 17948, 18004, 17986, 17969, 18027, 18022, 18011, 18006, 17956, 18084, 17255, 18019, 18100, 18096, 18092, 18084, 18105, 18162, 18105, 18173, 18158, 18031, 17542, 18124, 18127, 18198, 17950]
+self.neg_col neg
+User ID: 3308, Clicks: [18022, 18004, 18022, 18069, 17974, 17533, 17974, 18048, 17916, 17988, 18067, 18066, 18065, 17988, 17533, 14782, 17956, 18019, 18047, 13756, 18180, 18156, 18009, 18215, 18087, 18213, 18123, 18216, 18205, 4542]
+self.neg_col neg
+User ID: 778, Clicks: [18216, 18211, 18099, 18093, 17542, 18104, 18218, 17663, 18131, 18213, 18186, 18200, 17663, 18215, 18131, 18205, 18213, 18099, 18093, 17542, 13756, 18155, 18124, 5654, 18124, 5654, 8512, 18209, 18104, 18039]
+self.neg_col neg
+User ID: 4952, Clicks: [18159, 18158, 18147, 18189, 18192, 18209, 18208, 18219, 18208, 17663, 18087, 17663, 18213, 17663, 18123, 17663, 18106, 17663, 18205, 17663, 18216, 17663, 18093, 17663, 18109, 17663, 18124, 18119, 18124, 18226]
+self.neg_col neg
+User ID: 10016, Clicks: [17871, 17909, 17934, 17806, 17923, 17806, 17916, 17806, 17861, 17806, 17929, 17806, 17806, 16601, 16601, 16601, 16601, 18014, 18037, 18043, 18036, 17911, 17911, 18143, 18146, 17060, 18117, 18129, 18135, 802]
+self.neg_col neg
+User ID: 2612, Clicks: [14564, 13431, 10314, 17514, 17731, 17075, 17726, 17719, 17948, 17948, 17954, 17891, 17944, 17876, 17909, 17914, 17896, 18004, 18006, 17986, 17984, 18019, 17983, 18048, 18127, 18197, 18219, 18219, 18218, 18123]
+self.neg_col neg
+User ID: 2181, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17683, 17684, 17666, 17730, 17711, 17688, 17734, 17734, 17734, 17734, 17829, 17829, 17851, 17830, 17848, 17830, 17854, 17830, 16105, 17935, 17935]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17683, 17684, 17666, 17730, 17711, 17688, 17734, 17734, 17734, 17734, 17829, 17829, 17851, 17830, 17848, 17830, 17854, 17830, 16105, 17935, 17935] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 9656, Clicks: [17728, 16875, 16875, 17773, 17782, 17769, 17818, 17791, 17818, 17816, 17225, 17225, 17376, 17943, 11364, 17943, 17940, 17943, 17929, 17933, 17949, 17933, 17983, 18005, 18133, 18133, 18179, 18119, 18219, 18218]
+self.neg_col neg
+User ID: 4643, Clicks: [18009, 18015, 18009, 13137, 18036, 18001, 17510, 18001, 18037, 17911, 18033, 18013, 18003, 17980, 18003, 18028, 18055, 18028, 17956, 18086, 18151, 18151, 18127, 17976, 17542, 17976, 18110, 17976, 18127, 18104]
+self.neg_col neg
+User ID: 9525, Clicks: [17666, 17662, 17075, 17813, 17817, 17818, 17791, 17818, 17225, 17818, 17820, 17943, 17930, 17940, 17951, 17886, 17941, 18064, 18065, 18107, 18088, 18097, 18072, 17543, 18139, 18117, 18139, 18147, 18085, 18087]
+self.neg_col neg
+User ID: 1728, Clicks: [18048, 18069, 18019, 18047, 17980, 17956, 18086, 18084, 18162, 18163, 18156, 18158, 18156, 18143, 18163, 18163, 18171, 18189, 18170, 18148, 18198, 17976, 18127, 18179, 18104, 17995, 14440, 18087, 18219, 18218]
+self.neg_col neg
+User ID: 9477, Clicks: [18005, 18060, 18062, 18059, 17886, 18046, 17974, 18048, 17935, 18067, 18133, 18171, 18189, 17792, 18198, 18206, 18194, 18127, 17950, 18192, 18104, 18031, 17542, 18124, 18217, 18219, 18200, 17663, 18215, 18087]
+self.neg_col neg
+User ID: 9140, Clicks: [17893, 17893, 18022, 18025, 18027, 18025, 18025, 17956, 17956, 18145, 18132, 18113, 18084, 18084, 18105, 18105, 18162, 18156, 18198, 18194, 18198, 18127, 18198, 18104, 18104, 18216, 18216, 18211, 18093, 18109]
+self.neg_col neg
+User ID: 13765, Clicks: [17649, 17646, 17596, 17584, 17452, 17005, 17251, 17608, 17595, 17538, 17456, 17025, 17691, 17705, 17539, 17680, 17674, 17145, 17711, 17711, 17728, 16801, 17711, 17499, 17724, 17726, 17719, 17656, 17716, 17714]
+self.neg_col neg
+User ID: 11377, Clicks: [17437, 17374, 17366, 17650, 17046, 17584, 17452, 17595, 17593, 17841, 17819, 17768, 16105, 17837, 17838, 17795, 17818, 17791, 17817, 17820, 17802, 17815, 17201, 17110, 17875, 17865, 17949, 17945, 17941, 17945]
+self.neg_col neg
+User ID: 1973, Clicks: [18130, 18168, 18171, 18105, 18104, 18127, 18192, 18189, 18105, 18105, 18105, 18105, 18105, 18198, 18031, 18207, 18207, 18205, 18207, 18186, 18153, 18215, 18087, 18106, 18213, 18194, 18210, 18194, 14440, 18199]
+self.neg_col neg
+User ID: 4488, Clicks: [18192, 18193, 17542, 18155, 18124, 18031, 18031, 18209, 18099, 18211, 18099, 18211, 18093, 18211, 18201, 18211, 18039, 17950, 18205, 18186, 18087, 18106, 18131, 18106, 18213, 18123, 18213, 18099, 18213, 18123]
+self.neg_col neg
+User ID: 11014, Clicks: [18198, 18194, 18127, 18068, 18198, 18153, 18198, 18204, 18031, 18215, 18131, 18131, 18106, 18123, 18106, 18205, 18106, 18211, 18106, 18093, 18109, 18219, 18200, 18218, 18218, 18217, 18213, 17995, 17879, 18221]
+self.neg_col neg
+User ID: 9674, Clicks: [16254, 17817, 17795, 17818, 17791, 17767, 17820, 17767, 17802, 17767, 17541, 17767, 17814, 17767, 17201, 17767, 16105, 17851, 17852, 15517, 17533, 17974, 18067, 18064, 18066, 18071, 18005, 18162, 18163, 18151]
+self.neg_col neg
+User ID: 4674, Clicks: [18042, 18037, 18033, 18038, 18060, 17980, 18018, 17980, 17967, 17980, 18055, 17980, 18041, 18005, 18064, 18050, 18074, 17983, 18066, 18075, 18066, 18069, 18097, 18072, 18090, 18151, 18182, 18194, 18198, 18216]
+self.neg_col neg
+User ID: 5013, Clicks: [17439, 17450, 17281, 17046, 17595, 17593, 17456, 17550, 17550, 17550, 17554, 17484, 17469, 17553, 17686, 17691, 17680, 17724, 17813, 17916, 17775, 17941, 17964, 17969, 17962, 18086, 18158, 15692, 18148, 18158]
+self.neg_col neg
+User ID: 8871, Clicks: [16614, 16642, 17346, 17509, 17485, 17506, 17554, 17514, 17554, 17484, 17554, 17584, 17608, 17472, 17662, 17577, 17643, 17643, 17803, 17792, 17782, 17967, 18021, 18036, 18024, 18027, 17988, 18134, 18088, 18200]
+self.neg_col neg
+User ID: 199, Clicks: [17999, 18048, 18096, 18097, 18092, 18072, 18084, 18047, 18098, 18083, 18117, 17060, 18117, 18133, 18117, 18097, 18162, 18147, 18127, 18108, 18087, 18123, 18205, 18124, 18206, 17995, 14440, 18221, 15871, 17663]
+self.neg_col neg
+User ID: 11452, Clicks: [17920, 17510, 17920, 17920, 17934, 17886, 17941, 17886, 17940, 17228, 17949, 17806, 17871, 18015, 18009, 18015, 17969, 14782, 17979, 13876, 18066, 18080, 17983, 18075, 17974, 18048, 18005, 17983, 18005, 18005]
+self.neg_col neg
+User ID: 7019, Clicks: [17877, 17856, 17862, 17042, 17919, 17934, 17585, 17924, 17916, 17240, 17872, 17872, 17944, 17930, 17944, 17945, 18011, 18009, 17972, 17974, 17533, 17884, 17884, 18075, 18075, 17999, 18046, 18005, 18031, 18104]
+self.neg_col neg
+User ID: 5629, Clicks: [17939, 18136, 18152, 18147, 18132, 18139, 11343, 18139, 18122, 18088, 18097, 18092, 18100, 18083, 18047, 18048, 18048, 18158, 18159, 18134, 18105, 18173, 18085, 18168, 18215, 18087, 18106, 18213, 18205, 18211]
+self.neg_col neg
+User ID: 14725, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17217, 17217, 17546, 17469, 17774, 17757, 17755]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17217, 17217, 17546, 17469, 17774, 17757, 17755] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 7064, Clicks: [18037, 17969, 18014, 18049, 18049, 18122, 18035, 17255, 18162, 18163, 18133, 18136, 18151, 18090, 18130, 18180, 18173, 18116, 18009, 18009, 18198, 18206, 18194, 18206, 18104, 14440, 17995, 18087, 18119, 14440]
+self.neg_col neg
+User ID: 1565, Clicks: [17855, 17807, 17894, 17881, 17881, 17240, 1422, 11791, 17916, 17921, 16665, 17932, 17932, 18029, 18029, 17980, 18018, 18049, 18056, 17974, 18067, 18152, 18152, 18152, 14440, 18199, 18200, 18215, 18123, 18093]
+self.neg_col neg
+User ID: 1574, Clicks: [18158, 18154, 18143, 18162, 18163, 18162, 18105, 18172, 18173, 18116, 18182, 18180, 18198, 17976, 18198, 18206, 18127, 17950, 18031, 18031, 17976, 18104, 17542, 18155, 18124, 18209, 18211, 18099, 18093, 18186]
+self.neg_col neg
+User ID: 3958, Clicks: [17941, 17941, 18004, 18006, 17972, 17986, 17972, 18006, 18006, 17973, 18006, 18006, 17893, 18006, 17989, 18006, 17963, 18006, 18006, 18044, 18033, 18014, 18033, 18037, 17974, 18066, 18071, 18105, 18130, 18151]
+self.neg_col neg
+User ID: 7486, Clicks: [18180, 18105, 18180, 18151, 18172, 18174, 8133, 6239, 18173, 18173, 18031, 17912, 18031, 17976, 18206, 17976, 18194, 18127, 18104, 18127, 18204, 18000, 18204, 18204, 18127, 18153, 18127, 18170, 18127, 18203]
+self.neg_col neg
+User ID: 299, Clicks: [18130, 18158, 18130, 18171, 18189, 18170, 18130, 18198, 18198, 18205, 18099, 18186, 12709, 18186, 17542, 18186, 18215, 18087, 18131, 18106, 18213, 18123, 18200, 13623, 17663, 14440, 18199, 18221, 18119, 18200]
+self.neg_col neg
+User ID: 6362, Clicks: [17753, 17672, 17743, 17774, 17757, 16933, 17773, 17830, 17515, 17862, 17867, 17665, 17944, 17946, 17940, 17909, 17861, 17916, 18009, 18022, 18075, 18066, 18162, 18088, 18221, 18087, 18215, 18213, 18123, 18124]
+self.neg_col neg
+User ID: 4255, Clicks: [17121, 16049, 16467, 17811, 17529, 17830, 17841, 14183, 17768, 17525, 17840, 17848, 17830, 17871, 1855, 17986, 17891, 17992, 18011, 17957, 14258, 17974, 18069, 18064, 18124, 17542, 18205, 18211, 18099, 18211]
+self.neg_col neg
+User ID: 5091, Clicks: [17768, 17820, 17820, 17820, 9670, 17929, 16601, 17929, 17897, 17949, 17585, 17585, 18080, 17974, 18149, 18136, 18146, 18136, 18135, 18084, 18135, 17891, 18135, 18100, 18135, 18130, 18198, 18104, 18198, 17995]
+self.neg_col neg
+User ID: 4225, Clicks: [15651, 17040, 17019, 17234, 17096, 17117, 17241, 17120, 17264, 17488, 17595, 17523, 17654, 17336, 14564, 17712, 17493, 17763, 17121, 17072, 17751, 14183, 17989, 17988, 18105, 17060, 18097, 18092, 18087, 18093]
+self.neg_col neg
+User ID: 4327, Clicks: [17815, 17815, 17939, 17943, 17939, 17930, 17940, 17930, 17938, 17930, 17909, 17930, 17939, 17924, 17939, 17240, 17240, 17240, 17983, 17999, 18046, 18048, 18069, 17935, 18053, 18071, 18087, 18131, 18205, 751]
+self.neg_col neg
+User ID: 506, Clicks: [17974, 18116, 18085, 18110, 18085, 18180, 18085, 18136, 18085, 18143, 18168, 18143, 18005, 18213, 18205, 18211, 18205, 18109, 18205, 17976, 18205, 18068, 18205, 17950, 18087, 17950, 17542, 17950, 18155, 17950]
+self.neg_col neg
+User ID: 6376, Clicks: [17956, 18090, 18086, 18090, 18072, 18047, 18105, 18151, 18163, 18130, 18105, 18130, 18148, 18172, 18198, 18031, 18204, 18031, 17542, 18093, 18099, 18209, 18087, 18131, 18106, 18123, 18218, 17663, 17542, 18109]
+self.neg_col neg
+User ID: 3606, Clicks: [17889, 17941, 17940, 17937, 17938, 17909, 17923, 17929, 17974, 18067, 18048, 18189, 18170, 18130, 18148, 18180, 18174, 18008, 17856, 18213, 18205, 18216, 18211, 18099, 18093, 17542, 18201, 18155, 18031, 18104]
+self.neg_col neg
+User ID: 11602, Clicks: [18163, 18134, 18163, 18117, 18151, 18117, 18147, 18143, 13572, 18143, 13756, 18143, 18154, 18151, 18105, 18211, 18099, 18201, 18192, 18201, 18194, 18205, 17542, 18205, 18031, 18205, 18204, 18205, 17976, 18205]
+self.neg_col neg
+User ID: 8970, Clicks: [18011, 17957, 18015, 18064, 18005, 18064, 18064, 18143, 18117, 18143, 17060, 18143, 18145, 18143, 18132, 18143, 18035, 18143, 10243, 18221, 10243, 18219, 10243, 18087, 10243, 18217, 10243, 18215, 10243, 18218]
+self.neg_col neg
+User ID: 4968, Clicks: [18189, 18151, 18134, 18147, 18151, 6238, 18151, 18143, 18130, 18171, 18031, 17976, 18031, 18194, 18031, 18104, 18127, 18206, 18127, 18197, 18127, 18110, 18127, 13756, 18127, 18085, 18127, 18158, 17542, 18158]
+self.neg_col neg
+User ID: 5009, Clicks: [18018, 17956, 18086, 18072, 17255, 18048, 17999, 18097, 18096, 18156, 18158, 18159, 18134, 18171, 18189, 18172, 18171, 18130, 18213, 18087, 18131, 18216, 18099, 18093, 17542, 18186, 18194, 18068, 17879, 17995]
+self.neg_col neg
+User ID: 1939, Clicks: [18006, 18003, 18006, 17972, 18006, 18011, 18006, 6911, 18046, 17983, 17974, 17999, 18048, 17533, 13876, 18005, 18084, 18019, 18084, 18047, 18080, 18057, 18215, 18087, 18131, 18106, 18205, 18211, 18099, 18093]
+self.neg_col neg
+User ID: 5405, Clicks: [17760, 17811, 17811, 17812, 17902, 17871, 17897, 17830, 17895, 17894, 17923, 17921, 17917, 17932, 17941, 17585, 18171, 18189, 18182, 18172, 18172, 18031, 18124, 18207, 18203, 18216, 18093, 18124, 18124, 18185]
+self.neg_col neg
+User ID: 4954, Clicks: [18026, 18001, 13534, 18013, 17972, 18026, 6558, 18037, 18036, 18026, 17922, 18058, 18041, 18151, 18163, 18159, 18151, 18151, 18151, 18151, 18151, 18151, 18189, 18182, 18162, 18174, 18008, 14782, 18182, 18085]
+self.neg_col neg
+User ID: 2131, Clicks: [18171, 18180, 18180, 18180, 18008, 18104, 18195, 18104, 18192, 18148, 18153, 18170, 18197, 11740, 11740, 11740, 18192, 18031, 17542, 18124, 18201, 18211, 18106, 18209, 18153, 18209, 18226, 18226, 18219, 14440]
+self.neg_col neg
+User ID: 3543, Clicks: [18170, 18189, 18130, 18148, 15212, 18156, 13756, 18156, 15212, 18133, 18093, 18104, 18099, 17542, 18099, 18093, 18124, 18093, 18137, 17663, 18213, 17663, 18123, 17663, 18186, 17542, 18137, 18185, 18137, 18206]
+self.neg_col neg
+User ID: 1222, Clicks: [18036, 17878, 18005, 18062, 18100, 18117, 18132, 18122, 18097, 18162, 18085, 18163, 18112, 18117, 18182, 18105, 18182, 18171, 18189, 18170, 6973, 18170, 18104, 18198, 17976, 18127, 18179, 18203, 18205, 18186]
+self.neg_col neg
+User ID: 12199, Clicks: [16983, 17028, 17019, 17031, 17001, 17009, 15651, 16830, 16939, 17305, 17330, 17817, 17818, 17791, 17201, 17225, 17803, 17260, 17652, 17949, 17946, 17944, 17937, 17585, 16109, 17924, 17916, 16887, 17860, 17850]
+self.neg_col neg
+User ID: 13272, Clicks: [17853, 17830, 17846, 17845, 17846, 15829, 15829, 17035, 15829, 12199, 18087, 18123, 18087, 18216, 18087, 18211, 18215, 18131, 18099, 18131, 18093, 8157, 18153, 8523, 18153, 18093, 18153, 18209, 18186, 17974]
+self.neg_col neg
+User ID: 11826, Clicks: [17046, 13869, 17046, 15033, 17668, 17671, 14564, 17648, 17648, 15033, 15033, 15033, 15033, 15033, 17815, 17669, 15033, 17913, 17850, 17871, 17850, 17906, 17898, 17906, 17228, 17906, 15033, 17974, 17884, 18062]
+self.neg_col neg
+User ID: 4014, Clicks: [18038, 17888, 17980, 18055, 18056, 18075, 18069, 18080, 17983, 18074, 17356, 17714, 18116, 18173, 18211, 18099, 17542, 17976, 18104, 18221, 18200, 17663, 18123, 18209, 18031, 18127, 18197, 18133, 18048, 17995]self.neg_col neg
+User ID: 5261, Clicks: [18146, 17060, 18145, 18135, 18133, 18149, 18134, 18147, 18162, 18156, 18158, 18159, 18105, 18085, 18163, 18163, 18163, 17542, 18031, 18124, 18198, 18194, 18104, 18200, 17663, 18087, 18123, 17995, 18199, 18221]
+self.neg_col neg
+User ID: 2278, Clicks: [18064, 18066, 18019, 18047, 18075, 13756, 18100, 18117, 17060, 18139, 18141, 18096, 14782, 18105, 18130, 15211, 15211, 18189, 18170, 18180, 18198, 18127, 18153, 18127, 18127, 18119, 18218, 18123, 18153, 18198]
+self.neg_col neg
+User ID: 6099, Clicks: [18040, 18080, 17983, 8157, 18067, 18046, 17515, 18046, 18092, 17935, 17974, 17903, 17356, 18097, 18097, 17989, 13876, 17989, 18058, 17989, 18046, 18046, 18155, 17978, 18153, 18185, 18206, 18198, 18127, 18110]
+self.neg_col neg
+User ID: 10902, Clicks: [17500, 17830, 17837, 16105, 17529, 17841, 17848, 17846, 17852, 17837, 17862, 17862, 17954, 17941, 17933, 17994, 17991, 18004, 17972, 18011, 18013, 18015, 18009, 17992, 18162, 18156, 18158, 18136, 18143, 18139]
+self.neg_col neg
+User ID: 9082, Clicks: [17965, 17893, 17940, 17893, 17973, 17912, 18009, 13534, 18011, 17983, 17884, 18005, 17922, 18048, 18058, 18063, 18054, 18043, 17956, 18077, 18035, 18122, 18097, 18072, 18069, 17974, 18146, 18152, 18143, 18145]
+self.neg_col neg
+User ID: 4425, Clicks: [18092, 18072, 18083, 18104, 18127, 18104, 18130, 18104, 18082, 18104, 18182, 18104, 18104, 18179, 18068, 18068, 17240, 18116, 18008, 18158, 18158, 18171, 18194, 18199, 14440, 18199, 18221, 17995, 18200, 18153]
+self.neg_col neg
+User ID: 10561, Clicks: [10125, 10681, 17072, 17247, 17761, 17795, 17794, 17796, 17818, 8709, 11059, 17818, 17865, 17830, 18075, 18046, 8376, 18097, 17956, 18072, 18084, 17999, 18066, 18053, 14782, 18152, 18151, 18152, 18133, 18152]
+self.neg_col neg
+User ID: 14462, Clicks: [14364, 15878, 17947, 17946, 17930, 18043, 18014, 18037, 18001, 18004, 18015, 18117, 18099, 18093, 17542, 18031, 18209, 18194, 18204, 17976, 18179, 18068, 18203, 18171, 17663, 18215, 18123, 18216, 18099, 18195]
+self.neg_col neg
+User ID: 4527, Clicks: [17734, 17759, 17761, 17747, 17754, 17756, 17753, 17744, 17784, 17895, 17894, 17515, 17919, 17938, 10899, 12484, 17936, 17585, 17941, 17916, 17924, 17228, 12824, 17909, 17898, 17533, 18067, 18058, 13797, 17533]
+self.neg_col neg
+User ID: 7943, Clicks: [17980, 17967, 17982, 17967, 18041, 17967, 18043, 17967, 17911, 17967, 18029, 17967, 18015, 17967, 17972, 17967, 17980, 18055, 17980, 18022, 17980, 18035, 18088, 18097, 18083, 18096, 18048, 17935, 18053, 18071]
+self.neg_col neg
+User ID: 2695, Clicks: [17949, 17886, 17946, 17948, 18004, 18011, 18013, 17960, 18065, 18059, 17988, 18080, 17983, 17956, 18084, 18019, 18047, 18048, 18097, 18097, 18090, 18132, 18122, 18088, 18035, 18189, 18205, 18093, 18186, 18034]
+self.neg_col neg
+User ID: 2476, Clicks: [15451, 15476, 15646, 16136, 16350, 16350, 16350, 16367, 16388, 16390, 15963, 16387, 16442, 13612, 13612, 16517, 16521, 16876, 16828, 16804, 16854, 16869, 16982, 17273, 17712, 17712, 17706, 17706, 18006, 18049]
+self.neg_col neg
+User ID: 9055, Clicks: [17871, 17890, 17871, 17902, 17871, 17898, 17871, 17871, 17896, 17871, 17859, 17871, 17811, 17871, 15878, 17880, 17847, 17964, 17893, 17955, 17961, 17962, 17952, 17941, 17945, 17585, 17949, 17665, 17946, 17924]
+self.neg_col neg
+User ID: 882, Clicks: [17506, 17506, 17506, 17817, 17818, 17802, 17791, 17225, 17814, 17951, 17948, 17886, 17939, 17806, 17909, 17931, 17876, 18006, 18003, 17972, 17973, 18011, 18013, 17992, 18009, 17973, 17912, 17957, 17973, 18033]
+self.neg_col neg
+User ID: 8231, Clicks: [16148, 16421, 16421, 16542, 16696, 16696, 17724, 17711, 17726, 17719, 17712, 17705, 17817, 17791, 17811, 17811, 17889, 17930, 17585, 17585, 17542, 18127, 18209, 17976, 18200, 17663, 18093, 18155, 18124, 18124]
+self.neg_col neg
+User ID: 2620, Clicks: [17808, 17811, 17764, 17818, 17816, 17817, 17529, 17913, 17906, 17917, 17921, 17850, 17920, 17912, 17973, 17973, 18075, 17983, 17999, 18069, 18064, 18198, 18198, 18197, 18031, 18127, 18192, 18219, 18119, 18127]
+self.neg_col neg
+User ID: 8903, Clicks: [17989, 17958, 17984, 17961, 17585, 18049, 18021, 18043, 17878, 14782, 17228, 17912, 17980, 17982, 18041, 18018, 18019, 18080, 18047, 18075, 18048, 13756, 13756, 18067, 18067, 18064, 18040, 17533, 18221, 14440]
+self.neg_col neg
+User ID: 5803, Clicks: [17892, 17895, 17529, 17902, 13875, 17923, 17924, 17929, 16601, 17861, 17916, 17860, 17872, 17948, 17585, 17909, 18033, 18025, 17228, 17980, 18049, 18074, 18075, 17974, 18053, 18100, 18097, 18090, 18182, 18173]
+self.neg_col neg
+User ID: 3249, Clicks: [17742, 17075, 17727, 17711, 17656, 17771, 17782, 17830, 17851, 17862, 17852, 17860, 17917, 17871, 17929, 16601, 17874, 17916, 17240, 17911, 17922, 18025, 18028, 13534, 17980, 18049, 18021, 18014, 18031, 17542]
+self.neg_col neg
+User ID: 1582, Clicks: [17979, 18013, 17960, 18009, 18015, 17972, 17228, 18058, 18058, 17983, 17999, 17974, 18046, 18067, 17935, 18065, 18090, 18086, 18072, 4494, 18047, 18074, 18149, 18136, 18151, 18194, 18104, 18127, 18197, 18195]
+self.neg_col neg
+User ID: 9315, Clicks: [14782, 18049, 17920, 17920, 17957, 18064, 18066, 18005, 18062, 15867, 13534, 18107, 18122, 9125, 18100, 13756, 18090, 18084, 17983, 13876, 18152, 18147, 18143, 18105, 18130, 18116, 18173, 18159, 18117, 18145]
+self.neg_col neg
+User ID: 10395, Clicks: [16394, 16383, 16389, 16383, 16355, 16436, 16472, 16466, 13118, 16439, 16696, 15913, 16691, 16619, 16597, 16823, 15889, 16907, 16890, 16653, 17117, 17094, 17066, 17360, 17055, 17921, 17906, 17830, 18060, 17356]
+self.neg_col neg
+User ID: 8700, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14970, 15116, 16124, 16124, 16124, 16145, 16427, 17916, 17924, 17916, 17995, 18127]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14970, 15116, 16124, 16124, 16124, 16145, 16427, 17916, 17924, 17916, 17995, 18127] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 6110, Clicks: [17726, 17730, 17743, 17747, 17075, 17769, 17765, 17772, 17779, 17830, 17837, 17851, 17964, 17963, 17964, 17952, 17964, 17948, 17964, 17941, 17964, 17924, 17861, 17916, 18019, 17999, 17884, 18107, 18088, 18088]
+self.neg_col neg
+User ID: 7268, Clicks: [16842, 16858, 16907, 9804, 16883, 16984, 16985, 16830, 16880, 16907, 16861, 16939, 16929, 15612, 17145, 17140, 17111, 17131, 17117, 17373, 17872, 17906, 17961, 17949, 17946, 17946, 17946, 17906, 17906, 17906]
+self.neg_col neg
+User ID: 4619, Clicks: [18105, 18173, 18085, 11302, 16049, 17920, 18130, 18174, 18198, 18153, 18155, 18211, 18093, 13756, 18186, 18109, 13756, 18213, 18087, 18213, 18153, 18131, 18216, 18087, 18200, 17663, 18099, 17542, 15692, 18119]
+self.neg_col neg
+User ID: 2189, Clicks: [15212, 15398, 15690, 16496, 16630, 16643, 16640, 16578, 12749, 12189, 10814, 16696, 16695, 16796, 16609, 16599, 16791, 16880, 16791, 16924, 16791, 16937, 16791, 16791, 17711, 17916, 17860, 17916, 17240, 17916]
+self.neg_col neg
+User ID: 10822, Clicks: [17365, 17352, 16282, 15690, 17484, 17532, 3630, 17475, 11578, 12333, 16615, 17484, 17046, 16655, 17608, 17725, 17247, 17669, 17260, 17838, 17768, 17791, 11360, 17855, 17835, 17110, 3319, 17515, 14571, 17897]
+self.neg_col neg
+User ID: 8469, Clicks: [18130, 18182, 18105, 18182, 18172, 18130, 18148, 18116, 18162, 18104, 18105, 18217, 18217, 17663, 18215, 18200, 18215, 18153, 18205, 18087, 18213, 18213, 18105, 18219, 18087, 18216, 18211, 18093, 18099, 18099]
+self.neg_col neg
+User ID: 1253, Clicks: [15690, 15701, 15849, 15688, 15868, 15677, 15876, 15886, 15594, 16030, 15887, 15975, 15869, 15976, 15918, 15950, 15834, 15957, 15594, 16075, 16071, 16050, 16034, 16883, 16876, 16828, 16797, 17086, 17059, 17026]
+self.neg_col neg
+User ID: 3785, Clicks: [18063, 18075, 18074, 17974, 18048, 17999, 18066, 18046, 18067, 17533, 18064, 18155, 18093, 17542, 18031, 8157, 18194, 18182, 18192, 18182, 18194, 18209, 18194, 18104, 18194, 18197, 18194, 18110, 18194, 18194]
+self.neg_col neg
+  0%|          | 0/80805 [00:00<?, ?it/s]  0%|          | 0/80805 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 489, in <module>
+    worker.run()
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 441, in run
+    epoch = self.train_runner()
+            ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 384, in train_runner
+    return self.train()
+           ^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 168, in train
+    for step, batch in enumerate(tqdm(loader, disable=self.disable_tqdm)):
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+Some nids in [20738, 20738, 20738, 20738, 16253, 16267, 11400, 12189, 15883, 16273, 16273, 10605, 16578, 15959, 15959, 16783, 16778, 16861, 16689, 16467, 16843, 16801, 16801, 17230, 17126, 16860, 8323, 17229, 6600, 2618] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 4534, Clicks: [18151, 18182, 18180, 18130, 18127, 18170, 18127, 18192, 17542, 18153, 18127, 18031, 17542, 18093, 18201, 18099, 18201, 18155, 18201, 17542, 18207, 17542, 18213, 18087, 18123, 18205, 18216, 18205, 13756, 17995]
+self.neg_col neg
+User ID: 981, Clicks: [18037, 18024, 18009, 18049, 18037, 18018, 18060, 17988, 13876, 18066, 18065, 18059, 18080, 18158, 18162, 18104, 18170, 18130, 18198, 17542, 18124, 18205, 18087, 18215, 18200, 18213, 18200, 18099, 18200, 17542]
+self.neg_col neg
+User ID: 495, Clicks: [17893, 17893, 17963, 17963, 17959, 17992, 18004, 17973, 18004, 17973, 18004, 18009, 18025, 17979, 18027, 18022, 18027, 17982, 18049, 17956, 18086, 18084, 18065, 18143, 17060, 18151, 18136, 18151, 18151, 18215]
+self.neg_col neg
+User ID: 3938, Clicks: [17980, 18056, 18018, 18055, 17997, 18059, 18060, 17228, 17228, 17983, 18080, 17983, 18048, 17983, 17983, 17956, 18086, 18084, 18019, 18100, 18100, 18031, 17976, 18127, 18104, 18127, 18179, 18127, 18149, 18094]
+self.neg_col neg
+User ID: 1849, Clicks: [17735, 17786, 17830, 17817, 17791, 17827, 17880, 17881, 17851, 17865, 18037, 18037, 17878, 17878, 17974, 18019, 18080, 18019, 18072, 18072, 18072, 18106, 18123, 18093, 18186, 18185, 18215, 18131, 18213, 18123]
+self.neg_col neg
+User ID: 8904, Clicks: [18044, 18014, 18038, 18043, 18064, 18066, 18065, 18149, 18151, 18147, 18146, 18139, 18151, 18182, 18180, 18148, 18205, 18211, 18099, 18093, 17542, 18207, 18201, 18217, 18219, 18200, 17663, 18087, 18213, 18106]
+self.neg_col neg
+User ID: 1969, Clicks: [17796, 17830, 17761, 17830, 17817, 16105, 17525, 17525, 17916, 14547, 17916, 17240, 17932, 17943, 17806, 17944, 17891, 18009, 17811, 17974, 18130, 15211, 18130, 18162, 17542, 18124, 18127, 18211, 18099, 18211]
+self.neg_col neg
+User ID: 4627, Clicks: [17920, 18084, 18135, 18151, 18171, 18171, 18189, 18211, 18093, 17542, 18215, 18087, 18131, 18213, 18205, 18211, 18153, 18109, 18185, 13756, 18215, 18124, 18127, 18170, 18192, 17950, 18110, 18040, 18108, 18130]
+self.neg_col neg
+User ID: 14384, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14844, 14826, 15284, 15026, 15297, 15271, 15327, 16050, 16057, 16040, 18084, 18148, 18130, 18130, 18104]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14844, 14826, 15284, 15026, 15297, 15271, 15327, 16050, 16057, 16040, 18084, 18148, 18130, 18130, 18104] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 9296, Clicks: [17980, 17967, 17956, 18072, 17255, 17999, 18090, 18097, 18100, 18092, 18035, 18122, 18143, 18117, 18139, 18117, 18133, 18117, 18113, 18117, 18088, 18145, 18152, 18149, 18154, 18162, 18163, 18134, 18147, 18105]
+self.neg_col neg
+User ID: 5181, Clicks: [17922, 18028, 18028, 18028, 18066, 17356, 17990, 18069, 17533, 17884, 17935, 18100, 18097, 18101, 18090, 18072, 17255, 18048, 17999, 15867, 18105, 18162, 18151, 18163, 18112, 18168, 18168, 18168, 18159, 18117]
+self.neg_col neg
+User ID: 6958, Clicks: [18094, 18151, 18151, 18151, 18151, 18105, 18149, 18215, 18087, 18131, 18106, 18213, 18123, 18205, 18216, 18124, 18209, 18099, 18031, 18123, 18219, 18200, 17663, 18217, 4899, 18221, 18199, 17995, 17879, 18226]
+self.neg_col neg
+User ID: 7217, Clicks: [17962, 17956, 18019, 18100, 18096, 18097, 18092, 18084, 18105, 18162, 18151, 18085, 18163, 18112, 18158, 18134, 18136, 18159, 18159, 18147, 18146, 18143, 17983, 13756, 18132, 18139, 18113, 18133, 18122, 17543]
+self.neg_col neg
+User ID: 9043, Clicks: [18096, 18097, 18090, 17956, 18072, 17255, 18074, 18019, 17974, 18075, 18046, 18034, 17884, 18030, 18215, 18087, 18131, 18106, 18123, 18216, 18099, 18201, 18124, 17995, 17879, 14440, 18199, 17663, 18137, 18206]
+self.neg_col neg
+User ID: 12462, Clicks: [15652, 15636, 13929, 16384, 15453, 16820, 16843, 17028, 16983, 17019, 16983, 17023, 16983, 16983, 17028, 17061, 17051, 17042, 17229, 17246, 17230, 18011, 17891, 17965, 13562, 18004, 13562, 18105, 17542, 18179]
+self.neg_col neg
+User ID: 616, Clicks: [18159, 18163, 18151, 18136, 18134, 18147, 13756, 18143, 17060, 18139, 18129, 18135, 14782, 18087, 18213, 18123, 18205, 18216, 18093, 18109, 18155, 18124, 18209, 18185, 18206, 18194, 18127, 18203, 18215, 18189]
+self.neg_col neg
+User ID: 8238, Clicks: [17872, 17899, 17855, 17921, 17916, 17850, 17240, 17861, 16601, 17923, 17861, 17924, 8944, 18022, 18033, 17922, 18028, 18005, 18060, 18064, 18060, 18059, 18149, 18136, 18151, 18156, 18182, 18130, 18180, 18130]
+self.neg_col neg
+User ID: 11945, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16447, 17230, 17254, 17491, 16887, 17260, 18066]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16447, 17230, 17254, 17491, 16887, 17260, 18066] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 7443, Clicks: [17985, 18100, 18084, 18066, 18069, 18060, 13876, 18149, 18136, 18154, 18147, 17060, 18141, 18088, 17255, 18104, 18127, 18189, 18130, 18148, 18087, 18131, 18205, 18211, 18093, 17542, 18155, 14440, 18119, 18218]
+self.neg_col neg
+User ID: 8920, Clicks: [17904, 17985, 18018, 18017, 17997, 18037, 18215, 18087, 18131, 18131, 18213, 18123, 18205, 18205, 18216, 18211, 18099, 18093, 17542, 18155, 18130, 18034, 18104, 18127, 18104, 18068, 18197, 17663, 18200, 18123]
+self.neg_col neg
+User ID: 10395, Clicks: [16394, 16383, 16389, 16383, 16355, 16436, 16472, 16466, 13118, 16439, 16696, 15913, 16691, 16619, 16597, 16823, 15889, 16907, 16890, 16653, 17117, 17094, 17066, 17360, 17055, 17921, 17906, 17830, 18060, 17356]
+self.neg_col neg
+User ID: 7075, Clicks: [16148, 15934, 16148, 16444, 16427, 16444, 16440, 16467, 16597, 11085, 16801, 10977, 16790, 13920, 17001, 4866, 17001, 17119, 10779, 17074, 17222, 17353, 17055, 17079, 17467, 17525, 18162, 18143, 18198, 18031]
+self.neg_col neg
+User ID: 426, Clicks: [18044, 18084, 18019, 18047, 17999, 17356, 4521, 18189, 18170, 18182, 18174, 18085, 18112, 18168, 18198, 18203, 18031, 17976, 18206, 18104, 18215, 18131, 18093, 18197, 18197, 18221, 18119, 18087, 18217, 18205]
+self.neg_col neg
+User ID: 10767, Clicks: [17760, 17681, 17851, 17830, 17852, 17853, 17819, 18004, 17986, 17991, 17973, 13534, 18000, 17893, 17989, 17963, 17959, 17984, 17886, 17956, 18086, 18072, 18084, 18074, 18080, 18075, 17999, 18048, 18046, 18069]
+self.neg_col neg
+User ID: 4001, Clicks: [18047, 18132, 18105, 18130, 18116, 18151, 18173, 18163, 18168, 18172, 18174, 18180, 18031, 17976, 18206, 18127, 18204, 18203, 18189, 18205, 18109, 18213, 18205, 18119, 18217, 18219, 18200, 18087, 18216, 17542]
+self.neg_col neg
+User ID: 5887, Clicks: [18180, 18215, 18087, 18131, 18213, 18123, 18205, 18216, 18211, 18153, 18099, 17542, 18186, 18093, 18109, 18201, 18155, 18124, 18127, 18009, 18185, 18204, 18206, 18127, 18031, 18170, 17950, 18197, 17260, 18208]
+self.neg_col neg
+User ID: 362, Clicks: [18093, 18209, 18185, 18031, 18185, 17976, 18086, 18194, 18194, 18182, 18194, 18104, 18194, 18197, 14142, 18197, 18104, 18197, 18039, 14440, 18221, 8157, 17995, 8157, 18221, 18200, 18221, 18215, 10129, 18226]
+self.neg_col neg
+User ID: 3438, Clicks: [17886, 17951, 17954, 17991, 18011, 18028, 18033, 17980, 18005, 18064, 17983, 18084, 18122, 17060, 18154, 18116, 18116, 18130, 17976, 18127, 18155, 17542, 18205, 18093, 18123, 18131, 18215, 18087, 18219, 18217]
+self.neg_col neg
+
+self.neg_col neg
+User ID: 11752, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17899, 17877, 18005, 17356, 17990, 17985, 18017, 15867, 18041, 18031, 17542, 18124, 18207]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 17899, 17877, 18005, 17356, 17990, 17985, 18017, 15867, 18041, 18031, 17542, 18124, 18207] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 6924, Clicks: [18092, 18122, 17060, 18133, 18136, 18154, 18151, 18147, 18143, 18151, 18162, 18151, 18163, 18105, 18151, 18130, 18180, 18105, 18151, 18182, 18105, 18172, 18105, 18127, 18192, 18153, 18189, 18130, 18182, 18082]
+self.neg_col neg
+User ID: 5387, Clicks: [17861, 17944, 18025, 18011, 18025, 17979, 13534, 18009, 17912, 17228, 17998, 17969, 17984, 18156, 18158, 18104, 5512, 18173, 18127, 18206, 18155, 17542, 18179, 18170, 18082, 18116, 18153, 18131, 14440, 18200]
+self.neg_col neg
+User ID: 5502, Clicks: [17664, 17661, 13042, 17681, 17744, 16887, 17746, 17748, 17049, 17747, 17744, 17812, 17814, 17791, 17830, 17871, 18009, 18062, 17356, 14782, 18049, 18053, 17974, 18080, 18075, 17974, 18090, 18047, 18136, 18163]
+self.neg_col neg
+User ID: 4373, Clicks: [18085, 18163, 18162, 18085, 18134, 18147, 18117, 13756, 18008, 18152, 18211, 18099, 18093, 17542, 18155, 18124, 18153, 18170, 18221, 18119, 18119, 18087, 18215, 18213, 18131, 17955, 18131, 15871, 18186, 18170]
+self.neg_col neg
+User ID: 6306, Clicks: [18080, 18063, 18066, 18069, 17533, 17985, 18090, 17956, 17255, 18074, 17974, 18067, 17935, 17990, 18152, 18136, 18151, 18145, 18145, 18151, 18151, 18151, 18149, 18136, 18154, 18151, 18132, 18151, 18130, 15211]
+self.neg_col neg
+User ID: 5412, Clicks: [13534, 18029, 18026, 18011, 18042, 17911, 18005, 17356, 17985, 18018, 17980, 18017, 18051, 18147, 18145, 18149, 18085, 18159, 18146, 18105, 18189, 18170, 18195, 18192, 18170, 18130, 18031, 17542, 18207, 18209]
+self.neg_col neg
+User ID: 6548, Clicks: [13875, 17923, 16601, 16665, 17871, 17908, 18004, 18006, 17986, 17994, 17991, 17969, 17893, 17961, 18037, 18009, 18130, 17060, 18133, 18088, 18084, 18211, 18099, 18093, 17542, 18185, 18124, 18215, 18087, 18131]
+self.neg_col neg
+User ID: 1364, Clicks: [18033, 17911, 17922, 18037, 18037, 18037, 18066, 18005, 18005, 18046, 18048, 17914, 18074, 18019, 18069, 18069, 17542, 18127, 17976, 18031, 18206, 18179, 18104, 18197, 18162, 18143, 17259, 17259, 18226, 18099]
+self.neg_col neg
+User ID: 6354, Clicks: [17855, 17906, 17886, 17949, 17945, 17952, 17931, 18025, 13534, 18080, 17983, 18075, 17983, 17999, 17983, 18048, 17983, 18066, 18074, 18151, 18105, 18182, 18130, 15665, 18130, 18087, 18219, 17145, 18119, 18207]
+self.neg_col neg
+User ID: 1612, Clicks: [18005, 18060, 18062, 18065, 18059, 17356, 18221, 18119, 18219, 18200, 18087, 18213, 18217, 8157, 18153, 17663, 18123, 18131, 18106, 18205, 15871, 18216, 18211, 18093, 18186, 18109, 18099, 13756, 18127, 18170]
+self.neg_col neg
+User ID: 3353, Clicks: [18156, 18136, 18154, 18136, 18135, 18143, 18097, 18162, 18097, 18159, 18097, 18151, 18097, 18147, 18092, 18130, 15665, 18130, 18104, 18130, 18171, 18130, 18148, 18153, 18148, 18148, 18173, 18198, 18124, 18215]
+self.neg_col neg
+User ID: 9825, Clicks: [18085, 18173, 18163, 18173, 18146, 18173, 18173, 18104, 18192, 18189, 18192, 18148, 18205, 18099, 18201, 17542, 18207, 18207, 18194, 18192, 18093, 17995, 14440, 17995, 18200, 17995, 18119, 17995, 18109, 17995]
+self.neg_col neg
+User ID: 7839, Clicks: [18071, 13876, 18059, 18034, 18018, 18051, 18198, 17976, 18127, 17950, 18204, 18104, 18179, 17995, 14440, 18221, 18119, 18200, 18219, 18213, 18087, 17663, 15871, 18216, 18093, 18137, 18186, 18109, 18201, 18201]
+self.neg_col neg
+User ID: 5254, Clicks: [17058, 17295, 17344, 16641, 17274, 17035, 17300, 17242, 17297, 9868, 17692, 16887, 17761, 17786, 17786, 17860, 17850, 17860, 17872, 17860, 17890, 17860, 17525, 17860, 15878, 18022, 18009, 17891, 17525, 18084]
+self.neg_col neg
+User ID: 5865, Clicks: [16315, 16307, 9202, 16331, 16346, 16776, 16748, 16776, 16716, 16718, 16585, 16718, 16636, 16718, 16702, 16718, 15889, 16718, 16659, 16718, 16776, 16875, 15865, 16858, 17139, 17139, 17117, 17139, 17114, 18005]
+self.neg_col neg
+User ID: 5850, Clicks: [18046, 18075, 18048, 18066, 17983, 18066, 18074, 18019, 17228, 18019, 18080, 18019, 18074, 18053, 18035, 18122, 18094, 18122, 18117, 18132, 18133, 18113, 18094, 18097, 18182, 18199, 18087, 18200, 18213, 17542]
+self.neg_col neg
+User ID: 1678, Clicks: [18067, 18067, 17255, 18047, 18146, 17891, 18105, 18130, 15211, 18130, 18151, 18162, 18134, 18171, 18189, 18171, 18130, 18130, 18171, 18155, 18213, 18205, 18213, 18099, 18213, 18186, 18213, 18109, 18213, 18124]
+self.neg_col neg
+User ID: 151, Clicks: [17774, 17529, 17846, 17869, 17830, 17851, 17862, 17854, 17853, 17848, 17881, 17882, 17877, 17902, 17913, 17965, 17975, 17969, 17964, 17964, 17974, 17533, 18067, 18066, 18060, 17356, 17985, 17985, 18087, 18131]
+self.neg_col neg
+User ID: 13309, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15185, 15975, 15962, 15721, 16936, 16919, 16919, 11512, 17061, 17031, 18105]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15185, 15975, 15962, 15721, 16936, 16919, 16919, 11512, 17061, 17031, 18105] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 5690, Clicks: [18037, 18044, 18044, 17956, 18086, 18072, 18048, 18098, 18097, 17543, 18101, 18090, 18151, 18162, 18163, 18156, 18182, 18148, 18182, 18105, 17542, 18155, 18031, 18209, 18198, 18204, 18192, 18124, 17976, 18172]
+self.neg_col neg
+User ID: 7783, Clicks: [17941, 17951, 17951, 18148, 18085, 18173, 15212, 18158, 17240, 18136, 18205, 18216, 17542, 18093, 18213, 18099, 18153, 18124, 18124, 18031, 18124, 18179, 18124, 18127, 18213, 18127, 18087, 18106, 18087, 18087]
+self.neg_col neg
+User ID: 4973, Clicks: [18151, 18163, 18105, 18163, 18149, 18163, 18037, 18163, 18163, 18133, 18163, 18122, 18163, 17891, 18163, 18097, 18163, 18072, 18158, 18072, 18163, 12291, 18182, 18130, 18180, 18130, 18130, 18116, 18130, 18008]
+self.neg_col neg
+User ID: 11877, Clicks: [18209, 18207, 18211, 18099, 18211, 18093, 18211, 18213, 18087, 18123, 18216, 18186, 18109, 18186, 18201, 18205, 18201, 18215, 18131, 18185, 18221, 18119, 18219, 18200, 18217, 17663, 17663, 14440, 18199, 18217]
+self.neg_col neg
+User ID: 3588, Clicks: [17542, 18124, 18209, 18206, 18198, 18198, 18179, 18197, 18116, 18162, 18085, 18219, 17145, 18219, 18087, 18215, 18200, 18218, 18123, 18131, 18106, 18199, 17879, 18221, 18200, 18217, 18099, 18186, 17909, 18226]
+self.neg_col neg
+self.neg_col neg
+User ID: 14560, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 18069, 17935, 17982, 18129, 18035, 18097, 18216]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 18069, 17935, 17982, 18129, 18035, 18097, 18216] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 14426, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16136, 16347, 16349, 16330, 16349, 17830, 17834, 17795, 17815, 17815, 17980, 18060, 18018, 18014, 18162, 18195, 18104]
+User ID: 1176, Clicks: [17986, 17960, 17969, 17893, 17893, 18037, 17911, 17911, 18033, 17878, 17980, 17982, 17997, 18014, 18014, 18080, 17983, 18074, 17974, 18048, 18005, 18062, 18162, 18213, 18205, 18093, 18099, 17542, 18186, 18093]
+self.neg_col neg
+User ID: 8188, Clicks: [17864, 17862, 17871, 17902, 17906, 17860, 16665, 16931, 17951, 17886, 17945, 17969, 17959, 17957, 18011, 18130, 18105, 18105, 18105, 18104, 18127, 18105, 18127, 18171, 18127, 18082, 18082, 18031, 18124, 18216]
+self.neg_col neg
+User ID: 8686, Clicks: [18182, 18215, 18087, 18131, 18106, 18213, 18213, 18123, 18205, 18216, 18211, 18099, 18093, 18186, 16867, 18186, 17542, 18201, 18124, 18155, 18127, 18209, 18206, 18170, 17950, 18171, 6620, 18216, 18215, 18221]
+self.neg_col neg
+User ID: 9046, Clicks: [17284, 16860, 10814, 16860, 17284, 17367, 17714, 17225, 17225, 12935, 17769, 17929, 17923, 17929, 17228, 17929, 17769, 15867, 18205, 17542, 18153, 18124, 18124, 13756, 18127, 17976, 18127, 18189, 18213, 18213]
+self.neg_col neg
+User ID: 2218, Clicks: [17854, 17768, 17838, 17871, 17898, 17902, 17894, 17881, 17921, 17917, 17228, 17855, 17930, 17228, 17962, 13534, 18009, 18072, 18019, 18074, 18066, 14782, 18189, 18182, 18130, 18149, 18129, 18211, 18203, 18087]
+self.neg_col neg
+User ID: 1732, Clicks: [18150, 18145, 18042, 18151, 18182, 18180, 18105, 18172, 18174, 18112, 18031, 17542, 18124, 18198, 18206, 18127, 18194, 18192, 18110, 18221, 18119, 18219, 18087, 18213, 17663, 18131, 18205, 18216, 18186, 18109]
+self.neg_col neg
+User ID: 11162, Clicks: [16424, 16414, 16417, 16321, 16476, 16476, 16636, 16596, 16702, 16616, 16393, 16393, 16916, 16919, 16917, 16423, 16904, 16833, 16854, 16393, 16393, 16393, 18104, 18127, 18195, 18192, 18170, 18147, 18145, 18179]
+self.neg_col neg
+User ID: 2505, Clicks: [17965, 17975, 17970, 17963, 17964, 17886, 17955, 17961, 17585, 17924, 17909, 17992, 18004, 18006, 18003, 17973, 17986, 17998, 18019, 18080, 18075, 17974, 18066, 18067, 18062, 17980, 18054, 17995, 18087, 18200]
+self.neg_col neg
+User ID: 6138, Clicks: [17924, 17931, 17930, 17937, 17806, 17240, 17952, 17886, 17945, 17964, 17962, 17951, 17953, 18037, 18042, 18043, 18017, 17980, 18056, 18056, 18037, 17888, 18105, 18127, 18189, 18130, 18108, 17663, 18218, 18218]
+self.neg_col neg
+User ID: 13533, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16631, 16659, 16652, 16629, 17051, 17774, 17754, 17934, 17909, 17909, 17929, 17860, 17871, 17974, 18066, 18060, 18127, 18116, 17976, 18197]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 16631, 16659, 16652, 16629, 17051, 17774, 17754, 17934, 17909, 17909, 17929, 17860, 17871, 17974, 18066, 18060, 18127, 18116, 17976, 18197] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 2947, Clicks: [16107, 17728, 17744, 17697, 17811, 17816, 17811, 17811, 17817, 17812, 17818, 17225, 17815, 17820, 17767, 17811, 17767, 17669, 17830, 17830, 17827, 17201, 17827, 17764, 17943, 17930, 17793, 17793, 17959, 17949]
+self.neg_col neg
+User ID: 8393, Clicks: [17896, 17072, 17877, 17861, 17974, 18064, 18066, 18053, 18060, 18005, 17356, 14782, 18055, 17997, 18021, 17920, 18099, 18093, 17542, 18201, 18124, 18031, 18127, 13756, 18104, 14782, 18148, 18173, 18162, 17260]
+self.neg_col neg
+User ID: 4201, Clicks: [17923, 17924, 17929, 17861, 17929, 17916, 17929, 17931, 17929, 17929, 17921, 17929, 17240, 17929, 17952, 17989, 17969, 17989, 18004, 18006, 17972, 17986, 17958, 18011, 18006, 18009, 18003, 8133, 18053, 18065]
+self.neg_col neg
+User ID: 10534, Clicks: [15406, 15751, 15730, 15656, 15659, 15954, 16177, 16135, 16342, 16056, 16421, 16386, 16121, 16368, 16447, 16748, 16939, 17142, 17105, 17330, 17354, 17550, 15874, 17817, 17791, 17909, 18075, 17974, 18049, 18037]
+self.neg_col neg
+User ID: 199, Clicks: [17999, 18048, 18096, 18097, 18092, 18072, 18084, 18047, 18098, 18083, 18117, 17060, 18117, 18133, 18117, 18097, 18162, 18147, 18127, 18108, 18087, 18123, 18205, 18124, 18206, 17995, 14440, 18221, 15871, 17663]
+self.neg_col neg
+User ID: 217, Clicks: [17830, 17890, 17906, 17915, 17902, 17894, 13516, 13516, 17929, 18014, 18036, 18028, 18022, 18046, 17999, 18162, 18131, 18106, 18205, 18216, 18099, 18186, 18195, 18087, 18213, 12739, 12481, 12739, 18211, 18211]
+self.neg_col neg
+User ID: 1181, Clicks: [18031, 17542, 18124, 18127, 18198, 18127, 18194, 18127, 17976, 18127, 17976, 18127, 18207, 18127, 18204, 18127, 18179, 18127, 18192, 18127, 18197, 18110, 18034, 18189, 18093, 18155, 18031, 18207, 18209, 17995]
+self.neg_col neg
+User ID: 6712, Clicks: [17871, 17775, 17871, 17915, 17859, 17850, 17859, 17951, 17945, 17951, 17585, 17951, 18001, 18011, 18011, 18001, 18044, 14782, 18044, 17878, 18044, 18064, 18061, 18151, 18104, 18127, 18194, 18182, 18087, 18205]
+self.neg_col neg
+User ID: 3437, Clicks: [17711, 17811, 17247, 17829, 17818, 17817, 17800, 17820, 17820, 16049, 17585, 17916, 17876, 17876, 17877, 17240, 17947, 17947, 18005, 17974, 18149, 18130, 18105, 18163, 18105, 18105, 18105, 18105, 18105, 18105]
+self.neg_col neg
+User ID: 9948, Clicks: [15690, 17903, 17903, 17886, 18037, 17911, 17878, 18024, 18036, 18033, 18037, 18033, 17922, 13534, 18006, 18015, 17956, 18086, 18072, 4494, 17255, 18084, 18047, 13756, 18063, 17974, 18080, 18048, 18046, 18067]
+self.neg_col neg
+User ID: 797, Clicks: [17875, 17880, 17865, 17880, 17880, 17768, 11641, 11550, 17964, 17963, 17955, 17961, 17886, 17933, 17945, 17933, 17665, 17933, 17924, 17933, 18011, 18013, 18004, 18006, 18009, 17973, 18022, 17957, 18001, 18004]
+self.neg_col neg
+User ID: 9527, Clicks: [17751, 17830, 17892, 17887, 17864, 17948, 17949, 17946, 17919, 17934, 17806, 17510, 15878, 17850, 18009, 17992, 18015, 18015, 18065, 18062, 17988, 18058, 18018, 17956, 18084, 18047, 13756, 18048, 18066, 17891]
+self.neg_col neg
+User ID: 2602, Clicks: [17918, 17914, 17929, 17916, 16919, 17861, 18003, 17972, 18004, 18027, 17998, 18018, 17982, 18021, 17888, 17356, 18019, 18100, 18098, 18101, 18098, 18072, 18008, 18098, 18180, 18211, 18099, 18201, 18127, 18205]
+self.neg_col neg
+User ID: 145, Clicks: [18047, 18047, 18065, 18130, 18173, 18162, 18162, 18162, 18182, 15212, 9414, 15212, 6890, 15212, 13756, 15212, 18136, 18008, 9573, 12405, 2238, 12405, 18152, 14782, 8597, 18139, 18117, 18117, 18153, 1788]
+self.neg_col neg
+User ID: 296, Clicks: [18043, 18025, 18025, 18060, 18018, 18018, 18080, 17956, 18084, 18117, 18133, 18149, 18151, 18105, 18162, 18163, 18158, 18105, 18197, 18171, 18031, 18124, 18127, 18179, 13756, 18219, 18218, 6141, 17879, 18226]
+self.neg_col neg
+User ID: 463, Clicks: [17228, 18075, 17999, 17956, 17255, 18086, 18122, 18132, 18113, 17918, 18146, 18135, 18139, 18136, 18132, 18149, 18147, 18182, 18130, 18116, 18198, 18205, 18218, 14258, 18200, 18215, 18153, 18219, 18087, 12689]
+self.neg_col neg
+User ID: 6251, Clicks: [18049, 18044, 18014, 18043, 17888, 17911, 14782, 17911, 17888, 18043, 18014, 18005, 17990, 17542, 18031, 17542, 18153, 18198, 18153, 18127, 18194, 18182, 18192, 17976, 18201, 18195, 18182, 18130, 18182, 18195]
+self.neg_col neg
+User ID: 11570, Clicks: [15878, 17992, 18011, 17957, 17980, 18055, 18041, 18031, 17542, 17542, 18124, 18124, 18215, 18087, 18215, 18131, 18215, 18123, 18205, 18123, 18109, 18123, 18206, 18123, 18179, 18127, 17976, 18104, 17976, 18195]
+self.neg_col neg
+User ID: 7999, Clicks: [17960, 17978, 17973, 17893, 17959, 18004, 18006, 18003, 17997, 18056, 17967, 18021, 18065, 18060, 18046, 18075, 17999, 18069, 18059, 18075, 13756, 18084, 18047, 18063, 17956, 18086, 18088, 18094, 18031, 18198]
+self.neg_col neg
+User ID: 13082, Clicks: [20738, 14724, 15199, 15199, 14780, 15004, 15690, 15625, 15820, 15775, 8623, 15729, 15820, 15633, 15690, 16119, 16119, 16144, 16144, 11364, 16530, 16702, 16702, 17047, 17047, 17047, 17227, 17837, 18162, 18162]
+Some nids in [20738, 14724, 15199, 15199, 14780, 15004, 15690, 15625, 15820, 15775, 8623, 15729, 15820, 15633, 15690, 16119, 16119, 16144, 16144, 11364, 16530, 16702, 16702, 17047, 17047, 17047, 17227, 17837, 18162, 18162] are not in item_cache
+Invalid nids: [20738]
+self.neg_col neg
+User ID: 1541, Clicks: [17475, 17467, 17686, 17511, 17670, 17683, 17493, 6558, 17803, 17830, 17875, 17529, 17850, 17872, 17906, 17228, 17916, 17240, 17941, 17924, 18003, 17972, 17994, 17978, 17356, 18049, 18075, 18117, 18129, 18127]
+self.neg_col neg
+User ID: 4877, Clicks: [18072, 18047, 13027, 18047, 18048, 18040, 18046, 17533, 17533, 17988, 18136, 18146, 18147, 18133, 18094, 18149, 18158, 14782, 18206, 18127, 17542, 18124, 18087, 18213, 16291, 18205, 18215, 18131, 18186, 18109]
+self.neg_col neg
+User ID: 15129, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14440, 18221, 18219, 18200, 18153, 18215, 18218]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14440, 18221, 18219, 18200, 18153, 18215, 18218] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 9809, Clicks: [18112, 17864, 18112, 18112, 18105, 18173, 18085, 18168, 18147, 18168, 18116, 18151, 18182, 18180, 18171, 18189, 18171, 18148, 18148, 18074, 18215, 18087, 18131, 18205, 18216, 18093, 18186, 18109, 18209, 17976]
+self.neg_col neg
+User ID: 5298, Clicks: [17933, 17954, 17886, 17941, 17585, 17924, 17916, 14547, 11286, 17240, 18069, 18069, 17974, 18064, 18069, 17533, 18067, 18215, 18087, 18087, 18131, 18213, 18205, 18216, 18211, 18153, 18093, 18179, 17995, 14440]
+self.neg_col neg
+User ID: 5870, Clicks: [17943, 17941, 17585, 17909, 17929, 17909, 17916, 17909, 17909, 18037, 18036, 17967, 18049, 18043, 18028, 18043, 17912, 18043, 17983, 18005, 17985, 18046, 18075, 18064, 13876, 14782, 17028, 18127, 18171, 18213]
+self.neg_col neg
+User ID: 3259, Clicks: [17859, 18005, 17356, 18005, 17356, 18005, 17356, 17356, 18060, 17988, 12122, 18122, 13756, 18182, 18130, 18148, 18180, 18112, 18180, 18127, 18127, 18179, 18031, 18194, 17976, 18205, 18087, 18213, 18216, 8638]
+self.neg_col neg
+User ID: 6063, Clicks: [8400, 17806, 17920, 18004, 17973, 17912, 17888, 18042, 18069, 17974, 18067, 18066, 18071, 18017, 13534, 18044, 18090, 18097, 18072, 17255, 18047, 18063, 17999, 18159, 18151, 18201, 18185, 18194, 18204, 18192]
+self.neg_col neg
+User ID: 1604, Clicks: [18017, 18017, 18005, 18005, 17983, 17983, 17974, 18132, 18132, 18122, 18129, 18129, 18035, 18133, 18053, 18053, 18105, 18105, 18162, 18162, 18163, 18146, 18156, 18152, 18152, 18152, 17060, 18152, 18146, 17060]
+self.neg_col neg
+User ID: 6747, Clicks: [15886, 15897, 15970, 16119, 15836, 15940, 16295, 16136, 16060, 16353, 16353, 16148, 13612, 16652, 16858, 16907, 15865, 15865, 17117, 17085, 17217, 16642, 17686, 17726, 17718, 12068, 17711, 17703, 12935, 17871]
+self.neg_col neg
+User ID: 1952, Clicks: [18011, 18009, 17972, 18003, 17989, 17970, 18036, 18024, 847, 18066, 18065, 18050, 17990, 17228, 18042, 18046, 18062, 18071, 18170, 18192, 18203, 18110, 18195, 18195, 14782, 18195, 18093, 18127, 18110, 17959]
+self.neg_col neg
+User ID: 1800, Clicks: [18130, 18105, 18194, 18127, 18105, 18127, 18068, 18195, 18198, 18198, 17950, 18207, 17542, 18205, 18211, 18093, 18186, 18201, 18099, 18099, 18087, 18199, 18200, 18123, 18221, 18123, 18200, 18131, 18200, 17879]
+self.neg_col neg
+User ID: 13467, Clicks: [16148, 16396, 15453, 16557, 16558, 16263, 16529, 16549, 16547, 16549, 16511, 16565, 16580, 16535, 16580, 16521, 16580, 16565, 17022, 17271, 17022, 17726, 18189, 18182, 18130, 18163, 18149, 18163, 18094, 18163]
+self.neg_col neg
+User ID: 2005, Clicks: [18048, 18075, 18132, 18094, 18133, 18122, 18133, 18097, 18084, 18097, 18133, 18146, 17060, 18145, 14782, 17999, 18127, 18105, 18116, 18156, 18206, 18204, 18068, 18082, 18031, 17542, 18124, 18207, 18221, 18093]
+self.neg_col neg
+User ID: 13582, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15364, 15381, 15381, 15375, 14957, 15349, 14957, 14957, 15293, 15345, 15592, 17596, 17487, 17648, 17698, 16569, 17659, 17666]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 15364, 15381, 15381, 15375, 14957, 15349, 14957, 14957, 15293, 15345, 15592, 17596, 17487, 17648, 17698, 16569, 17659, 17666] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 11646, Clicks: [17062, 17354, 17346, 17055, 17445, 17055, 17035, 17035, 17712, 17710, 17705, 17662, 17511, 17674, 14564, 17817, 17818, 17791, 17541, 11632, 17830, 17830, 17952, 17954, 17951, 17886, 17948, 17945, 17941, 16109]
+self.neg_col neg
+User ID: 6241, Clicks: [17871, 17852, 17868, 17940, 17872, 18100, 18097, 18083, 18097, 18090, 18097, 18092, 18097, 13756, 18097, 17956, 18048, 17983, 18080, 17983, 18066, 17983, 18046, 17983, 18069, 18060, 13876, 18062, 18171, 18189]
+self.neg_col neg
+User ID: 2763, Clicks: [17817, 17225, 17817, 17829, 17816, 17686, 17669, 17829, 17829, 17830, 17864, 17854, 17854, 17871, 17902, 17943, 17929, 17946, 17948, 17949, 17941, 17937, 17876, 18066, 18056, 18053, 17983, 18132, 18034, 18132]
+self.neg_col neg
+User ID: 9606, Clicks: [18171, 18130, 18105, 18130, 15212, 18130, 18085, 18162, 18085, 18130, 18136, 18088, 18136, 18141, 18136, 18129, 18134, 18213, 18123, 18099, 18123, 18084, 18186, 18084, 13756, 18084, 18031, 18084, 18127, 18104]
+self.neg_col neg
+User ID: 9725, Clicks: [17913, 17872, 17890, 17906, 17871, 17902, 17946, 17944, 17937, 17939, 17945, 17889, 17941, 17919, 17909, 18037, 17911, 17878, 18024, 17922, 18036, 18217, 18219, 18200, 17663, 14440, 18199, 18221, 18200, 17995]
+self.neg_col neg
+User ID: 5910, Clicks: [18064, 18066, 18019, 18080, 17983, 18075, 18046, 18048, 18034, 17956, 18116, 18151, 18174, 18151, 18182, 18148, 18182, 18182, 18172, 18159, 18194, 18204, 18179, 18192, 18197, 18201, 18197, 18106, 18205, 18216]
+self.neg_col neg
+User ID: 12200, Clicks: [17273, 17277, 17484, 17046, 17554, 17659, 17336, 17538, 17493, 17075, 13042, 17786, 17260, 17763, 17755, 17830, 17902, 17871, 17855, 17881, 17862, 17949, 18027, 17989, 17970, 17886, 18151, 18182, 18082, 18158]
+self.neg_col neg
+User ID: 5335, Clicks: [18048, 17983, 18046, 18064, 18151, 18151, 18182, 18130, 18182, 18105, 18105, 18104, 18127, 18179, 18170, 18179, 18171, 18179, 18130, 18179, 18182, 18194, 18192, 18192, 18192, 18215, 18087, 18131, 18106, 18109]
+self.neg_col neg
+User ID: 5951, Clicks: [18156, 18149, 18151, 18149, 18162, 18151, 18163, 18094, 18130, 18151, 18151, 18174, 18172, 18207, 18205, 18099, 18207, 18109, 18201, 18153, 18031, 18179, 13756, 18034, 18192, 18008, 18203, 18130, 17995, 14440]
+self.neg_col neg
+User ID: 7407, Clicks: [17819, 17845, 17831, 17839, 17734, 17892, 17880, 16861, 17880, 17887, 17851, 17871, 17902, 17855, 17898, 17807, 17894, 18004, 17911, 18005, 17356, 18058, 18050, 18066, 18074, 17956, 18048, 18107, 17255, 18105]
+self.neg_col neg
+User ID: 6823, Clicks: [17935, 17884, 18060, 18053, 17985, 14782, 18017, 13534, 17967, 18054, 18156, 18154, 17953, 18113, 18119, 18221, 18087, 18221, 18219, 18200, 18215, 17663, 18123, 18205, 18216, 18099, 18109, 18201, 18192, 18201]
+self.neg_col neg
+User ID: 1978, Clicks: [18131, 18131, 18205, 18215, 18087, 18215, 18216, 18213, 18216, 18153, 9977, 18123, 18109, 18194, 18186, 12767, 18186, 16867, 18099, 16867, 18110, 18108, 17082, 18197, 18108, 18189, 18104, 18221, 18221, 17995]
+self.neg_col neg
+User ID: 2652, Clicks: [18189, 18031, 17976, 18206, 18127, 17950, 18204, 18104, 18179, 18197, 18197, 18203, 18116, 18221, 18119, 18219, 18200, 18087, 18217, 18213, 18218, 17663, 18123, 18131, 18205, 18106, 15871, 18216, 18099, 17542]
+self.neg_col neg
+User ID: 4501, Clicks: [18071, 16066, 18105, 18162, 18163, 18112, 18105, 18130, 18151, 18173, 18194, 18198, 18153, 18031, 17542, 18124, 18209, 18209, 18206, 18127, 17976, 18104, 18179, 18155, 18215, 18087, 18131, 18131, 18216, 18218]
+self.neg_col neg
+self.neg_col neg
+User ID: 6527, Clicks: [17291, 17330, 17062, 17495, 17509, 17509, 17456, 17550, 17363, 17475, 17475, 17659, 17496, 17659, 17740, 17491, 17491, 17491, 16105, 16105, 17932, 11914, 17951, 17948, 17886, 17215, 17215, 17991, 17893, 17893]
+self.neg_col neg
+User ID: 581, Clicks: [17918, 17871, 17807, 17894, 17861, 17876, 17921, 17874, 17928, 17930, 17889, 17919, 17948, 17959, 18042, 17911, 17911, 18025, 17980, 18055, 18049, 18105, 18112, 18149, 18149, 18215, 18106, 18205, 18093, 18127]
+self.neg_col neg
+User ID: 6685, Clicks: [16596, 16698, 16569, 16578, 16689, 16842, 16867, 17022, 17595, 14564, 11073, 14525, 13431, 10314, 17546, 17726, 17817, 17818, 17816, 17247, 17228, 17924, 17911, 17922, 13534, 18005, 18215, 18215, 18106, 14782]
+self.neg_col neg
+User ID: 4470, Clicks: [17903, 17228, 17921, 16665, 17929, 16601, 17876, 17916, 17946, 17941, 17957, 18001, 18011, 18013, 18004, 18015, 18009, 17911, 17878, 18033, 17922, 18025, 18029, 18065, 18062, 17974, 18019, 18080, 18047, 18075]
+self.neg_col neg
+User ID: 10704, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14355, 15299, 14544, 15300, 15272, 15082, 15445, 15417, 15363, 12725, 18136, 18139]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14355, 15299, 14544, 15300, 15272, 15082, 15445, 15417, 15363, 12725, 18136, 18139] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 502, Clicks: [18072, 17255, 18047, 18046, 18067, 17533, 18053, 18059, 18062, 17985, 17988, 17980, 18182, 18180, 18087, 18213, 18106, 18205, 18099, 18093, 18109, 14440, 18199, 18221, 18200, 18215, 17663, 18123, 15871, 18099]
+self.neg_col neg
+User ID: 8832, Clicks: [17834, 17838, 17767, 17240, 17871, 17860, 17897, 17894, 17894, 17921, 17916, 17921, 16665, 17917, 17960, 17959, 17959, 17969, 17959, 17959, 18060, 18054, 18064, 18064, 18074, 18086, 17255, 17999, 17935, 17956]
+self.neg_col neg
+User ID: 10260, Clicks: [17954, 17941, 17955, 17893, 17955, 17962, 17970, 17228, 17978, 17989, 17960, 17989, 17973, 18086, 17956, 18086, 18072, 18086, 18047, 18048, 18047, 17999, 18047, 18040, 18094, 18097, 18094, 18097, 8157, 9545]
+self.neg_col neg
+User ID: 1850, Clicks: [18205, 18093, 18186, 18201, 17542, 18207, 18155, 18099, 18030, 18030, 18215, 18087, 18131, 18106, 18213, 18123, 18216, 18106, 18099, 18109, 18209, 17976, 18109, 18008, 18219, 18200, 17663, 18137, 14440, 18199]
+self.neg_col neg
+User ID: 6984, Clicks: [18075, 18048, 18069, 18097, 17956, 18097, 18097, 18156, 18151, 18162, 18008, 18117, 18105, 18173, 18151, 18085, 18163, 18182, 18130, 18182, 18182, 18219, 18200, 18087, 18215, 18213, 17663, 18123, 18206, 18179]
+self.neg_col neg
+User ID: 9926, Clicks: [13790, 14848, 15503, 15492, 15512, 15505, 15727, 15706, 15704, 15435, 15437, 16465, 16606, 16630, 16652, 16589, 16569, 16594, 16597, 16820, 16690, 16806, 16818, 16812, 16703, 16130, 17346, 17366, 17364, 17367]
+self.neg_col neg
+User ID: 7672, Clicks: [18162, 18189, 18085, 18104, 18198, 17976, 18198, 18127, 18179, 18127, 18203, 18031, 17542, 18124, 18209, 18099, 18093, 18155, 18205, 18211, 18201, 18215, 18087, 18106, 18087, 18123, 18087, 18211, 18087, 18131]
+self.neg_col neg
+User ID: 6933, Clicks: [17970, 17969, 18004, 17972, 17986, 17893, 18006, 18003, 18037, 17911, 18037, 18036, 18037, 18027, 18037, 18042, 17356, 17988, 18100, 18097, 18083, 18096, 18092, 18090, 18067, 18146, 17060, 18143, 18133, 18105]
+self.neg_col neg
+User ID: 131, Clicks: [18022, 17957, 18013, 18004, 17992, 17960, 18009, 17986, 18015, 17974, 17533, 18048, 18005, 18059, 18132, 18122, 18129, 18088, 18035, 18097, 17543, 17255, 18086, 18075, 18048, 18034, 18215, 18087, 18131, 17542]
+self.neg_col neg
+User ID: 720, Clicks: [18044, 18042, 18029, 17972, 17957, 17972, 18049, 17888, 18056, 17985, 17999, 18100, 18084, 18097, 18130, 18105, 18104, 18127, 18198, 18198, 18031, 17950, 18127, 18124, 18153, 18124, 18211, 18099, 18155, 18221]
+self.neg_col neg
+User ID: 3243, Clicks: [18151, 18122, 18162, 18134, 13756, 18139, 14782, 18139, 17543, 18105, 18105, 18105, 18130, 18151, 18151, 18085, 18151, 18151, 18151, 18151, 18151, 18180, 18180, 18180, 18180, 18206, 18127, 18127, 18099, 18124]
+self.neg_col neg
+User ID: 12225, Clicks: [17257, 17449, 17386, 17683, 17336, 17745, 17734, 17748, 17731, 17703, 17712, 17848, 17853, 17882, 17866, 17964, 17949, 17665, 18100, 18096, 18084, 17985, 18143, 18133, 18129, 18141, 18122, 18035, 18084, 18048]
+self.neg_col neg
+User ID: 7224, Clicks: [16499, 16825, 16820, 16821, 16807, 17488, 17506, 17497, 17492, 17497, 17448, 17497, 17370, 17497, 17209, 17497, 18075, 18074, 18047, 18063, 18066, 18046, 18069, 17884, 17935, 18065, 18059, 17356, 18018, 18019]
+self.neg_col neg
+User ID: 8364, Clicks: [17916, 17240, 18004, 18006, 18003, 17972, 17972, 17960, 17959, 18080, 18074, 17974, 17533, 17884, 17884, 18162, 18085, 18163, 18149, 18132, 18215, 18087, 18131, 18106, 18213, 18123, 14440, 18221, 18204, 18104]
+self.neg_col neg
+User ID: 7584, Clicks: [17674, 17719, 17717, 17786, 17803, 17769, 17808, 17751, 17764, 17871, 17894, 17872, 18049, 18014, 17891, 17922, 18028, 18044, 17980, 18005, 17356, 18093, 18211, 18205, 18109, 18219, 18137, 18206, 18194, 18179]
+self.neg_col neg
+User ID: 7150, Clicks: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14440, 18221, 14440, 18200, 17995, 18219, 17995, 17663, 17995, 18216, 17995]
+Some nids in [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 14440, 18221, 14440, 18200, 17995, 18219, 17995, 17663, 17995, 18216, 17995] are not in item_cache
+Invalid nids: [20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738]
+self.neg_col neg
+User ID: 6482, Clicks: [17940, 17949, 17943, 17886, 17943, 17889, 17943, 17929, 17943, 17510, 17889, 17510, 17943, 17943, 17943, 17949, 17949, 18047, 13756, 17983, 18066, 18062, 18066, 17995, 14440, 18200, 18153, 18219, 18218, 18179]
+self.neg_col neg
+User ID: 7236, Clicks: [16601, 17876, 17916, 16665, 17240, 17525, 17906, 13875, 17923, 17924, 17948, 17949, 17949, 17948, 17948, 17961, 17962, 17886, 17948, 18004, 18080, 18047, 18080, 18086, 18171, 18180, 18171, 18171, 17976, 18200]
+self.neg_col neg
+User ID: 5198, Clicks: [16266, 16389, 15453, 15603, 16361, 16351, 16329, 16376, 16540, 15891, 16429, 15891, 16703, 16636, 16700, 16869, 16916, 16869, 16701, 16996, 17082, 14564, 17803, 17260, 17949, 17936, 18065, 18113, 18127, 18168]
+self.neg_col neg
+User ID: 3479, Clicks: [15339, 15339, 15339, 15339, 15339, 15363, 15505, 15503, 16919, 16907, 16919, 16828, 16858, 16858, 17004, 17129, 17130, 17509, 17485, 17505, 17484, 17456, 17010, 17496, 17010, 13042, 17010, 17803, 17010, 18192]
+self.neg_col neg
+User ID: 4455, Clicks: [17877, 17876, 15878, 17876, 17732, 17954, 17813, 17778, 18022, 17778, 18011, 17778, 17992, 17778, 18041, 18043, 18041, 18075, 17974, 18046, 18048, 17533, 14982, 18105, 18105, 18194, 18105, 13756, 18105, 17995]
+self.neg_col neg
+User ID: 1614, Clicks: [14995, 15721, 14995, 15924, 14995, 13612, 13612, 16695, 17129, 17074, 16695, 4727, 16695, 8400, 17085, 17260, 18211, 18099, 18211, 18153, 3150, 2916, 18198, 8347, 18198, 2916, 3150, 18153, 18211, 17260]
+self.neg_col neg
+User ID: 4044, Clicks: [18086, 18047, 18162, 18152, 18105, 18133, 18198, 17976, 18198, 18127, 18104, 18127, 18189, 18127, 18148, 18127, 18198, 18127, 18031, 17542, 18124, 18209, 17542, 18221, 18119, 18106, 18218, 18123, 18216, 18211]
+self.neg_col neg
+User ID: 11704, Clicks: [18104, 17974, 18039, 17974, 18068, 17974, 17950, 17974, 18197, 17974, 17652, 17974, 14782, 17974, 18203, 17974, 18110, 17974, 18195, 17974, 18171, 17974, 18189, 17974, 18130, 17974, 14782, 17974, 18048, 13756]
+self.neg_col neg
+    for obj in iterable:
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 631, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1346, in _next_data
+    return self._process_data(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1372, in _process_data
+    data.reraise()
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/_utils.py", line 722, in reraise
+    raise exception
+RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 308, in _worker_loop
+    data = fetcher.fetch(index)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    return self.collate_fn(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 277, in default_collate
+    return collate(batch, collate_fn_map=default_collate_fn_map)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in collate
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in <dictcomp>
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in collate
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in <dictcomp>
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in collate
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 129, in <dictcomp>
+    return elem_type({key: collate([d[key] for d in batch], collate_fn_map=collate_fn_map) for key in elem})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 121, in collate
+    return collate_fn_map[elem_type](batch, collate_fn_map=collate_fn_map)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/utils/data/_utils/collate.py", line 173, in collate_tensor_fn
+    out = elem.new(storage).resize_(len(batch), *list(elem.size()))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Trying to resize storage that is not resizable
+
+srun: error: gcn53: task 0: Exited with exit code 1
+srun: Terminating StepId=6638990.0
+
+JOB STATISTICS
+==============
+Job ID: 6638990
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:12:36 core-walltime
+Job Wall-clock time: 00:00:42
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

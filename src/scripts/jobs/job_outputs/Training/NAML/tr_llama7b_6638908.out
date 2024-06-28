@@ -1,0 +1,367 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+[00:00:00] |Worker| START TIME: 2024-06-14 15:13:48.798281
+[00:00:00] |Worker| python  worker.py --data config/data/mind-llama.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 0 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4
+[00:00:00] |Worker| {
+    "data": {
+        "name": "ebnerd_small_tokenized-Llama",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama",
+            "order": [
+                "title",
+                "cat"
+            ],
+            "append": [
+                "nid"
+            ]
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                }
+            },
+            "filters": {
+                "history": [
+                    "x"
+                ]
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized/user"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L0.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": false,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 0,
+                "lora": 1,
+                "weights_dir": "data/ebnerd_small_tokenized-Llama/llama-7b-split"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora1/llama-token-train_test",
+        "log": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 0,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+MODES
+{'train', 'dev', 'test'}
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+path /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+Phases.train is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/train, filter_cache: True
+loaded 2585747 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized train_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Phases.dev is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev, filter_cache: True
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+[00:00:04] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized dev_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+modify sample_size to 18827
+Initialized fast_eval_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 18827
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+loaded 18827 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+
+        Sample Size: 18827
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 18827)
+        	history, vocab nid (size 20739), max length 30
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+[00:00:06] |Depots| Filter history with x in train phase, sample num: 2585747 -> 2585747
+[00:00:06] |Depots| Filter history with x in dev phase, sample num: 2928942 -> 2928942
+Initialized train_hub: <loader.data_hub.DataHub object at 0x146add23fc90>
+Initialized dev_hub: <loader.data_hub.DataHub object at 0x146af07d0110>
+Initialized fast_eval_hub: <loader.data_hub.DataHub object at 0x146af07d0410>
+Initialized hubs: {'train': <loader.data_hub.DataHub object at 0x146add23fc90>, 'dev': <loader.data_hub.DataHub object at 0x146af07d0110>, 'test': None, 'fast_eval': <loader.data_hub.DataHub object at 0x146af07d0410>}
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama, filter_cache: False
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+
+        Sample Size: 20738
+        Id Column: nid
+        Columns:
+        	nid, vocab nid (size 20738)
+        	cat, vocab llama (size 32000), max length 8
+        	subcat, vocab llama (size 32000), max length 5
+        	title, vocab llama (size 32000), max length 20
+        	abs, vocab llama (size 32000), max length 50
+
+[00:00:07] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:07] |Controller| Selected User Encoder: AdaOperator
+[00:00:07] |Controller| Selected Predictor: DotPredictor
+[00:00:07] |Controller| Use Negative Sampling: False
+[00:00:07] |Controller| Use Item Content: True
+[00:00:07] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+Returning a hub: <loader.data_hub.DataHub object at 0x146add23fc90>
+<loader.data_hub.DataHub object at 0x146add23fc90>
+[00:00:07] |EmbeddingHub| skip col history
+[00:00:07] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:07] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+<loader.data_hub.DataHub object at 0x146b6098ffd0>
+[00:00:07] |EmbeddingHub| build mapping title -> llama
+[00:00:07] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:07] |EmbeddingHub| keep transform size 4096
+[00:00:07] |EmbeddingHub| build mapping cat -> llama
+Returning a hub: <loader.data_hub.DataHub object at 0x146add23fc90>
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:02<00:10,  2.02s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:04<00:08,  2.01s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:05<00:05,  1.99s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:07<00:03,  1.96s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:09<00:01,  1.97s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.62s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.81s/it]
+trainable params: 16,777,216 || all params: 6,493,048,832 || trainable%: 0.2584
+  0%|          | 0/20738 [00:00<?, ?it/s]  6%|▌         | 1159/20738 [00:00<00:01, 11581.34it/s] 12%|█▏        | 2400/20738 [00:00<00:01, 12066.50it/s] 18%|█▊        | 3637/20738 [00:00<00:01, 12200.79it/s] 23%|██▎       | 4864/20738 [00:00<00:01, 12226.52it/s] 29%|██▉       | 6087/20738 [00:00<00:01, 12206.27it/s] 35%|███▌      | 7320/20738 [00:00<00:01, 12245.17it/s] 41%|████      | 8545/20738 [00:00<00:00, 12239.69it/s] 47%|████▋     | 9775/20738 [00:00<00:00, 12257.25it/s] 53%|█████▎    | 11001/20738 [00:00<00:00, 12242.20it/s] 59%|█████▉    | 12226/20738 [00:01<00:00, 12236.56it/s] 65%|██████▍   | 13457/20738 [00:01<00:00, 12258.84it/s] 71%|███████   | 14683/20738 [00:01<00:00, 12249.64it/s] 77%|███████▋  | 15913/20738 [00:01<00:00, 12263.70it/s] 83%|████████▎ | 17140/20738 [00:01<00:00, 11335.36it/s] 89%|████████▊ | 18363/20738 [00:01<00:00, 11588.11it/s] 95%|█████████▍| 19600/20738 [00:01<00:00, 11811.66it/s]100%|██████████| 20738/20738 [00:01<00:00, 12040.15it/s]
+self.use_neg_sampling False
+[00:00:23] |Worker| {'index': 0, 'imp': 0, 'uid': 11894, 'nid': 18909, 'click': 0, 'history': array([20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738, 20738,
+       20738, 20738, 15607, 15948, 15928, 15902, 16253, 16268, 16273,
+       16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286,
+       17808, 17798, 17792], dtype=object)}
+self.neg_col neg
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 488, in <module>
+    worker = Worker(config=configuration)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 72, in __init__
+    pnt(Structure().analyse_and_stringify(self.controller.sets.a_set()[0]))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/data_set.py", line 31, in __getitem__
+    return self.pack_sample(index)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/data_set.py", line 49, in pack_sample
+    sample = self.resampler(sample)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 195, in __call__
+    return self.rebuild(sample)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 191, in rebuild
+    self.rebuild_clicks(sample)
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 184, in rebuild_clicks
+    sample[self.clicks_col] = self.stacker([self.item_cache[nid] for nid in sample[self.clicks_col]])
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 184, in <listcomp>
+    sample[self.clicks_col] = self.stacker([self.item_cache[nid] for nid in sample[self.clicks_col]])
+                                            ~~~~~~~~~~~~~~~^^^^^
+IndexError: list index out of range
+srun: error: gcn53: task 0: Exited with exit code 1
+srun: Terminating StepId=6638908.0
+
+JOB STATISTICS
+==============
+Job ID: 6638908
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:13:48 core-walltime
+Job Wall-clock time: 00:00:46
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

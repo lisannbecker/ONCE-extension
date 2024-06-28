@@ -1,0 +1,324 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+2024-06-16 17:07:36.579631: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-16 17:07:36.816742: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-16 17:07:36.816802: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-16 17:07:36.833386: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-16 17:07:36.879993: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-16 17:07:39.146874: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[00:00:00] |Worker| START TIME: 2024-06-16 17:07:44.710280
+[00:00:00] |Worker| python  worker.py --data config/data/mind-llama.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4 --cuda -1
+[00:00:00] |Worker| {
+    "data": {
+        "name": "ebnerd_small_tokenized-Llama",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama",
+            "order": [
+                "title",
+                "cat"
+            ],
+            "append": [
+                "nid"
+            ]
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                },
+                "test": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                }
+            },
+            "filters": {
+                "history": [
+                    "x"
+                ]
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized/user_filtered"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L31.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": false,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 31,
+                "lora": 1,
+                "weights_dir": "llama-7b/"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test",
+        "log": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 31,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "cuda": -1.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |Worker| choose cpu
+MODES
+{'test', 'train', 'dev'}
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+path /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+Phases.train is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/train, filter_cache: True
+loaded 2585747 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized train_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Phases.dev is in modes
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev, filter_cache: True
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+[00:00:04] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+Initialized dev_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev, filter_cache: True
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+modify sample_size to 18827
+Initialized fast_eval_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 18827
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user_filtered, filter_cache: False
+loaded 18827 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/user_filtered
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/user_filtered
+
+        Sample Size: 18827
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 18827)
+        	history, vocab nid (size 20738), max length 30
+
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 507, in <module>
+    worker = Worker(config=configuration)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 64, in __init__
+    self.controller = Controller(
+                      ^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/controller.py", line 47, in __init__
+    self.depots = Depots(user_data=self.data.user, modes=self.modes, column_map=self.column_map)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/depots.py", line 43, in __init__
+    depot.union(*[DepotHub.get(d) for d in user_data.union])
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/UniTok/unidep.py", line 223, in union
+    self.vocs = self._merge_vocs(self.vocs, depot.vocs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/UniTok/unidep.py", line 191, in _merge_vocs
+    raise ValueError(f'vocab {name} config conflict') #ensures that the merged vocab does not contain the same key twice
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: vocab nid config conflict
+srun: error: gcn65: task 0: Exited with exit code 1
+srun: Terminating StepId=6650673.0
+
+JOB STATISTICS
+==============
+Job ID: 6650673
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:10:30 core-walltime
+Job Wall-clock time: 00:00:35
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

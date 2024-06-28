@@ -1,0 +1,363 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+2024-06-15 11:01:33.702759: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-15 11:01:33.930203: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-15 11:01:33.930262: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-15 11:01:33.952583: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-15 11:01:34.004688: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-15 11:01:35.786187: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[00:00:00] |Worker| START TIME: 2024-06-15 11:01:41.145512
+[00:00:00] |Worker| python  worker.py --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/llama-split.yaml --data config/data/mind-llama.yaml --version small --llm_ver 7b --hidden_size 64 --layer 0 --lora 0 --fast_eval 0 --embed_hidden_size 4096 --page_size 64
+[00:00:00] |Worker| {
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L0.Lora0",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": false,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 0,
+                "lora": 0,
+                "weights_dir": "data/ebnerd_small_tokenized-Llama/llama-7b-split"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "test_llm_layer_split",
+        "dir": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split",
+        "log": "saving/ebnerd_small_tokenized-Llama/LLAMA-NAML.D64.L0.Lora0/llama-token-test_llm_layer_split/exp.log",
+        "mode": "test_llm_layer_split",
+        "store": {
+            "layers": [
+                31,
+                30,
+                29,
+                27
+            ],
+            "dir": "/home/scur1569/Legommenders/llama-7b"
+        },
+        "load": {
+            "save_dir": null,
+            "model_only": true,
+            "strict": true,
+            "wait": false
+        },
+        "policy": {
+            "device": "gpu",
+            "batch_size": 64
+        }
+    },
+    "data": {
+        "name": "ebnerd_small_tokenized-Llama",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama",
+            "order": [
+                "title",
+                "cat"
+            ],
+            "append": [
+                "nid"
+            ]
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                },
+                "test": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized/dev"
+                }
+            },
+            "filters": {
+                "history": [
+                    "x"
+                ]
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized/user"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "version": "small",
+    "llm_ver": "7b",
+    "hidden_size": 64,
+    "layer": 0,
+    "lora": 0,
+    "fast_eval": 0,
+    "embed_hidden_size": 4096,
+    "page_size": 64,
+    "warmup": 0,
+    "simple_dev": false,
+    "batch_size": 64,
+    "acc_batch": 1,
+    "lora_r": 32,
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "mind_large_submission": false,
+    "epoch_batch": 0,
+    "max_item_batch_size": 0,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+MODES
+{'split', 'test', 'layer', 'llm'}
+[00:00:00] |Controller| dataset type:  news
+[00:00:00] |Controller| build column map ...
+path /home/scur1569/Legommenders/ebnerd_small_tokenized/train
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/dev, filter_cache: True
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+modify sample_size to 18827
+Initialized fast_eval_depot: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/dev
+
+        Sample Size: 18827
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 18827)
+        	nid, vocab nid (size 20739)
+        	click, vocab click (size 2)
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+loaded 18827 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+
+        Sample Size: 18827
+        Id Column: uid
+        Columns:
+        	uid, vocab uid (size 18827)
+        	history, vocab nid (size 20739), max length 30
+
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user, filter_cache: False
+Depot found in cache for path: /home/scur1569/Legommenders/ebnerd_small_tokenized/user
+[00:00:04] |Depots| Filter history with x in test phase, sample num: 2928942 -> 2928942
+Initialized test_hub: <loader.data_hub.DataHub object at 0x148681f72010>
+Initialized fast_eval_hub: <loader.data_hub.DataHub object at 0x148684395f50>
+Initialized hubs: {'train': None, 'dev': None, 'test': <loader.data_hub.DataHub object at 0x148681f72010>, 'fast_eval': <loader.data_hub.DataHub object at 0x148684395f50>}
+DepotHub.get called with path: /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama, filter_cache: False
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+CachingDep initialized: 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized/news-llama
+
+        Sample Size: 20738
+        Id Column: nid
+        Columns:
+        	nid, vocab nid (size 20738)
+        	cat, vocab llama (size 32000), max length 8
+        	subcat, vocab llama (size 32000), max length 5
+        	title, vocab llama (size 32000), max length 20
+        	abs, vocab llama (size 32000), max length 50
+
+[00:00:05] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:05] |Controller| Selected User Encoder: AdaOperator
+[00:00:05] |Controller| Selected Predictor: DotPredictor
+[00:00:05] |Controller| Use Negative Sampling: False
+[00:00:05] |Controller| Use Item Content: True
+[00:00:05] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+Returning a hub: <loader.data_hub.DataHub object at 0x148681f72010>
+<loader.data_hub.DataHub object at 0x148681f72010>
+[00:00:05] |EmbeddingHub| skip col history
+[00:00:05] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:05] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+<loader.data_hub.DataHub object at 0x148681f6b9d0>
+[00:00:05] |EmbeddingHub| build mapping title -> llama
+[00:00:05] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:05] |EmbeddingHub| keep transform size 4096
+[00:00:05] |EmbeddingHub| build mapping cat -> llama
+Returning a hub: <loader.data_hub.DataHub object at 0x148681f72010>
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:01<00:09,  1.99s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:03<00:07,  1.96s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:05<00:05,  1.95s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:07<00:03,  1.96s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:09<00:01,  1.97s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.63s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:10<00:00,  1.80s/it]
+Some weights of the model checkpoint at /home/scur1569/Legommenders/llama-7b were not used when initializing LlamaModel: ['lm_head.weight']
+- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of LlamaModel were not initialized from the model checkpoint at /home/scur1569/Legommenders/llama-7b and are newly initialized: ['model.layers.8.self_attn.rotary_emb.inv_freq', 'model.layers.17.self_attn.rotary_emb.inv_freq', 'model.layers.9.self_attn.rotary_emb.inv_freq', 'model.layers.13.self_attn.rotary_emb.inv_freq', 'model.layers.6.self_attn.rotary_emb.inv_freq', 'model.layers.12.self_attn.rotary_emb.inv_freq', 'model.layers.14.self_attn.rotary_emb.inv_freq', 'model.layers.3.self_attn.rotary_emb.inv_freq', 'model.layers.1.self_attn.rotary_emb.inv_freq', 'model.layers.4.self_attn.rotary_emb.inv_freq', 'model.layers.30.self_attn.rotary_emb.inv_freq', 'model.layers.26.self_attn.rotary_emb.inv_freq', 'model.layers.29.self_attn.rotary_emb.inv_freq', 'model.layers.27.self_attn.rotary_emb.inv_freq', 'model.layers.0.self_attn.rotary_emb.inv_freq', 'model.layers.15.self_attn.rotary_emb.inv_freq', 'model.layers.5.self_attn.rotary_emb.inv_freq', 'model.layers.19.self_attn.rotary_emb.inv_freq', 'model.layers.25.self_attn.rotary_emb.inv_freq', 'model.layers.7.self_attn.rotary_emb.inv_freq', 'model.layers.31.self_attn.rotary_emb.inv_freq', 'model.layers.21.self_attn.rotary_emb.inv_freq', 'model.layers.10.self_attn.rotary_emb.inv_freq', 'model.layers.16.self_attn.rotary_emb.inv_freq', 'model.layers.22.self_attn.rotary_emb.inv_freq', 'model.layers.20.self_attn.rotary_emb.inv_freq', 'model.layers.2.self_attn.rotary_emb.inv_freq', 'model.layers.23.self_attn.rotary_emb.inv_freq', 'model.layers.28.self_attn.rotary_emb.inv_freq', 'model.layers.24.self_attn.rotary_emb.inv_freq', 'model.layers.18.self_attn.rotary_emb.inv_freq', 'model.layers.11.self_attn.rotary_emb.inv_freq']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+  0%|          | 0/20738 [00:00<?, ?it/s]  6%|▌         | 1192/20738 [00:00<00:01, 11912.23it/s] 12%|█▏        | 2468/20738 [00:00<00:01, 12405.56it/s] 18%|█▊        | 3752/20738 [00:00<00:01, 12600.94it/s] 24%|██▍       | 5033/20738 [00:00<00:01, 12682.26it/s] 30%|███       | 6316/20738 [00:00<00:01, 12732.11it/s] 37%|███▋      | 7601/20738 [00:00<00:01, 12771.37it/s] 43%|████▎     | 8884/20738 [00:00<00:00, 12788.82it/s] 49%|████▉     | 10177/20738 [00:00<00:00, 12832.34it/s] 55%|█████▌    | 11461/20738 [00:00<00:00, 12814.59it/s] 61%|██████▏   | 12743/20738 [00:01<00:00, 12811.34it/s] 68%|██████▊   | 14028/20738 [00:01<00:00, 12822.07it/s] 74%|███████▍  | 15311/20738 [00:01<00:00, 12793.72it/s] 80%|████████  | 16608/20738 [00:01<00:00, 12846.58it/s] 86%|████████▋ | 17893/20738 [00:01<00:00, 12810.34it/s] 92%|█████████▏| 19177/20738 [00:01<00:00, 12817.31it/s] 99%|█████████▊| 20462/20738 [00:01<00:00, 12824.72it/s]100%|██████████| 20738/20738 [00:01<00:00, 12759.28it/s]
+Item cache built with 20738 items.
+First few items in item_cache:
+item_cache[0]: {'input_ids': OrderedDict([('natural_cat', tensor([10130,  4274, 29901,   529,  3257, 29958, 19259,   294,  5815,   722,
+        27408,   972, 27462,  1655,   529,  7320, 29958,   413,  5632, 29875,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0]))]), 'attention_mask': tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])}
+item_cache[1]: {'input_ids': OrderedDict([('natural_cat', tensor([10130,  4274, 29901,   529,  3257, 29958, 25472,  7828,  9149,   260,
+        29926,  2016, 15187,   529,  7320, 29958,  1090,  8948,  1076,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0]))]), 'attention_mask': tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])}
+item_cache[2]: {'input_ids': OrderedDict([('natural_cat', tensor([10130,  4274, 29901,   529,  3257, 29958, 15533,   264,  8135,   348,
+          285, 29891,  2267,   474,   317, 30077,  5740, 29926, 29891,   808,
+        29923,   529,  7320, 29958,  7980,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0]))]), 'attention_mask': tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])}
+item_cache[3]: {'input_ids': OrderedDict([('natural_cat', tensor([10130,  4274, 29901,   529,  3257, 29958,  8591, 11795, 11340, 29873,
+          357,  3548, 19606,   529,  7320, 29958,  7098, 29882,  2447,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0]))]), 'attention_mask': tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])}
+item_cache[4]: {'input_ids': OrderedDict([('natural_cat', tensor([10130,  4274, 29901,   529,  3257, 29958,  8045,   495, 14167, 29901,
+          379, 29894,  1398,  3679,   604,   767,  3477,   307, 29973,   529,
+         7320, 29958,  7916, 29918,   468, 29918, 29879,  8807,   440,     0,
+            0,     0,     0,     0,     0,     0,     0]))]), 'attention_mask': tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])}
+self.use_neg_sampling False
+[00:01:03] |Worker| {'index': 0, 'imp': 0, 'uid': 13286, 'nid': 19379, 'click': 0, 'history': array([17791, 17957, 18011, 18013, 18009, 17973, 17992, 17960, 18006,
+       17991, 17978, 17989, 17965, 17963, 17959, 17970, 17975, 17964,
+       17962, 17953, 17930, 17951, 18122, 18129, 18088, 18035, 18097,
+       18072, 18092, 18100], dtype=object)}
+[00:01:03] |Worker| {
+    "history": {
+        "input_ids": {
+            "natural_cat": "tensor([30, 37], dtype=torch.int64)"
+        },
+        "attention_mask": "tensor([30, 37], dtype=torch.int64)"
+    },
+    "nid": {
+        "input_ids": {
+            "natural_cat": "tensor([1, 37], dtype=torch.int64)"
+        },
+        "attention_mask": "tensor([1, 37], dtype=torch.int64)"
+    },
+    "click": "int",
+    "imp": "int",
+    "uid": "int",
+    "__clicks_mask__": "tensor([30], dtype=torch.int64)"
+}
+  0%|          | 0/20738 [00:00<?, ?it/s]  0%|          | 1/20738 [00:00<1:54:20,  3.02it/s]  0%|          | 63/20738 [00:01<06:07, 56.29it/s] 
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 489, in <module>
+    worker.run()
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 447, in run
+    self.test_llm_layer_split()
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 422, in test_llm_layer_split
+    pager.run()
+  File "/gpfs/home3/scur1569/Legommenders/loader/pager/base_pager.py", line 31, in run
+    self._process()
+  File "/gpfs/home3/scur1569/Legommenders/loader/pager/base_pager.py", line 48, in _process
+    output = self.model(**features)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/model/operators/llama_operator.py", line 45, in get_all_hidden_states
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 305, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 155, in forward
+    return self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 100.00 MiB. GPU 0 has a total capacity of 39.39 GiB of which 67.56 MiB is free. Including non-PyTorch memory, this process has 39.31 GiB memory in use. Of the allocated memory 38.68 GiB is allocated by PyTorch, and 149.28 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+srun: error: gcn53: task 0: Exited with exit code 1
+srun: Terminating StepId=6642877.0
+
+JOB STATISTICS
+==============
+Job ID: 6642877
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: RUNNING
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:27:18 core-walltime
+Job Wall-clock time: 00:01:31
+Memory Utilized: 0.00 MB (estimated maximum)
+Memory Efficiency: 0.00% of 120.00 GB (120.00 GB/node)
+WARNING: Efficiency statistics may be misleading for RUNNING jobs.

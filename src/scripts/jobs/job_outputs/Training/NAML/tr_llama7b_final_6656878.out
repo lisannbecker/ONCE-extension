@@ -1,0 +1,283 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+2024-06-17 10:56:55.303286: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-06-17 10:56:55.580723: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-06-17 10:56:55.580795: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-06-17 10:56:55.601549: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-06-17 10:56:55.655842: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-06-17 10:56:58.154362: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+[00:00:00] |Worker| START TIME: 2024-06-17 10:57:04.137431
+[00:00:00] |Worker| python  worker.py --data config/data/eb-nerd.yaml --embed config/embed/llama-token.yaml --model config/model/llm/llama-naml.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4
+[00:00:00] |Worker| {
+    "data": {
+        "name": "EB-NeRD",
+        "base_dir": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2",
+        "item": {
+            "filter_cache": true,
+            "depot": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion",
+            "order": [
+                "title-llama",
+                "category-llama"
+            ],
+            "append": [
+                "nid"
+            ],
+            "lm_col": "title-llama"
+        },
+        "user": {
+            "filter_cache": true,
+            "depots": {
+                "train": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/train"
+                },
+                "dev": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                },
+                "test": {
+                    "path": "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid"
+                }
+            },
+            "union": [
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/user",
+                "/home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg"
+            ],
+            "candidate_col": "nid",
+            "clicks_col": "history",
+            "label_col": "click",
+            "neg_col": "neg",
+            "group_col": "imp",
+            "user_col": "uid",
+            "index_col": "index"
+        }
+    },
+    "embed": {
+        "name": "llama-token",
+        "embeddings": [
+            {
+                "vocab_name": "llama",
+                "vocab_type": "numpy",
+                "path": "ebnerd_small_tokenized_2/llama-token2.npy",
+                "frozen": true
+            }
+        ]
+    },
+    "model": {
+        "name": "LLAMA-NAML.D64.L31.Lora1",
+        "meta": {
+            "item": "Llama",
+            "user": "Ada",
+            "predictor": "Dot"
+        },
+        "config": {
+            "use_neg_sampling": true,
+            "use_item_content": true,
+            "max_item_content_batch_size": 0,
+            "same_dim_transform": false,
+            "embed_hidden_size": 4096,
+            "hidden_size": 64,
+            "neg_count": null,
+            "item_config": {
+                "llm_dir": "/home/scur1569/Legommenders/llama-7b",
+                "layer_split": 31,
+                "lora": 1,
+                "weights_dir": "llama-7b/"
+            },
+            "user_config": {
+                "num_attention_heads": 12,
+                "inputer_config": {
+                    "use_cls_token": false,
+                    "use_sep_token": false
+                }
+            }
+        }
+    },
+    "exp": {
+        "name": "train_test",
+        "dir": "saving/EB-NeRD/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test",
+        "log": "saving/EB-NeRD/LLAMA-NAML.D64.L31.Lora1/llama-token-train_test/exp.log",
+        "mode": "train_test",
+        "load": {
+            "save_dir": null,
+            "epochs": null,
+            "model_only": true,
+            "strict": false,
+            "wait": false
+        },
+        "store": {
+            "metric": "GAUC",
+            "maximize": true,
+            "top": 1,
+            "early_stop": 2
+        },
+        "policy": {
+            "epoch_start": 0,
+            "epoch": 50,
+            "lr": 0.0001,
+            "item_lr": 1e-05,
+            "freeze_emb": false,
+            "pin_memory": false,
+            "epoch_batch": -4.0,
+            "batch_size": 32,
+            "accumulate_batch": 2,
+            "device": "gpu",
+            "n_warmup": 0,
+            "check_interval": -2,
+            "simple_dev": false
+        },
+        "metrics": [
+            "GAUC",
+            "MRR",
+            "NDCG@1",
+            "NDCG@5",
+            "NDCG@10"
+        ]
+    },
+    "embed_hidden_size": 4096,
+    "llm_ver": "7b",
+    "layer": 31,
+    "version": "small",
+    "lr": 0.0001,
+    "item_lr": 1e-05,
+    "batch_size": 32,
+    "acc_batch": 2,
+    "epoch_batch": -4.0,
+    "warmup": 0,
+    "fast_eval": true,
+    "simple_dev": false,
+    "lora": 1,
+    "lora_r": 32,
+    "mind_large_submission": false,
+    "hidden_size": 64,
+    "max_item_batch_size": 0,
+    "page_size": 512,
+    "patience": 2,
+    "epoch_start": 0,
+    "frozen": true,
+    "load_path": null,
+    "rand": {},
+    "time": {},
+    "seed": 2023
+}
+[00:00:00] |GPU| choose 0 GPU with 40329 / 40960 MB
+[00:00:00] |Controller| dataset type:  book
+[00:00:00] |Controller| build column map ...
+loaded 2585747 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+[00:00:02] |CachingDep| load 1 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+[00:00:02] |CachingDep| update filter cache f9f158.npy on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/train
+
+        Sample Size: 2585747
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2585747)
+        	imp, vocab imp (size 232887)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+ to npy format
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+[00:00:04] |CachingDep| load 0 filter caches on 
+        UniDep (2.0): /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+
+        Sample Size: 2928942
+        Id Column: index
+        Columns:
+        	index, vocab index (size 2928942)
+        	imp, vocab imp (size 244647)
+        	uid, vocab uid (size 30485)
+        	nid, vocab nid (size 20738)
+        	click, vocab click (size 2)
+
+loaded 2928942 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/valid
+modify sample_size to 30485
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/user
+loaded 30485 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/neg
+loaded 20738 samples from /home/scur1569/Legommenders/ebnerd_small_tokenized_2/news-fusion
+[00:00:08] |Controller| Selected Item Encoder: LlamaOperator
+[00:00:08] |Controller| Selected User Encoder: AdaOperator
+[00:00:08] |Controller| Selected Predictor: DotPredictor
+[00:00:08] |Controller| Use Negative Sampling: True
+[00:00:08] |Controller| Use Item Content: True
+[00:00:08] |EmbeddingHub| load pretrained embedding llama of torch.Size([32000, 4096])
+[00:00:08] |EmbeddingHub| skip col history
+[00:00:08] |EmbeddingHub| create vocab __cat_inputer_special_ids (3, 4096)
+[00:00:08] |EmbeddingHub| create vocab __flatten_seq_special_ids (4, 4096)
+[00:00:08] |EmbeddingHub| build mapping title-llama -> llama
+[00:00:08] |EmbeddingHub| load frozen vocab: llama torch.Size([32000, 4096])
+[00:00:08] |EmbeddingHub| keep transform size 4096
+[00:00:08] |EmbeddingHub| build mapping category-llama -> llama
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:02<00:12,  2.52s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:04<00:09,  2.47s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:07<00:07,  2.56s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:10<00:05,  2.64s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:13<00:02,  2.64s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:14<00:00,  2.17s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:14<00:00,  2.38s/it]
+Some weights of the model checkpoint at /home/scur1569/Legommenders/llama-7b were not used when initializing LlamaModel: ['lm_head.weight']
+- This IS expected if you are initializing LlamaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing LlamaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of LlamaModel were not initialized from the model checkpoint at /home/scur1569/Legommenders/llama-7b and are newly initialized: ['model.layers.3.self_attn.rotary_emb.inv_freq', 'model.layers.30.self_attn.rotary_emb.inv_freq', 'model.layers.10.self_attn.rotary_emb.inv_freq', 'model.layers.13.self_attn.rotary_emb.inv_freq', 'model.layers.20.self_attn.rotary_emb.inv_freq', 'model.layers.18.self_attn.rotary_emb.inv_freq', 'model.layers.11.self_attn.rotary_emb.inv_freq', 'model.layers.26.self_attn.rotary_emb.inv_freq', 'model.layers.17.self_attn.rotary_emb.inv_freq', 'model.layers.12.self_attn.rotary_emb.inv_freq', 'model.layers.8.self_attn.rotary_emb.inv_freq', 'model.layers.2.self_attn.rotary_emb.inv_freq', 'model.layers.27.self_attn.rotary_emb.inv_freq', 'model.layers.28.self_attn.rotary_emb.inv_freq', 'model.layers.9.self_attn.rotary_emb.inv_freq', 'model.layers.0.self_attn.rotary_emb.inv_freq', 'model.layers.4.self_attn.rotary_emb.inv_freq', 'model.layers.25.self_attn.rotary_emb.inv_freq', 'model.layers.1.self_attn.rotary_emb.inv_freq', 'model.layers.22.self_attn.rotary_emb.inv_freq', 'model.layers.21.self_attn.rotary_emb.inv_freq', 'model.layers.31.self_attn.rotary_emb.inv_freq', 'model.layers.15.self_attn.rotary_emb.inv_freq', 'model.layers.29.self_attn.rotary_emb.inv_freq', 'model.layers.19.self_attn.rotary_emb.inv_freq', 'model.layers.5.self_attn.rotary_emb.inv_freq', 'model.layers.6.self_attn.rotary_emb.inv_freq', 'model.layers.14.self_attn.rotary_emb.inv_freq', 'model.layers.7.self_attn.rotary_emb.inv_freq', 'model.layers.24.self_attn.rotary_emb.inv_freq', 'model.layers.23.self_attn.rotary_emb.inv_freq', 'model.layers.16.self_attn.rotary_emb.inv_freq']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[00:01:14] |BaseLLMOperator| hidden_weights.shape: torch.Size([20738, 37, 4096])
+[00:01:14] |BaseLLMOperator| attention_mask.shape: torch.Size([20738, 37])
+[00:01:14] |Legommender| LLM SKIP
+  0%|          | 0/20738 [00:00<?, ?it/s]  4%|▍         | 859/20738 [00:00<00:02, 8585.50it/s] 10%|█         | 2081/20738 [00:00<00:01, 10720.88it/s] 16%|█▌        | 3316/20738 [00:00<00:01, 11461.78it/s] 22%|██▏       | 4544/20738 [00:00<00:01, 11783.16it/s] 28%|██▊       | 5765/20738 [00:00<00:01, 11936.68it/s] 34%|███▎      | 6959/20738 [00:00<00:01, 11925.52it/s] 39%|███▉      | 8161/20738 [00:00<00:01, 11955.25it/s] 45%|████▌     | 9357/20738 [00:00<00:00, 11949.58it/s] 51%|█████     | 10552/20738 [00:00<00:00, 11942.99it/s] 57%|█████▋    | 11760/20738 [00:01<00:00, 11984.87it/s] 63%|██████▎   | 12962/20738 [00:01<00:00, 11993.35it/s] 68%|██████▊   | 14175/20738 [00:01<00:00, 12033.07it/s] 74%|███████▍  | 15379/20738 [00:01<00:00, 12030.33it/s] 80%|████████  | 16594/20738 [00:01<00:00, 12065.29it/s] 86%|████████▌ | 17801/20738 [00:01<00:00, 12051.70it/s] 92%|█████████▏| 19007/20738 [00:01<00:00, 12035.16it/s] 97%|█████████▋| 20219/20738 [00:01<00:00, 12060.12it/s]100%|██████████| 20738/20738 [00:01<00:00, 11883.67it/s]
+[00:01:15] |Depots| Filter click with x==1 in train phase, sample num: 2585747 -> 233763
+[00:01:16] |Worker| {'index': 3, 'imp': 0, 'uid': 8890, 'nid': 18913, 'click': 1, 'history': [15607, 15948, 15928, 15902, 16253, 16268, 16273, 16267, 16259, 15898, 1648, 17022, 17303, 17331, 17306, 17286, 17808, 17798, 17792], 'neg': [18303, 18091, 18095, 18299, 18245, 18236, 14531, 18140, 18228, 18237, 18239, 18295, 11924, 18242]}
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 488, in <module>
+    worker = Worker(config=configuration)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 72, in __init__
+    pnt(Structure().analyse_and_stringify(self.controller.sets.a_set()[0]))
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/data_set.py", line 31, in __getitem__
+    return self.pack_sample(index)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/data_set.py", line 46, in pack_sample
+    sample = self.resampler(sample)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 175, in __call__
+    return self.rebuild(sample)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 170, in rebuild
+    self.rebuild_candidates(sample)
+  File "/gpfs/home3/scur1569/Legommenders/loader/resampler.py", line 84, in rebuild_candidates
+    rand_count = max(self.legommender.neg_count - len(true_negs), 0)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for -: 'NoneType' and 'int'
+srun: error: gcn33: task 0: Exited with exit code 1
+srun: Terminating StepId=6656878.0
+
+JOB STATISTICS
+==============
+Job ID: 6656878
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:02:05
+CPU Efficiency: 6.68% of 00:31:12 core-walltime
+Job Wall-clock time: 00:01:44
+Memory Utilized: 24.07 GB
+Memory Efficiency: 20.06% of 120.00 GB

@@ -1,0 +1,38 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Traceback (most recent call last):
+  File "/gpfs/home3/scur1569/Legommenders/worker.py", line 11, in <module>
+    import torch
+  File "/home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/__init__.py", line 237, in <module>
+    from torch._C import *  # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^
+ImportError: /home/scur1569/.conda/envs/dire_tokenize/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so: undefined symbol: ncclCommRegister
+srun: error: gcn63: task 0: Exited with exit code 1
+srun: Terminating StepId=6644291.0
+
+JOB STATISTICS
+==============
+Job ID: 6644291
+Cluster: snellius
+User/Group: scur1569/scur1569
+State: FAILED (exit code 1)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:02
+CPU Efficiency: 1.01% of 00:03:18 core-walltime
+Job Wall-clock time: 00:00:11
+Memory Utilized: 1.20 MB
+Memory Efficiency: 0.00% of 120.00 GB
