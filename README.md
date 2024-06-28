@@ -98,7 +98,9 @@ python worker.py --embed config/embed/llama-token.yaml --model config/model/llm/
 
 Training and testing with default parameters:
 ```bash
-TODO
+cd src/lib/Legommenders/
+
+python worker.py  --data config/data/eb-nerd.yaml --embed config/embed/llama-token.yaml  --model config/model/llm/llama-{yourModel}.yaml --exp config/exp/tt-llm.yaml --embed_hidden_size 4096 --llm_ver 7b --layer 31 --version small --lr 0.0001 --item_lr 0.00001 --batch_size 32 --acc_batch 2 --epoch_batch -4 
 ```
 
 ### ONCE
