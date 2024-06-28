@@ -1,4 +1,4 @@
-# ONCE-extension
+# ONCE: Boosting Content-based Recommendation with Open- and Closed-source LLMs
 
 --- 
 
