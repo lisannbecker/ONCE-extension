@@ -34,16 +34,22 @@ python src/scripts/scripts_dire/2_download_llama_embeddings.py
 conda activate genre
 ```
 
-Move to the Once repository
+Move to the GENRE repository:
 
 ```bash
-cd src/lib/ONCE/
+cd src/lib/GENRE/
+```
+
+The EB-NeRD data is located in [`src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small`](src/lib/GENRE/data/eb-nerd/eb-nerd-data/ebnerd_small). To convert the EB-NeRD articles to match the ONCE datatype, run:
+
+```bash
+python src/lib/GENRE/scripts_genre/articles_process.py
 ```
 
 ### Overview
-We call GPT-3.5-turbo API provided by OpenAI as closed-source LLM. All the request codes are uploaded in this repository.
+We use the GPT-3.5-turbo API provided by OpenAI as a closed-source LLM. All the request codes are available in this repository.
 
-### Codes and corresponding generated data
+### Codes and Corresponding Generated Data
 
 |  Dataset  |            Schemes             |           Request Code           |                            Generated Data                            |
 |:---------:|:------------------------------:|:--------------------------------:|:--------------------------------------------------------------------:|
@@ -51,6 +57,19 @@ We call GPT-3.5-turbo API provided by OpenAI as closed-source LLM. All the reque
 |   EB-NeRD |       User Profiler Train      |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler.log`           |
 |   EB-NeRD |       User Profiler Val        |       `user_profiler.py`         |           `data/eb-nerd/eb-nerd-outputs/user_profiler_val.log`       |
 <!-- |   EB-NeRD | Personalized Content Generator | `personalized_news_generator.py` |           `data/eb-nerd/eb-nerd-outputs/generator_v3.log`            | -->
+
+To update the datasets with the generated data, run these scripts:
+
+```bash
+python src/lib/GENRE/scripts_genre/update_articles.py
+python src/lib/GENRE/scripts_genre/update_history.py
+```
+
+To obtain statistics of the augmented data, run the following script:
+
+```bash
+python src/lib/GENRE/scripts_genre/statistics_eb_nerd.py
+```
 
 ### DIRE Implementation
 ```bash
